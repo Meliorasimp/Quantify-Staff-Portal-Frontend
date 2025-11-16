@@ -1,0 +1,8 @@
+query getAllWarehouse {
+  allWarehouses {
+    id
+    warehouseName
+    warehouseCode
+    status
+  }
+}

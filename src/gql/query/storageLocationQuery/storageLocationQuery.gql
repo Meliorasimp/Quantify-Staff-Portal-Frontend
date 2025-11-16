@@ -1,0 +1,30 @@
+query GetAllStorageLocations {
+  allStorageLocations {
+    id
+    locationCode
+    maxCapacity
+    occupiedCapacity
+    unitType
+    storageType
+    sectionName
+    createdAt
+    warehouse {
+      id
+      warehouseName
+      warehouseCode
+    }
+    user {
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+  totalLocations
+  availableSpace
+  averageUtilizationStatus
+  capacityAlert
+  totalCapacity
+  totalOccupiedCapacity
+  totalAvailableSpace
+}

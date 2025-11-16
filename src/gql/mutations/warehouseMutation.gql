@@ -1,0 +1,7 @@
+mutation AddWarehouse($input: [AddWarehouseInput!]!) {
+  addWarehouse(input: $input) {
+    id
+    name
+    location
+  }
+}

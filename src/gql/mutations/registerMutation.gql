@@ -1,0 +1,21 @@
+# This variables from the mutation RegisterUser is Coming from the Frontend Register Modal to be sent to the Backend to register a new user
+mutation RegisterUser(
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $password: String!
+) {
+  # Call the registerUser resolver on the backend
+  registerUser(
+    firstname: $firstname
+    lastname: $lastname
+    email: $email
+    password: $password
+  ) {
+    # The fields that we want to get receive after registering a user
+    id
+    firstName
+    lastName
+    email
+  }
+}

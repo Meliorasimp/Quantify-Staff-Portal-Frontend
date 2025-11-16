@@ -1,0 +1,16 @@
+query GetItemByWarehouseLocation($warehouseName: String!) {
+  itemByWarehouseLocation(warehouseName: $warehouseName) {
+    id
+    itemSKU
+    productName
+    category
+    warehouseLocation
+    rackLocation
+    quantityInStock
+    reorderLevel
+    unitOfMeasure
+    costPerUnit
+    totalValue
+    lastRestocked
+  }
+}

@@ -1,0 +1,11 @@
+mutation AddStorageLocation($storageLocation: [StorageLocationInput!]!) {
+  addStorageLocation(storageLocation: $storageLocation) {
+    id
+    locationCode
+    sectionName
+    warehouseName
+    storageType
+    maxCapacity
+    unitType
+  }
+}

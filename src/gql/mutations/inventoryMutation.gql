@@ -1,0 +1,8 @@
+mutation AddInventory($userId: String!, $inventory: [InventoryInput!]!) {
+  addInventory(userId: $userId, inventory: $inventory) {
+    id
+    itemName
+    quantity
+    userId
+  }
+}

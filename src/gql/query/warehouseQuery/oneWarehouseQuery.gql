@@ -1,0 +1,11 @@
+query getWarehouse($warehouseName: String!) {
+  warehouse(warehouseName: $warehouseName) {
+    id
+    warehouseName
+    warehouseCode
+    address
+    manager
+    region
+    status
+  }
+}
