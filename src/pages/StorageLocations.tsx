@@ -52,15 +52,16 @@ const StorageLocations = () => {
     );
 
   // Fetch storage locations data
-  const { data: storageLocationData } = useQuery<StorageLocationQueryResponse>(
-    AllStorageLocation,
-    {
+  const { data: storageLocationData, loading: storageLocationLoading } =
+    useQuery<StorageLocationQueryResponse>(AllStorageLocation, {
       //Always fetch fresh data from the server
       fetchPolicy: "network-only",
       nextFetchPolicy: "network-only",
       notifyOnNetworkStatusChange: true,
-    }
-  );
+    });
+
+  console.log("Storage Location Data:", storageLocationData);
+  console.log("Storage Location Loading:", storageLocationLoading);
   // Fetch All warehouses data
   const { data: warehouseData } = useQuery<WarehouseNameType>(GetAllWarehouse, {
     //Always fetch fresh data from the server
@@ -139,7 +140,10 @@ const StorageLocations = () => {
                     Total Locations
                   </p>
                   <p className="text-3xl font-bold bg-linear-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                    {storageLocationData?.totalLocations ?? 0}
+                    {storageLocationLoading && (
+                      <span className="text-sm ">. . .</span>
+                    )}
+                    {storageLocationData && storageLocationData.totalLocations}
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -167,7 +171,12 @@ const StorageLocations = () => {
                     Available Space
                   </p>
                   <p className="text-3xl font-bold bg-linear-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
-                    {storageLocationData?.availableSpace ?? 0}%
+                    {storageLocationLoading && (
+                      <span className="text-sm ">. . .</span>
+                    )}
+                    {!storageLocationLoading &&
+                      storageLocationData?.availableSpace}
+                    %
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-linear-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -195,7 +204,12 @@ const StorageLocations = () => {
                     Avg Utilization
                   </p>
                   <p className="text-3xl font-bold bg-linear-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
-                    {storageLocationData?.averageUtilizationStatus ?? 0}%
+                    {storageLocationLoading && (
+                      <span className="text-sm ">. . .</span>
+                    )}
+                    {!storageLocationLoading &&
+                      storageLocationData?.averageUtilizationStatus}
+                    %
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -223,7 +237,11 @@ const StorageLocations = () => {
                     Capacity Alerts
                   </p>
                   <p className="text-3xl font-bold bg-linear-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-                    {storageLocationData?.capacityAlert ?? 0}
+                    {storageLocationLoading && (
+                      <span className="text-sm ">. . .</span>
+                    )}
+                    {!storageLocationLoading &&
+                      storageLocationData?.capacityAlert}
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-linear-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -565,18 +583,22 @@ const StorageLocations = () => {
                       Total Capacity
                     </span>
                     <span className="text-sm font-medium text-gray-900">
-                      {(
-                        storageLocationData?.totalCapacity ?? 0
-                      ).toLocaleString()}{" "}
+                      {storageLocationLoading && (
+                        <span className="text-sm ">. . .</span>
+                      )}
+                      {!storageLocationLoading &&
+                        storageLocationData?.totalCapacity.toLocaleString()}{" "}
                       units
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Used Capacity</span>
                     <span className="text-sm font-medium text-gray-900">
-                      {(
-                        storageLocationData?.totalOccupiedCapacity ?? 0
-                      ).toLocaleString()}{" "}
+                      {storageLocationLoading && (
+                        <span className="text-sm ">. . .</span>
+                      )}
+                      {!storageLocationLoading &&
+                        storageLocationData?.totalOccupiedCapacity.toLocaleString()}{" "}
                       units
                     </span>
                   </div>
@@ -585,9 +607,11 @@ const StorageLocations = () => {
                       Available Space
                     </span>
                     <span className="text-sm font-medium text-green-600">
-                      {(
-                        storageLocationData?.totalAvailableSpace ?? 0
-                      ).toLocaleString()}{" "}
+                      {storageLocationLoading && (
+                        <span className="text-sm ">. . .</span>
+                      )}
+                      {!storageLocationLoading &&
+                        storageLocationData?.totalAvailableSpace.toLocaleString()}{" "}
                       units
                     </span>
                   </div>
@@ -601,9 +625,13 @@ const StorageLocations = () => {
                       }}
                     ></div>
                   </div>
-                  <div className="text-center text-sm text-gray-600">
-                    {storageLocationData?.averageUtilizationStatus ?? 0}%
-                    Utilized
+                  <div className="text-center text-sm font-semibold text-blue-600">
+                    {storageLocationLoading && (
+                      <span className="text-sm ">. . .</span>
+                    )}
+                    {!storageLocationLoading &&
+                      storageLocationData?.averageUtilizationStatus.toLocaleString()}{" "}
+                    % Utilized
                   </div>
                 </div>
               </div>
