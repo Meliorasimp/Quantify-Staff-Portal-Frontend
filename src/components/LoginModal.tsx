@@ -41,9 +41,7 @@ const LoginModal = () => {
         dispatch(setIsLoginModalOpen(false));
         dispatch(clearLoginState());
         if (response.data?.loginUser?.token) {
-          console.log("Storing token:", response.data.loginUser.token);
           localStorage.setItem("token", response.data.loginUser.token);
-          console.log("Storing userId:", response.data.loginUser.id);
           localStorage.setItem("userId", response.data.loginUser.id.toString());
           navigate("/dashboard");
           toast.success("Login successful! Welcome back!");

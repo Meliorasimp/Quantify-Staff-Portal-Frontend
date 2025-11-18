@@ -78,9 +78,6 @@ const AddInventoryModal = () => {
     }
 
     try {
-      console.log("Submitting inventory for userId:", userId);
-      console.log("Inventory Rows:", inventoryRows);
-
       // Transform the data to match backend expectations (camelCase for GraphQL)
       const transformedInventory = inventoryRows.map((row) => ({
         itemSKU: row.sku,
@@ -99,7 +96,6 @@ const AddInventoryModal = () => {
 
       const response = await addInventory({
         variables: {
-          userId: userId.toString(), // Ensure it's a string
           inventory: transformedInventory,
         },
       });
@@ -120,7 +116,6 @@ const AddInventoryModal = () => {
   const { data: storageLocationData } = useQuery<StorageLocationQueryResponse>(
     GetAllStorageLocations
   );
-  console.log("Storage Location Data:", storageLocationData);
 
   const handleRackLocationChange = (rowId: number, sectionName: string) => {
     // Update the rack location
