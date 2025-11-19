@@ -7,7 +7,7 @@ import {
 } from "../store/LoginSlice";
 import type { RootState } from "../store";
 import { useMutation } from "@apollo/client/react";
-import LoginUser from "../gql/mutations/loginMutation.gql";
+import LoginUser from "../gql/mutations/userMutation/loginMutation.gql";
 import { type LoginUserResponse } from "../types/loginuserresponse";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";

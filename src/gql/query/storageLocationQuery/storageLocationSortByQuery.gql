@@ -1,0 +1,23 @@
+query GetStorageLocationByOrder($sortBy: String!) {
+  storageLocationByOrder(orderBy: $sortBy) {
+    id
+    locationCode
+    maxCapacity
+    occupiedCapacity
+    unitType
+    storageType
+    sectionName
+    createdAt
+    warehouse {
+      id
+      warehouseName
+      warehouseCode
+    }
+    user {
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+}

@@ -8,7 +8,7 @@ import {
 } from "../store/InventorySlice";
 import { type AppDispatch, type RootState } from "../store";
 import { useMutation, useQuery } from "@apollo/client/react";
-import AddInventory from "../gql/mutations/inventoryMutation.gql";
+import AddInventory from "../gql/mutations/inventoryMutation/inventoryMutation.gql";
 import FetchInventory from "../gql/query/inventoryQuery/inventoryQuery.gql";
 import GetAllStorageLocations from "../gql/query/storageLocationQuery/storageLocationQuery.gql";
 import { type StorageLocationQueryResponse } from "../types/storagelocation";
@@ -92,14 +92,11 @@ const AddInventoryModal = () => {
         totalValue: 0,
       }));
 
-      console.log("Transformed inventory:", transformedInventory);
-
-      const response = await addInventory({
+      await addInventory({
         variables: {
           inventory: transformedInventory,
         },
       });
-      console.log("Inventory submission response:", response);
 
       // Clear the form after successful submission
       dispatch(clearAll());

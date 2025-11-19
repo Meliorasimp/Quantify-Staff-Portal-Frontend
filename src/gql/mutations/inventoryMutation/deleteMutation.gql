@@ -1,0 +1,6 @@
+mutation DeleteInventory($id: Int!) {
+  deleteInventory(inventoryId: $id) {
+    Id
+    itemSKU
+  }
+}

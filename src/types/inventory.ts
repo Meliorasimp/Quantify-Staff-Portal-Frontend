@@ -51,3 +51,15 @@ export interface SearchCategoryInventoryResponse {
 export interface WarehouseCategoryResponse {
   itemByWarehouseLocation: InventoryDataTypes[];
 }
+
+export interface DeleteInventoryResponse {
+  id: number;
+  itemSKU: string;
+}
+
+export interface DeleteInventoryPopup {
+  itemId: number | undefined;
+  productName: string | undefined;
+  onConfirm: (id: number) => void;
+  onCancel: () => void;
+}

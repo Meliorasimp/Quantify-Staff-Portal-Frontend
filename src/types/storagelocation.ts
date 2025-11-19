@@ -49,7 +49,12 @@ export interface StorageLocationWarehouseResponse {
   storageLocationWarehouse: StorageLocationResponseType[];
 }
 
+export interface StorageLocationOrderByResponse {
+  storageLocationByOrder: StorageLocationResponseType[];
+}
+
 export interface StorageLocationSearch {
   searchTerm?: string;
   warehouseName?: string;
+  sortBy?: string;
 }

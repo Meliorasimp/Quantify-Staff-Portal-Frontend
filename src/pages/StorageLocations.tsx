@@ -12,11 +12,18 @@ import type {
   StorageLocationResponseType,
   StorageLocationSearchResponse,
   StorageLocationWarehouseResponse,
+  StorageLocationOrderByResponse,
 } from "../types/storagelocation";
 import type { WarehouseNameType } from "../types/warehouse";
-import { setSearchTerm, setWarehouseName } from "../store/locationStorageSlice";
+import {
+  setSearchTerm,
+  setWarehouseName,
+  setSortBy,
+} from "../store/locationStorageSlice";
 import GetStorageLocationSearch from "../gql/query/storageLocationQuery/storageLocationSearchQuery.gql";
 import GetStorageLocationWarehouseSearch from "../gql/query/storageLocationQuery/storageLocationWarehouseQuery.gql";
+import GetStorageLocationOrderBy from "../gql/query/storageLocationQuery/storageLocationSortByQuery.gql";
+
 const StorageLocationModal = lazy(
   () => import("../components/AddStorageLocationModal")
 );
@@ -33,15 +40,22 @@ const StorageLocations = () => {
   const categorySearchData = useSelector(
     (state: RootState) => state.locationStorageSearch.warehouseName
   );
+  const sortData = useSelector(
+    (state: RootState) => state.locationStorageSearch.sortBy
+  );
+
   const debouncedSearchTerm = useDebounce(searchData, 500);
+
   const debouncedCategoryTerm = useDebounce(categorySearchData, 500);
 
+  // Fetch storage locations based on search term
   const { data: storageLocationSearchData } =
     useQuery<StorageLocationSearchResponse>(GetStorageLocationSearch, {
       variables: { searchTerm: debouncedSearchTerm },
       skip: !debouncedSearchTerm,
     });
 
+  // Fetch storage locations by warehouse name
   const { data: warehouseSearchData } =
     useQuery<StorageLocationWarehouseResponse>(
       GetStorageLocationWarehouseSearch,
@@ -60,8 +74,6 @@ const StorageLocations = () => {
       notifyOnNetworkStatusChange: true,
     });
 
-  console.log("Storage Location Data:", storageLocationData);
-  console.log("Storage Location Loading:", storageLocationLoading);
   // Fetch All warehouses data
   const { data: warehouseData } = useQuery<WarehouseNameType>(GetAllWarehouse, {
     //Always fetch fresh data from the server
@@ -69,6 +81,17 @@ const StorageLocations = () => {
     nextFetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
+
+  // Fetch storage locations data based on sort by
+  const {
+    data: storageLocationOrderByData,
+    loading: storageLocationOrderByLoading,
+  } = useQuery<StorageLocationOrderByResponse>(GetStorageLocationOrderBy, {
+    variables: { sortBy: sortData },
+    skip: !sortData,
+  });
+  console.log("loading", storageLocationOrderByLoading);
+  console.log("storageLocationOrderByData", storageLocationOrderByData);
 
   const storageLocation = useSelector(
     (state: RootState) => state.interaction.isStorageLocationModalOpen
@@ -303,7 +326,10 @@ const StorageLocations = () => {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500">Sort by:</span>
-                <select className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-600 text-sm">
+                <select
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-600 text-sm"
+                  onChange={(e) => dispatch(setSortBy(e.target.value))}
+                >
                   <option value="location">Location Code</option>
                   <option value="capacity">Capacity</option>
                   <option value="utilization">Utilization</option>
@@ -366,6 +392,12 @@ const StorageLocations = () => {
                         ) {
                           dataToRender =
                             warehouseSearchData.storageLocationWarehouse;
+                        } else if (
+                          storageLocationOrderByData?.storageLocationByOrder
+                            ?.length
+                        ) {
+                          dataToRender =
+                            storageLocationOrderByData.storageLocationByOrder;
                         }
 
                         return dataToRender.map((location) => (

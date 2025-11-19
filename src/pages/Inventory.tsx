@@ -1,29 +1,49 @@
 import Navbar from "../components/Navbar";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsInventoryModalOpen } from "../store/InteractionSlice";
+import {
+  setDeleteId,
+  setDeleteProductName,
+  setIsInventoryModalOpen,
+} from "../store/InteractionSlice";
 import { type RootState } from "../store";
-import { useQuery } from "@apollo/client/react";
+import { useQuery, useMutation } from "@apollo/client/react";
 import GetAllInventoryItems from "../gql/query/inventoryQuery/inventoryQuery.gql";
 import {
   type FetchInventoryResponse,
   type SearchCategoryInventoryResponse,
   type SearchInventoryResponse,
   type WarehouseCategoryResponse,
+  type DeleteInventoryResponse,
 } from "../types/inventory";
 import { FormatDate } from "../Utils";
 import Search from "../gql/query/inventoryQuery/searchInventoryQuery.gql";
 import SearchCategory from "../gql/query/inventoryQuery/searchByCategoryQuery.gql";
 import WarehouseCategory from "../gql/query/inventoryQuery/warehouseCategoryQuery.gql";
+import DeleteInventory from "../gql/mutations/inventoryMutation/deleteMutation.gql";
+import { setIsDeleteInventoryModalOpen } from "../store/InteractionSlice";
 import {
   setDataSearch,
   setCategorySearch,
   setWarehouseSearch,
 } from "../store/InventorySlice";
 import useDebounce from "../hooks/useDebounce";
+import DeleteInventoryConfirmation from "../popup/deleteInventoryConfirmation";
 
 const Inventory = () => {
   const dispatch = useDispatch();
+  const isDeleteInventoryModalOpen = useSelector(
+    (state: RootState) => state.interaction.isDeleteInventoryModalOpen
+  );
+
+  const deleteId = useSelector(
+    (state: RootState) => state.interaction.deleteId
+  );
+  const deleteProductName = useSelector(
+    (state: RootState) => state.interaction.deleteProductName
+  );
+  console.log("Delete ID:", deleteId);
+  console.log("Delete Product Name:", deleteProductName);
   //Fetch all inventory items
   const {
     data: inventoryData,
@@ -40,6 +60,7 @@ const Inventory = () => {
   const categorySearch = useSelector(
     (state: RootState) => state.search.categorySearch
   );
+  ///Fetch Result from Warehouse Category
   const warehouseSearch = useSelector(
     (state: RootState) => state.search.warehouseSearch
   );
@@ -101,7 +122,24 @@ const Inventory = () => {
       : 0
     ).toFixed(2) + "M";
 
-  // Fetch all warehouse names for the filter dropdown
+  // Delete inventory mutation
+  const [deleteInventoryMutation, { loading: deleteLoading }] =
+    useMutation<DeleteInventoryResponse>(DeleteInventory, {
+      refetchQueries: [{ query: GetAllInventoryItems }],
+      awaitRefetchQueries: true,
+    });
+
+  //Method to Delete Inventory Item
+  const handleDeleteInventory = async (id: number) => {
+    try {
+      await deleteInventoryMutation({ variables: { id } });
+      alert("Inventory item deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting inventory item:", error);
+      alert("Failed to delete inventory item. Please try again.");
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -485,7 +523,7 @@ const Inventory = () => {
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-900">
                               <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                                {item.itemSKU}
+                                {item.id}
                               </span>
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-900 font-medium">
@@ -532,7 +570,10 @@ const Inventory = () => {
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-500">
                               <div className="flex items-center space-x-2">
-                                <button className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 p-2 rounded-lg transition-all duration-150">
+                                <button
+                                  className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 p-2 rounded-lg transition-all duration-150"
+                                  title="Edit item"
+                                >
                                   <svg
                                     className="w-4 h-4"
                                     fill="none"
@@ -547,20 +588,55 @@ const Inventory = () => {
                                     />
                                   </svg>
                                 </button>
-                                <button className="text-red-600 hover:text-red-900 hover:bg-red-50 p-2 rounded-lg transition-all duration-150">
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                  </svg>
+                                <button
+                                  className="text-red-600 hover:text-red-900 hover:bg-red-50 p-2 rounded-lg transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  onClick={() => {
+                                    dispatch(
+                                      setIsDeleteInventoryModalOpen(true)
+                                    );
+                                    dispatch(setDeleteId(item.id));
+                                    dispatch(
+                                      setDeleteProductName(item.productName)
+                                    );
+                                  }}
+                                  disabled={deleteLoading}
+                                  title="Delete item"
+                                >
+                                  {deleteLoading ? (
+                                    <svg
+                                      className="w-4 h-4 animate-spin"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                      />
+                                      <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                      />
+                                    </svg>
+                                  ) : (
+                                    <svg
+                                      className="w-4 h-4"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      />
+                                    </svg>
+                                  )}
                                 </button>
                               </div>
                             </td>
@@ -581,6 +657,14 @@ const Inventory = () => {
         >
           <AddInventoryModal />
         </Suspense>
+      )}
+      {isDeleteInventoryModalOpen && (
+        <DeleteInventoryConfirmation
+          itemId={deleteId}
+          productName={deleteProductName}
+          onConfirm={() => handleDeleteInventory(deleteId!)}
+          onCancel={() => dispatch(setIsDeleteInventoryModalOpen(false))}
+        />
       )}
     </div>
   );

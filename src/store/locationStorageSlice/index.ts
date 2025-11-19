@@ -4,6 +4,7 @@ import type { StorageLocationSearch } from "../../types/storagelocation";
 const initialSearchState: StorageLocationSearch = {
   searchTerm: "",
   warehouseName: "",
+  sortBy: "",
 };
 
 const locationStorageSearchSlice = createSlice({
@@ -16,9 +17,12 @@ const locationStorageSearchSlice = createSlice({
     setWarehouseName(state, action: PayloadAction<string>) {
       state.warehouseName = action.payload;
     },
+    setSortBy(state, action: PayloadAction<string>) {
+      state.sortBy = action.payload;
+    },
   },
 });
 
-export const { setSearchTerm, setWarehouseName } =
+export const { setSearchTerm, setWarehouseName, setSortBy } =
   locationStorageSearchSlice.actions;
 export const locationStorageSearchReducer = locationStorageSearchSlice.reducer;

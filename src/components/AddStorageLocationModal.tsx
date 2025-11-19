@@ -3,7 +3,7 @@ import { setIsStorageLocationModalOpen } from "../store/InteractionSlice";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { toast } from "sonner";
 import { useState } from "react";
-import AddStorageLocationMutation from "../gql/mutations/storageLocationMutation.gql";
+import AddStorageLocationMutation from "../gql/mutations/storageLocationMutation/storageLocationMutation.gql";
 import GetWarehousesQuery from "../gql/query/warehouseQuery/warehouseQuery.gql";
 import AllStorageLocation from "../gql/query/storageLocationQuery/storageLocationQuery.gql";
 import type { WarehouseNameType } from "../types/warehouse";

@@ -10,7 +10,7 @@ import {
 import type { RootState } from "../store";
 import type React from "react";
 import { useMutation } from "@apollo/client/react";
-import RegisterUser from "../gql/mutations/registerMutation.gql";
+import RegisterUser from "../gql/mutations/userMutation/registerMutation.gql";
 import { switchToLoginModal } from "../store/InteractionSlice";
 
 const RegisterModal = () => {
