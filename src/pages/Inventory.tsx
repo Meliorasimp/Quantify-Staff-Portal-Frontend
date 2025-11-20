@@ -42,8 +42,6 @@ const Inventory = () => {
   const deleteProductName = useSelector(
     (state: RootState) => state.interaction.deleteProductName
   );
-  console.log("Delete ID:", deleteId);
-  console.log("Delete Product Name:", deleteProductName);
   //Fetch all inventory items
   const {
     data: inventoryData,

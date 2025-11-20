@@ -15,8 +15,13 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Use production URL when deployed, localhost for development
+const API_URL = import.meta.env.PROD
+  ? "https://quantify-backend-production.up.railway.app/graphql"
+  : "https://localhost:7009/graphql";
+
 const httpLink = new HttpLink({
-  uri: "https://localhost:7009/graphql",
+  uri: API_URL,
   // Allow self-signed certificates in development
   fetchOptions: {
     mode: "cors",
