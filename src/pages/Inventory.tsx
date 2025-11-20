@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setDeleteId,
@@ -28,7 +28,7 @@ import {
   setWarehouseSearch,
 } from "../store/InventorySlice";
 import useDebounce from "../hooks/useDebounce";
-import DeleteInventoryConfirmation from "../popup/deleteInventoryConfirmation";
+import DeleteInventoryConfirmation from "../popup/DeleteInventoryConfirmation";
 
 const Inventory = () => {
   const dispatch = useDispatch();
