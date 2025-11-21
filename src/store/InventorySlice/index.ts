@@ -1,6 +1,7 @@
 import {
   type InventoryInputTypes,
   type SearchType,
+  type UpdateInventoryInput,
 } from "../../types/inventory";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
@@ -9,6 +10,16 @@ const initialSearchState: SearchType = {
   dataSearch: "",
   categorySearch: "",
   warehouseSearch: "",
+};
+const initialUpdateInventoryState: UpdateInventoryInput = {
+  id: 0,
+  itemSKU: "",
+  productName: "",
+  category: "",
+  warehouseLocation: "",
+  unitOfMeasure: "",
+  quantityInStock: 0,
+  reorderLevel: 0,
 };
 
 const InventoryInputSlice = createSlice({
@@ -62,9 +73,45 @@ const SearchSlice = createSlice({
   },
 });
 
+const updateInventorySlice = createSlice({
+  name: "updateInventory",
+  initialState: initialUpdateInventoryState,
+  reducers: {
+    setId(state, action: PayloadAction<number>) {
+      state.id = action.payload;
+    },
+    setItemSKU(state, action: PayloadAction<string>) {
+      state.itemSKU = action.payload;
+    },
+    setCategory(state, action: PayloadAction<string>) {
+      state.category = action.payload;
+    },
+    setProductName(state, action: PayloadAction<string>) {
+      state.productName = action.payload;
+    },
+    setQuantityInStock(state, action: PayloadAction<number>) {
+      state.quantityInStock = action.payload;
+    },
+    setReorderLevel(state, action: PayloadAction<number>) {
+      state.reorderLevel = action.payload;
+    },
+  },
+});
+
 export const { addNewRow, removeRow, updateRow, clearAll } =
   InventoryInputSlice.actions;
 export const InventoryInputReducer = InventoryInputSlice.reducer;
+
 export const { setDataSearch, setCategorySearch, setWarehouseSearch } =
   SearchSlice.actions;
 export const SearchReducer = SearchSlice.reducer;
+
+export const {
+  setId,
+  setItemSKU,
+  setCategory,
+  setProductName,
+  setQuantityInStock,
+  setReorderLevel,
+} = updateInventorySlice.actions;
+export const UpdateInventoryReducer = updateInventorySlice.reducer;

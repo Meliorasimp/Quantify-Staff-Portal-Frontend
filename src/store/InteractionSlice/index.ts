@@ -10,6 +10,8 @@ const initialInteractionState: InteractionType = {
   isDeleteInventoryModalOpen: false,
   deleteId: undefined,
   deleteProductName: undefined,
+  isUpdateInventoryModalOpen: false,
+  updateId: undefined,
 };
 
 const interactionSlice = createSlice({
@@ -48,6 +50,12 @@ const interactionSlice = createSlice({
     setDeleteProductName(state, action) {
       state.deleteProductName = action.payload;
     },
+    setIsUpdateInventoryModalOpen(state, action) {
+      state.isUpdateInventoryModalOpen = action.payload;
+    },
+    setUpdateId(state, action) {
+      state.updateId = action.payload;
+    },
   },
 });
 
@@ -62,5 +70,7 @@ export const {
   setIsDeleteInventoryModalOpen,
   setDeleteId,
   setDeleteProductName,
+  setIsUpdateInventoryModalOpen,
+  setUpdateId,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;

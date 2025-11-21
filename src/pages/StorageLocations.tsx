@@ -164,8 +164,10 @@ const StorageLocations = () => {
                   </p>
                   <p className="text-3xl font-bold bg-linear-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
                     {storageLocationLoading && (
-                      <span className="text-sm ">. . .</span>
+                      <span className="text-sm ">. . . </span>
                     )}
+                    {storageLocationData?.allStorageLocations === undefined &&
+                      0}
                     {storageLocationData && storageLocationData.totalLocations}
                   </p>
                 </div>
@@ -197,6 +199,7 @@ const StorageLocations = () => {
                     {storageLocationLoading && (
                       <span className="text-sm ">. . .</span>
                     )}
+                    {storageLocationData?.availableSpace === undefined && 0}
                     {!storageLocationLoading &&
                       storageLocationData?.availableSpace}
                     %
@@ -230,6 +233,8 @@ const StorageLocations = () => {
                     {storageLocationLoading && (
                       <span className="text-sm ">. . .</span>
                     )}
+                    {storageLocationData?.averageUtilizationStatus ===
+                      undefined && 0}
                     {!storageLocationLoading &&
                       storageLocationData?.averageUtilizationStatus}
                     %
@@ -263,6 +268,7 @@ const StorageLocations = () => {
                     {storageLocationLoading && (
                       <span className="text-sm ">. . .</span>
                     )}
+                    {storageLocationData?.capacityAlert === undefined && 0}
                     {!storageLocationLoading &&
                       storageLocationData?.capacityAlert}
                   </p>

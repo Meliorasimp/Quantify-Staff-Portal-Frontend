@@ -5,6 +5,7 @@ import {
   setDeleteId,
   setDeleteProductName,
   setIsInventoryModalOpen,
+  setIsUpdateInventoryModalOpen,
 } from "../store/InteractionSlice";
 import { type RootState } from "../store";
 import { useQuery, useMutation } from "@apollo/client/react";
@@ -26,19 +27,48 @@ import {
   setDataSearch,
   setCategorySearch,
   setWarehouseSearch,
+  setId,
 } from "../store/InventorySlice";
 import useDebounce from "../hooks/useDebounce";
 import DeleteInventoryConfirmation from "../popup/DeleteInventoryConfirmation";
+import GetAllStorageLocation from "../gql/query/storageLocationQuery/storageLocationQuery.gql";
+import UpdateMutation from "../gql/mutations/inventoryMutation/updateMutation.gql";
+import { toast } from "sonner";
+import UpdateInventory from "../components/UpdateInventory";
 
 const Inventory = () => {
   const dispatch = useDispatch();
+  //Redux Selectors for Modal States and Delete Info
   const isDeleteInventoryModalOpen = useSelector(
     (state: RootState) => state.interaction.isDeleteInventoryModalOpen
+  );
+
+  const isUpdateModalOpen = useSelector(
+    (state: RootState) => state.interaction.isUpdateInventoryModalOpen
   );
 
   const deleteId = useSelector(
     (state: RootState) => state.interaction.deleteId
   );
+
+  //Variables for Updating the Inventory
+  const updateId = useSelector((state: RootState) => state.updateInventory.id);
+  const itemSKU = useSelector(
+    (state: RootState) => state.updateInventory.itemSKU
+  );
+  const category = useSelector(
+    (state: RootState) => state.updateInventory.category
+  );
+  const productName = useSelector(
+    (state: RootState) => state.updateInventory.productName
+  );
+  const quantityInStock = useSelector(
+    (state: RootState) => state.updateInventory.quantityInStock
+  );
+  const reorderLevel = useSelector(
+    (state: RootState) => state.updateInventory.reorderLevel
+  );
+
   const deleteProductName = useSelector(
     (state: RootState) => state.interaction.deleteProductName
   );
@@ -123,7 +153,10 @@ const Inventory = () => {
   // Delete inventory mutation
   const [deleteInventoryMutation, { loading: deleteLoading }] =
     useMutation<DeleteInventoryResponse>(DeleteInventory, {
-      refetchQueries: [{ query: GetAllInventoryItems }],
+      refetchQueries: [
+        { query: GetAllInventoryItems },
+        { query: GetAllStorageLocation },
+      ],
       awaitRefetchQueries: true,
     });
 
@@ -131,10 +164,55 @@ const Inventory = () => {
   const handleDeleteInventory = async (id: number) => {
     try {
       await deleteInventoryMutation({ variables: { id } });
-      alert("Inventory item deleted successfully!");
+      dispatch(setIsDeleteInventoryModalOpen(false));
+      toast.success(`"${deleteProductName}" has been deleted successfully.`);
     } catch (error) {
       console.error("Error deleting inventory item:", error);
       alert("Failed to delete inventory item. Please try again.");
+    }
+  };
+
+  const [updateInventoryMutation] = useMutation(UpdateMutation, {
+    refetchQueries: [
+      { query: GetAllInventoryItems },
+      { query: GetAllStorageLocation },
+    ],
+    awaitRefetchQueries: true,
+  });
+
+  //Method to Update Inventory Item
+  const handleUpdateInventoryItem = async () => {
+    try {
+      console.log("Updating inventory with:", {
+        id: updateId,
+        itemSKU: itemSKU,
+        category: category,
+        productName: productName,
+        quantityInStock: quantityInStock,
+        reorderLevel: reorderLevel,
+      });
+
+      await updateInventoryMutation({
+        variables: {
+          id: updateId,
+          itemSKU: itemSKU,
+          category: category,
+          productName: productName,
+          quantityInStock: quantityInStock,
+          reorderLevel: reorderLevel,
+        },
+      });
+
+      console.log("Update successful!");
+      alert("Inventory item updated successfully!");
+      dispatch(setIsUpdateInventoryModalOpen(false));
+    } catch (error) {
+      console.error("Error updating inventory item:", error);
+      alert(
+        `Failed to update inventory item: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   };
 
@@ -430,7 +508,7 @@ const Inventory = () => {
                           Reorder Level
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
-                          Unit of Measure
+                          Unit Type
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
                           Cost per Unit
@@ -521,7 +599,7 @@ const Inventory = () => {
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-900">
                               <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                                {item.id}
+                                {item.itemSKU}
                               </span>
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-900 font-medium">
@@ -570,6 +648,12 @@ const Inventory = () => {
                               <div className="flex items-center space-x-2">
                                 <button
                                   className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 p-2 rounded-lg transition-all duration-150"
+                                  onClick={() => {
+                                    dispatch(
+                                      setIsUpdateInventoryModalOpen(true)
+                                    );
+                                    dispatch(setId(item.id));
+                                  }}
                                   title="Edit item"
                                 >
                                   <svg
@@ -662,6 +746,12 @@ const Inventory = () => {
           productName={deleteProductName}
           onConfirm={() => handleDeleteInventory(deleteId!)}
           onCancel={() => dispatch(setIsDeleteInventoryModalOpen(false))}
+        />
+      )}
+      {isUpdateModalOpen && (
+        <UpdateInventory
+          onCancel={() => dispatch(setIsUpdateInventoryModalOpen(false))}
+          onConfirm={() => handleUpdateInventoryItem()}
         />
       )}
     </div>

@@ -1,0 +1,24 @@
+mutation UpdateInventory(
+  $id: Int!
+  $itemSKU: String!
+  $category: String!
+  $productName: String!
+  $quantityInStock: Int!
+  $reorderLevel: Int!
+) {
+  updateInventory(
+    inventoryId: $id
+    itemSKU: $itemSKU
+    category: $category
+    productName: $productName
+    quantityInStock: $quantityInStock
+    reorderLevel: $reorderLevel
+  ) {
+    id
+    itemSKU
+    category
+    productName
+    quantityInStock
+    reorderLevel
+  }
+}

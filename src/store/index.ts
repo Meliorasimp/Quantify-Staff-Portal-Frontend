@@ -2,7 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { interactionReducer } from "./InteractionSlice";
 import { registerReducer } from "./RegisterSlice";
 import { loginReducer } from "./LoginSlice";
-import { InventoryInputReducer } from "./InventorySlice";
+import {
+  InventoryInputReducer,
+  UpdateInventoryReducer,
+} from "./InventorySlice";
 import { SearchReducer } from "./InventorySlice";
 import { warehouseReducer } from "./WarehouseSlice";
 import { individualWarehouseReducer } from "./WarehouseSlice";
@@ -18,6 +21,7 @@ export const store = configureStore({
     warehouseInput: warehouseReducer,
     individualWarehouse: individualWarehouseReducer,
     locationStorageSearch: locationStorageSearchReducer,
+    updateInventory: UpdateInventoryReducer,
   },
 });
 

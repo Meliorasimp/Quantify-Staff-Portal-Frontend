@@ -7,4 +7,6 @@ export interface InteractionType {
   isDeleteInventoryModalOpen?: boolean;
   deleteId?: number;
   deleteProductName?: string;
+  isUpdateInventoryModalOpen?: boolean;
+  updateId?: number;
 }

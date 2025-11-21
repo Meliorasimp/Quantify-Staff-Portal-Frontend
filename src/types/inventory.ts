@@ -63,3 +63,19 @@ export interface DeleteInventoryPopup {
   onConfirm: (id: number) => void;
   onCancel: () => void;
 }
+
+export interface UpdateInventoryPopup {
+  onCancel: () => void;
+  onConfirm?: () => void;
+}
+
+export interface UpdateInventoryInput {
+  id: number;
+  itemSKU?: string;
+  category?: string;
+  productName?: string;
+  warehouseLocation?: string;
+  unitOfMeasure?: string;
+  quantityInStock?: number;
+  reorderLevel?: number;
+}

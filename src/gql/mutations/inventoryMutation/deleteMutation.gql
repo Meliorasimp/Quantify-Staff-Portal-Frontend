@@ -1,6 +1,6 @@
 mutation DeleteInventory($id: Int!) {
   deleteInventory(inventoryId: $id) {
-    Id
+    id
     itemSKU
   }
 }
