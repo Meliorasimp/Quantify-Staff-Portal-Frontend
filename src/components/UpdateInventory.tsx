@@ -47,8 +47,8 @@ const UpdateInventory = ({ onCancel, onConfirm }: UpdateInventoryPopup) => {
                 <option value="Electronics">Electronics</option>
                 <option value="Apparel">Furniture</option>
                 <option value="Home Goods">Clothing</option>
-                <option value="Books">Toys</option>
-                <option value="Toys">Books</option>
+                <option value="Books">Books</option>
+                <option value="Toys">Toys</option>
               </select>
             </div>
           </div>

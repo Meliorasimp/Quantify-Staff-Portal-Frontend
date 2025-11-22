@@ -38,6 +38,33 @@ import UpdateInventory from "../components/UpdateInventory";
 
 const Inventory = () => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log("API URL:", apiUrl);
+
+  const exportInventory = async () => {
+    try {
+      const response = await fetch("https://localhost:7009/api/export", {
+        method: "GET",
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `inventory_export_${new Date().toISOString()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export failed:", error);
+    }
+  };
+
   //Redux Selectors for Modal States and Delete Info
   const isDeleteInventoryModalOpen = useSelector(
     (state: RootState) => state.interaction.isDeleteInventoryModalOpen
@@ -204,8 +231,8 @@ const Inventory = () => {
       });
 
       console.log("Update successful!");
-      alert("Inventory item updated successfully!");
       dispatch(setIsUpdateInventoryModalOpen(false));
+      toast.success("Inventory item updated successfully!");
     } catch (error) {
       console.error("Error updating inventory item:", error);
       alert(
@@ -234,7 +261,10 @@ const Inventory = () => {
                 </p>
               </div>
               <div className="flex items-center space-x-4">
-                <button className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                <button
+                  className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200"
+                  onClick={exportInventory}
+                >
                   <svg
                     className="w-5 h-5 mr-2"
                     fill="none"
