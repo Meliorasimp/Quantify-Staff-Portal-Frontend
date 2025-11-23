@@ -58,3 +58,10 @@ export interface StorageLocationSearch {
   warehouseName?: string;
   sortBy?: string;
 }
+
+export interface DeleteStorageLocationPopup {
+  onConfirm: (id: number | undefined | string) => void;
+  onCancel: () => void;
+  storageLocationId: number | undefined;
+  storageLocationName: string | undefined;
+}

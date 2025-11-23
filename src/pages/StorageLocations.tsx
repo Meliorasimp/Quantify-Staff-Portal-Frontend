@@ -1,6 +1,11 @@
 import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsStorageLocationModalOpen } from "../store/InteractionSlice";
+import {
+  setIsStorageLocationModalOpen,
+  setDeleteStorageLocationId,
+  setDeleteStorageLocationName,
+  setIsDeleteStorageLocationModalOpen,
+} from "../store/InteractionSlice";
 import type { RootState } from "../store";
 import { lazy, Suspense } from "react";
 import { useQuery } from "@apollo/client/react";
@@ -23,6 +28,10 @@ import {
 import GetStorageLocationSearch from "../gql/query/storageLocationQuery/storageLocationSearchQuery.gql";
 import GetStorageLocationWarehouseSearch from "../gql/query/storageLocationQuery/storageLocationWarehouseQuery.gql";
 import GetStorageLocationOrderBy from "../gql/query/storageLocationQuery/storageLocationSortByQuery.gql";
+import DeleteStorageLocationConfirm from "../popup/DeleteStorageLocationConfirm";
+import { useMutation } from "@apollo/client/react";
+import DeleteStorageLocationMutation from "../gql/mutations/storageLocationMutation/deleteStorageLocMutation.gql";
+import { toast } from "sonner";
 
 const StorageLocationModal = lazy(
   () => import("../components/AddStorageLocationModal")
@@ -34,14 +43,29 @@ const StorageLocations = () => {
   const handleStorageLocationAdd = () => {
     dispatch(setIsStorageLocationModalOpen(true));
   };
+
   const searchData = useSelector(
     (state: RootState) => state.locationStorageSearch.searchTerm
   );
+
   const categorySearchData = useSelector(
     (state: RootState) => state.locationStorageSearch.warehouseName
   );
+
   const sortData = useSelector(
     (state: RootState) => state.locationStorageSearch.sortBy
+  );
+
+  const isDeleteStorageLocationModalOpen = useSelector(
+    (state: RootState) => state.interaction.isDeleteStorageLocationModalOpen
+  );
+
+  const storageLocationName = useSelector(
+    (state: RootState) => state.interaction.deleteStorageLocationName
+  );
+
+  const storageLocationId = useSelector(
+    (state: RootState) => state.interaction.deleteStorageLocationId
   );
 
   const debouncedSearchTerm = useDebounce(searchData, 500);
@@ -93,6 +117,27 @@ const StorageLocations = () => {
   console.log("loading", storageLocationOrderByLoading);
   console.log("storageLocationOrderByData", storageLocationOrderByData);
 
+  //Mutation to Delete Storage Location
+  const [deleteStorageLocation] = useMutation(DeleteStorageLocationMutation, {
+    refetchQueries: [{ query: AllStorageLocation }],
+  });
+
+  //Logic to Handle Deleting Storage Location
+  const handleDeleteStorageLocation = async (
+    id: string | number | undefined
+  ) => {
+    try {
+      const response = await deleteStorageLocation({
+        variables: { id: id },
+      });
+      if (response.data) {
+        toast.success("Storage location deleted successfully");
+        dispatch(setIsDeleteStorageLocationModalOpen(false));
+      }
+    } catch (error) {
+      console.error("Error deleting storage location:", error);
+    }
+  };
   const storageLocation = useSelector(
     (state: RootState) => state.interaction.isStorageLocationModalOpen
   );
@@ -581,6 +626,19 @@ const StorageLocations = () => {
                                 <button
                                   className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
                                   title="Delete Location"
+                                  onClick={() => {
+                                    dispatch(
+                                      setDeleteStorageLocationId(location.id)
+                                    );
+                                    dispatch(
+                                      setDeleteStorageLocationName(
+                                        location.locationCode
+                                      )
+                                    );
+                                    dispatch(
+                                      setIsDeleteStorageLocationModalOpen(true)
+                                    );
+                                  }}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -800,6 +858,18 @@ const StorageLocations = () => {
       {storageLocation && (
         <Suspense>
           <StorageLocationModal />
+        </Suspense>
+      )}
+      {isDeleteStorageLocationModalOpen && (
+        <Suspense fallback={<div className="absolute inset-0">Loading...</div>}>
+          <DeleteStorageLocationConfirm
+            onCancel={() =>
+              dispatch(setIsDeleteStorageLocationModalOpen(false))
+            }
+            onConfirm={() => handleDeleteStorageLocation(storageLocationId!)}
+            storageLocationId={storageLocationId}
+            storageLocationName={storageLocationName!}
+          />
         </Suspense>
       )}
     </div>
