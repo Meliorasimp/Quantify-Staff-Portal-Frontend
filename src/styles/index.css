@@ -3,3 +3,27 @@
 .navbar-bg {
   background-color: #fafaff;
 }
+
+.bounce-box {
+  width: 150px;
+  height: 150px;
+  background-color: green;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+
+  /* Animation */
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);   /* starting position */
+  }
+  50% {
+    transform: translateY(-30px); /* move up */
+  }
+}

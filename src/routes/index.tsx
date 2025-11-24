@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 const Inventory = lazy(() => import("../pages/Inventory"));
 const StorageLocations = lazy(() => import("../pages/StorageLocations"));
 const Warehouses = lazy(() => import("../pages/Warehouses"));
+const StockMovement = lazy(() => import("../pages/StockMovement"));
 
 const Router: RouteObject[] = [
   {
@@ -54,6 +55,20 @@ const Router: RouteObject[] = [
         }
       >
         <Warehouses />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/stockmovements",
+    element: (
+      <Suspense
+        fallback={
+          <div className="text-4xl flex justify-center items-center w-full h-screen">
+            Loading Stock Movement...
+          </div>
+        }
+      >
+        <StockMovement />
       </Suspense>
     ),
   },

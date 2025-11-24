@@ -105,7 +105,9 @@ const AddInventoryModal = () => {
       handleClose();
     } catch (err: unknown) {
       console.error("Inventory submission error:", err);
-      toast.error("Failed to add inventory items. Please try again.");
+      toast.error(
+        err instanceof Error ? err.message : "An unknown error occurred"
+      );
     }
   };
 

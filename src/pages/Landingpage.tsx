@@ -5,6 +5,7 @@ import { setIsRegisterModalOpen } from "../store/InteractionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
 import LoginModal from "../components/LoginModal";
+import { motion } from "framer-motion";
 const Landingpage = () => {
   const dispatch = useDispatch();
   const registerState = useSelector(
@@ -13,6 +14,89 @@ const Landingpage = () => {
   const loginState = useSelector(
     (state: RootState) => state.interaction.isLoginModalOpen
   );
+
+  const textQuantify = [
+    {
+      letters: ["Q", "u", "a", "n", "t", "i", "f", "y"],
+    },
+  ];
+  const textWelcomeTo = [
+    {
+      letters: ["W", "e", "l", "c", "o", "m", "e", " ", "t", "o"],
+    },
+  ];
+
+  const textParagraph = [
+    {
+      letters: [
+        "Y",
+        "o",
+        "u",
+        "r",
+        " ",
+        "o",
+        "n",
+        "e",
+        "-",
+        "s",
+        "t",
+        "o",
+        "p",
+        " ",
+        "s",
+        "o",
+        "l",
+        "u",
+        "t",
+        "i",
+        "o",
+        "n",
+        " ",
+        "f",
+        "o",
+        "r",
+        " ",
+        "E",
+        "n",
+        "t",
+        "e",
+        "r",
+        "p",
+        "r",
+        "i",
+        "s",
+        "e",
+        "-",
+        "G",
+        "r",
+        "a",
+        "d",
+        "e",
+        " ",
+        "i",
+        "n",
+        "v",
+        "e",
+        "n",
+        "t",
+        "o",
+        "r",
+        "y",
+        " ",
+        "m",
+        "a",
+        "n",
+        "a",
+        "g",
+        "e",
+        "m",
+        "e",
+        "n",
+        "t",
+        ".",
+      ],
+    },
+  ];
 
   const handleGetStartedClick = () => {
     dispatch(setIsRegisterModalOpen(true));
@@ -36,67 +120,120 @@ const Landingpage = () => {
       <div className="relative z-50">
         <Landingpagenavbar />
       </div>
-
-      <section className="relative h-[80vh] flex items-center justify-center px-6">
+      <motion.section className="relative h-[90vh] flex items-center justify-center px-6">
         <div className="max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8 text-center lg:text-left">
             {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-lime-200 shadow-lg">
+            <motion.div
+              className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-lime-200 shadow-lg"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3.2, duration: 0.5 }}
+            >
               <span className="w-2 h-2 bg-lime-500 rounded-full mr-2 animate-pulse"></span>
               <span className="text-sm font-medium text-lime-700">
                 Enterprise-Grade Solution
               </span>
-            </div>
+            </motion.div>
 
             {/* Main Heading */}
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="text-gray-900">Welcome to</span>
+                <motion.span>
+                  {textWelcomeTo[0].letters.map((letter, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: index * 0.04 }}
+                      whileHover={{ scale: 1.2 }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </motion.span>
                 <br />
-                <span className="bg-linear-to-r from-lime-500 via-green-500 to-emerald-500 bg-clip-text text-transparent">
-                  Quantify
-                </span>
+                <motion.span>
+                  {textQuantify[0].letters.map((letter, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, color: "rgba(0,102,0,0)" }}
+                      animate={{ opacity: 1, color: "rgba(0,202,0,1)" }}
+                      transition={{ delay: 0.5 + index * 0.1 }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </motion.span>
               </h1>
 
-              <p className="text-xl lg:text-2xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Your one-stop solution for{" "}
-                <span className="font-semibold text-lime-600">
-                  Enterprise-Grade
-                </span>{" "}
-                inventory management
-              </p>
+              <motion.p className="text-xl lg:text-2xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                {textParagraph[0].letters.map((letter, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 + index * 0.03 }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </motion.p>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button
+              <motion.button
                 className="group relative px-8 py-4 bg-linear-to-r from-lime-500 to-lime-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
                 onClick={handleGetStartedClick}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 3.4, duration: 0.5 }}
               >
                 <span className="relative z-10">Get Started Free</span>
                 <div className="absolute inset-0 bg-linear-to-r from-lime-600 to-lime-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
+              </motion.button>
 
-              <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 font-semibold rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300">
+              <motion.button
+                className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 font-semibold rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 3.4, duration: 0.5 }}
+              >
                 Watch Demo
-              </button>
+              </motion.button>
             </div>
 
             {/* Stats */}
             <div className="flex justify-center lg:justify-start space-x-8 pt-8">
-              <div className="text-center">
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 3.5, duration: 0.5 }}
+              >
                 <div className="text-2xl font-bold text-gray-900">500+</div>
                 <div className="text-sm text-gray-600">Companies</div>
-              </div>
-              <div className="text-center">
+              </motion.div>
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 3.5, duration: 0.5 }}
+              >
                 <div className="text-2xl font-bold text-gray-900">99.9%</div>
                 <div className="text-sm text-gray-600">Uptime</div>
-              </div>
-              <div className="text-center">
+              </motion.div>
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 3.5, duration: 0.5 }}
+              >
                 <div className="text-2xl font-bold text-gray-900">50M+</div>
                 <div className="text-sm text-gray-600">Items Tracked</div>
-              </div>
+              </motion.div>
             </div>
           </div>
 
@@ -104,7 +241,12 @@ const Landingpage = () => {
           <div className="relative hidden lg:block">
             <div className="relative w-full h-96">
               {/* Main card */}
-              <div className="absolute top-0 right-0 w-80 h-64 bg-white rounded-2xl shadow-2xl p-6 transform rotate-6 hover:rotate-3 transition-transform duration-500">
+              <motion.div
+                className="absolute top-0 right-0 w-80 h-64 bg-white rounded-2xl shadow-2xl p-6 transform rotate-6 hover:rotate-3 transition-transform duration-500"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 3.5, duration: 0.5 }}
+              >
                 <div className="flex items-center mb-4">
                   <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
                   <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
@@ -118,10 +260,15 @@ const Landingpage = () => {
                   <div className="h-2 bg-lime-300 rounded-full w-3/4"></div>
                   <div className="h-2 bg-lime-400 rounded-full w-1/2"></div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Secondary card */}
-              <div className="absolute bottom-0 left-0 w-72 h-48 bg-linear-to-br from-lime-50 to-green-50 rounded-2xl shadow-xl p-5 transform -rotate-6 hover:-rotate-3 transition-transform duration-500">
+              <motion.div
+                className="absolute bottom-0 left-0 w-72 h-48 bg-linear-to-br from-lime-50 to-green-50 rounded-2xl shadow-xl p-5 transform -rotate-6 hover:-rotate-3 transition-transform duration-500"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 3.5, duration: 0.5 }}
+              >
                 <h4 className="font-medium text-gray-700 mb-3">
                   Real-time Analytics
                 </h4>
@@ -132,11 +279,11 @@ const Landingpage = () => {
                   <div className="w-4 bg-lime-400 rounded-t h-10"></div>
                   <div className="w-4 bg-lime-300 rounded-t h-14"></div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
       {/* About Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -519,37 +519,37 @@ const Inventory = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
                           Item SKU
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-48">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
                           Product Name
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium  uppercase tracking-wider min-w-32">
                           Category
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-40">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
                           Warehouse Location
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-36">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium  uppercase tracking-wider min-w-36">
                           Quantity in Stock
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
                           Reorder Level
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
                           Unit Type
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
                           Cost per Unit
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
                           Total Value
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-36">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-36">
                           Last Restocked
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-28">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-28">
                           Actions
                         </th>
                       </tr>
