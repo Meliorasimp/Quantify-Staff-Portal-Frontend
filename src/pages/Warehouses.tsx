@@ -678,48 +678,9 @@ const Warehouses = () => {
             {/* Right Column - Analytics & Activity */}
             <div className="xl:col-span-2 space-y-6">
               {/* Stock Movement Chart */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Stock Movement Analytics
-                  </h3>
-                  <div className="flex items-center space-x-2">
-                    <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500">
-                      <option>Last 7 days</option>
-                      <option>Last 30 days</option>
-                      <option>Last 90 days</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Placeholder for chart */}
-                <div className="h-80 bg-linear-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
-                  <div className="text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                      />
-                    </svg>
-                    <h3 className="mt-2 text-sm font-medium text-gray-900">
-                      Stock Movement Chart
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Integration with Chart.js coming soon
-                    </p>
-                  </div>
-                </div>
-              </div>
 
               {/* Recent Activity */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 ">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Recent Activity
                 </h3>

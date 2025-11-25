@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import Bar from "../components/Chart/BarChart";
 const StockMovement = () => {
   return (
     <div className="flex h-screen overflow-hidden">
@@ -189,42 +190,25 @@ const StockMovement = () => {
             </div>
           </div>
           {/* Table or content for stock movements can go here */}
-          <div className="flex gap-x-4">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden w-2/3">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Stock Movement
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Manage your product inventory and stock levels
-                </p>
+          <section className="flex gap-x-4">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 w-2/3">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Stock Movement Analytics
+                </h3>
+                <div className="flex items-center space-x-2">
+                  <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500">
+                    <option>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Last 90 days</option>
+                  </select>
+                </div>
               </div>
-              <div className="overflow-x-auto">
-                <div className="inline-block min-w-full align-middle">
-                  <div className="overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
-                            Item SKU
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
-                            Product Name
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium  uppercase tracking-wider min-w-32">
-                            Category
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
-                            Warehouse Location
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium  uppercase tracking-wider min-w-36">
-                            Quantity in Stock
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>{/* Data goes here */}</tbody>
-                    </table>
-                  </div>
+
+              {/* Placeholder for chart */}
+              <div className="w-full h-[250px] md:h-[400px] p-4">
+                <div className="flex items-center justify-center w-full h-full">
+                  <Bar />
                 </div>
               </div>
             </div>
@@ -234,8 +218,128 @@ const StockMovement = () => {
                   Recent Stocks
                 </h2>
               </div>
+              <div className="px-6 flex flex-col gap-y-2">
+                <div className="flex items-center gap-x-4 mb-4">
+                  <div className="bg-green-400 p-2 rounded-2xl text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="size-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+                      />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-sm font-medium text-gray-900">
+                      Added Product X to Warehouse A
+                    </p>
+                    <p className="text-sm text-gray-500">2 hours ago</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-4 mb-4">
+                  <div className="bg-red-400 p-2 rounded-2xl text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="size-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      Removed Product Y from Warehouse B
+                    </p>
+                    <p className="text-sm text-gray-500">2 hours ago</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-x-4 mb-4">
+                  <div className="bg-blue-400 p-2 rounded-2xl text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="size-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      Transfered Product Z from Warehouse B to Warehouse C
+                    </p>
+                    <p className="text-sm text-gray-500">2 hours ago</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
+          <section className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden mt-4">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">
+                General Stock Movements
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Overview of all stock movements in the system
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                          Item SKU
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                          Product Name
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                          Quantity
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                          Before After
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
+                          Warehouse Location
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                          User
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                          Timestamp
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      Data Here should be coming from the other pages
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
