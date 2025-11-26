@@ -15,6 +15,7 @@ const initialInteractionState: InteractionType = {
   isDeleteStorageLocationModalOpen: false,
   deleteStorageLocationId: undefined,
   deleteStorageLocationName: undefined,
+  isPurchaseOrderModalOpen: false,
 };
 
 const interactionSlice = createSlice({
@@ -68,6 +69,9 @@ const interactionSlice = createSlice({
     setDeleteStorageLocationName(state, action) {
       state.deleteStorageLocationName = action.payload;
     },
+    setIsPurchaseOrderModalOpen(state, action) {
+      state.isPurchaseOrderModalOpen = action.payload;
+    },
   },
 });
 
@@ -87,5 +91,6 @@ export const {
   setIsDeleteStorageLocationModalOpen,
   setDeleteStorageLocationId,
   setDeleteStorageLocationName,
+  setIsPurchaseOrderModalOpen,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;

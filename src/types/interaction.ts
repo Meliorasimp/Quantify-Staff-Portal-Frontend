@@ -12,4 +12,5 @@ export interface InteractionType {
   isDeleteStorageLocationModalOpen?: boolean;
   deleteStorageLocationId?: number;
   deleteStorageLocationName?: string;
+  isPurchaseOrderModalOpen: boolean;
 }

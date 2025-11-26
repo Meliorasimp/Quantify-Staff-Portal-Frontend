@@ -1,35 +1,24 @@
 import Navbar from "../components/Navbar";
-import Pie from "../components/Chart/PieChart";
 import Line from "../components/Chart/LineChart";
-import { Link } from "react-router-dom";
+import Pie from "../components/Chart/PieChart";
 
-const PurchaseOrder = () => {
+const SalesOrder = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
       <main className="flex-1 overflow-y-auto bg-linear-to-br from-gray-50 via-gray-100 to-gray-50">
         <div className="min-h-full p-6">
-          {/* Page Header */}
           <section className="mb-8">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="">
                   <h1 className="text-3xl font-bold bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                    Purchase Orders
+                    Sales Orders
                   </h1>
                   <p className="text-gray-600 mt-2">
-                    Track and manage purchase orders across your suppliers and
-                    vendors
+                    Overview of all sales orders and their statuses.
                   </p>
                 </h1>
-              </div>
-              <div>
-                <Link
-                  className="flex items-center px-4 py-2 bg-linear-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer"
-                  to="/purchaseorders/all"
-                >
-                  View All Purchase Orders
-                </Link>
               </div>
             </div>
           </section>
@@ -37,12 +26,10 @@ const PurchaseOrder = () => {
             <div className="bg-linear-to-br from-white to-green-50 rounded-2xl shadow-sm border border-green-200/50 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium mb-1">
-                    Total Purchase Orders
-                  </p>
-                  <p className="text-3xl font-bold text-green-600">+375</p>
+                  <p className="text-sm font-medium mb-1">Total Sales Orders</p>
+                  <p className="text-3xl font-bold text-blue-600">+375</p>
                 </div>
-                <div className="w-12 h-12 bg-linear-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-linear-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -64,12 +51,10 @@ const PurchaseOrder = () => {
             <div className="bg-linear-to-br from-white to-green-50 rounded-2xl shadow-sm border border-green-200/50 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium mb-1">
-                    Total Purchase Amount
-                  </p>
-                  <p className="text-3xl font-bold text-green-600">+375</p>
+                  <p className="text-sm font-medium mb-1">Total Sales Amount</p>
+                  <p className="text-3xl font-bold text-blue-600">+375</p>
                 </div>
-                <div className="w-12 h-12 bg-linear-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-linear-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -91,10 +76,10 @@ const PurchaseOrder = () => {
             <div className="bg-linear-to-br from-white to-green-50 rounded-2xl shadow-sm border border-green-200/50 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium mb-1">Pending Approval</p>
-                  <p className="text-3xl font-bold text-green-600">+375</p>
+                  <p className="text-sm font-medium mb-1">Orders Shipped</p>
+                  <p className="text-3xl font-bold text-blue-600">+375</p>
                 </div>
-                <div className="w-12 h-12 bg-linear-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-linear-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -119,7 +104,7 @@ const PurchaseOrder = () => {
               <div className="flex flex-col items-center justify-between mb-6">
                 <div className="flex justify-between w-full">
                   <h3 className="text-lg font-semibold text-gray-900">
-                    Monthly Purchases Amount Chart
+                    Monthly Sales Amount Chart
                   </h3>
                   <div className="flex items-center space-x-2">
                     <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500">
@@ -139,12 +124,12 @@ const PurchaseOrder = () => {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 w-1/3 ml-2">
               <div className="px-6 py-4">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Recent Purchase Orders
+                  Recent Sales Orders
                 </h2>
               </div>
               <div className="px-6 flex flex-col gap-y-2">
                 <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-green-400 p-2 rounded-2xl text-white">
+                  <div className="bg-blue-400 p-2 rounded-2xl text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -162,13 +147,13 @@ const PurchaseOrder = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900">
-                      Sold 100 units of Product X from Warehouse A
+                      Purchased 100 units of Product X from Warehouse A
                     </p>
                     <p className="text-sm text-gray-500">50 Minutes Ago</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-green-400 p-2 rounded-2xl text-white">
+                  <div className="bg-blue-400 p-2 rounded-2xl text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -186,7 +171,7 @@ const PurchaseOrder = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900">
-                      Sold 100 units of Product X from Warehouse B
+                      Purchased 100 units of Product X from Warehouse B
                     </p>
                     <p className="text-sm text-gray-500">50 Minutes Ago</p>
                   </div>
@@ -216,7 +201,7 @@ const PurchaseOrder = () => {
                   <input
                     type="text"
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
-                    placeholder="Search Purchase Orders..."
+                    placeholder="Search Sales Orders..."
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
@@ -264,40 +249,33 @@ const PurchaseOrder = () => {
                 <Pie />
               </div>
             </div>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden w-2/3">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  General Purchase Info
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Quick overview of recent purchase orders and their status
-                </p>
-              </div>
-              <div className="overflow-x-auto">
-                <div className="inline-block min-w-full align-middle">
-                  <div className="overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
-                            Purchase Order
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
-                            Order Date
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
-                            Order Status
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
-                            Supplier
-                          </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
-                            Staff Member
-                          </th>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
+            <div className="overflow-x-auto">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                          Sales Order ID
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                          Order Date
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                          Order Status
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
+                          Client / Customer Name
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
+                          Salesperson
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                          Payment Status
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
                 </div>
               </div>
             </div>
@@ -308,4 +286,4 @@ const PurchaseOrder = () => {
   );
 };
 
-export default PurchaseOrder;
+export default SalesOrder;

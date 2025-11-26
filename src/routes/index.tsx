@@ -7,6 +7,8 @@ const StorageLocations = lazy(() => import("../pages/StorageLocations"));
 const Warehouses = lazy(() => import("../pages/Warehouses"));
 const StockMovement = lazy(() => import("../pages/StockMovement"));
 const PurchaseOrder = lazy(() => import("../pages/PurchaseOrder"));
+const SalesOrder = lazy(() => import("../pages/SalesOrder"));
+const AllPurchaseOrders = lazy(() => import("../pages/AllPurchaseOrder"));
 
 const Router: RouteObject[] = [
   {
@@ -84,6 +86,34 @@ const Router: RouteObject[] = [
         }
       >
         <PurchaseOrder />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/purchaseorders/all",
+    element: (
+      <Suspense
+        fallback={
+          <div className="text-4xl flex justify-center items-center w-full h-screen">
+            Loading Purchase Order...
+          </div>
+        }
+      >
+        <AllPurchaseOrders />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/salesorders",
+    element: (
+      <Suspense
+        fallback={
+          <div className="text-4xl flex justify-center items-center w-full h-screen">
+            Loading Sales Order...
+          </div>
+        }
+      >
+        <SalesOrder />
       </Suspense>
     ),
   },
