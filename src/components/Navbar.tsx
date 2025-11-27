@@ -73,7 +73,7 @@ const Navbar = () => {
     {
       name: "Alerts",
       icon: Alert,
-      link: "/alerts",
+      link: "/transfersexample",
       alticon: "Alerts Icon",
     },
     {

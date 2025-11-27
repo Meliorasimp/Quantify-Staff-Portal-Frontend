@@ -6,9 +6,20 @@ const Inventory = lazy(() => import("../pages/Inventory"));
 const StorageLocations = lazy(() => import("../pages/StorageLocations"));
 const Warehouses = lazy(() => import("../pages/Warehouses"));
 const StockMovement = lazy(() => import("../pages/StockMovement"));
-const PurchaseOrder = lazy(() => import("../pages/PurchaseOrder"));
-const SalesOrder = lazy(() => import("../pages/SalesOrder"));
-const AllPurchaseOrders = lazy(() => import("../pages/AllPurchaseOrder"));
+const PurchaseOrder = lazy(
+  () => import("../pages/PurchaseOrder/PurchaseOrder")
+);
+const SalesOrder = lazy(() => import("../pages/SalesOrder/SalesOrder"));
+const AllSalesOrder = lazy(() => import("../pages/SalesOrder/AllSalesOrder"));
+const AllPurchaseOrders = lazy(
+  () => import("../pages/PurchaseOrder/AllPurchaseOrder")
+);
+const Transfers = lazy(() => import("../pages/Transfers"));
+const TransferDetails = lazy(() => import("../pages/TransferDetailsExample"));
+const PurchaseOrderDetails = lazy(
+  () => import("../pages/PurchaseOrder/PurchaseOrderDetails")
+);
+import { FidgetSpinner } from "react-loader-spinner";
 
 const Router: RouteObject[] = [
   {
@@ -24,8 +35,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Inventory...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -38,8 +57,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Storage Locations...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -52,8 +79,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Warehouses...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -66,8 +101,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Stock Movement...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -80,8 +123,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Purchase Order...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -94,8 +145,16 @@ const Router: RouteObject[] = [
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Purchase Order...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
@@ -104,16 +163,112 @@ const Router: RouteObject[] = [
     ),
   },
   {
+    path: "/purchaseorders/:id",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
+          </div>
+        }
+      >
+        <PurchaseOrderDetails />
+      </Suspense>
+    ),
+  },
+  {
     path: "/salesorders",
     element: (
       <Suspense
         fallback={
-          <div className="text-4xl flex justify-center items-center w-full h-screen">
-            Loading Sales Order...
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
           </div>
         }
       >
         <SalesOrder />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/salesorders/all",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
+          </div>
+        }
+      >
+        <AllSalesOrder />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/transfers",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
+          </div>
+        }
+      >
+        <Transfers />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/transfersexample",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
+          </div>
+        }
+      >
+        <TransferDetails />
       </Suspense>
     ),
   },
