@@ -132,24 +132,83 @@ const Navbar = () => {
     },
   ];
   return (
-    <aside className="navbar-bg w-[18vw] h-screen overflow-y-auto shrink-0">
-      <nav className="flex flex-col">
+    <aside className="navbar-bg w-[18vw] h-screen overflow-y-auto shrink-0 shadow-xl border-r border-gray-200/30">
+      <nav className="flex flex-col h-full">
         {/* Fixed header section */}
-        <section className="flex items-center gap-x-2 w-full pt-4 px-4 pb-6 border-b border-gray-200/20 sticky top-0 navbar-bg z-10">
-          <img src={atom} alt="Atom Icon" className="w-10 h-10" />
-          <h1 className="text-center font-semibold text-2xl">Quantify</h1>
+        <section className="flex items-center gap-x-3 w-full pt-6 px-6 pb-6 border-b border-gray-200/20 sticky top-0 navbar-bg z-10">
+          <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+            <img
+              src={atom}
+              alt="Atom Icon"
+              className="w-7 h-7 brightness-0 invert"
+            />
+          </div>
+          <div>
+            <h1 className="font-bold text-2xl bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Quantify
+            </h1>
+            <p className="text-xs text-gray-500 font-medium">
+              Inventory Management
+            </p>
+          </div>
         </section>
-        <section className="flex flex-col py-4">
+
+        {/* Navigation Items */}
+        <section className="flex flex-col py-3 px-3 space-y-1">
           {MainSection.map((item, index) => (
             <Link
               key={index}
-              className="flex items-center gap-x-2 px-6 w-full cursor-pointer py-3 hover:bg-lime-400 hover:text-white transition-all duration-100"
+              className="group flex items-center gap-x-3 px-4 w-full cursor-pointer py-3 rounded-xl hover:bg-linear-to-r hover:from-green-50 hover:to-emerald-50 hover:shadow-md transition-all duration-200 relative overflow-hidden"
               to={item.link}
             >
-              <img src={item.icon} alt={item.alticon} className="w-6 h-6" />
-              <h1 className="text-lg">{item.name}</h1>
+              <div className="absolute inset-0 bg-linear-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              <div className="relative z-10 w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 group-hover:bg-white/90 transition-all duration-200 shrink-0">
+                <img
+                  src={item.icon}
+                  alt={item.alticon}
+                  className="w-5 h-5 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
+                />
+              </div>
+              <h1 className="relative z-10 text-base font-medium text-gray-700 group-hover:text-white transition-colors duration-200">
+                {item.name}
+              </h1>
+              <div className="relative z-10 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
             </Link>
           ))}
+        </section>
+
+        {/* Footer Section */}
+        <section className="mt-auto p-4 border-t border-gray-200/20">
+          <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200/50">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
+                A
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-gray-800">
+                  Admin User
+                </p>
+                <p className="text-xs text-gray-500">admin@quantify.com</p>
+              </div>
+            </div>
+            <button className="w-full py-2 bg-white rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border border-gray-200 shadow-sm">
+              Logout
+            </button>
+          </div>
         </section>
       </nav>
     </aside>
