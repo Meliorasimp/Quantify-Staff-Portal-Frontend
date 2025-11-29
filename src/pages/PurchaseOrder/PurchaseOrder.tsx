@@ -161,7 +161,7 @@ const PurchaseOrder = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900">
-                      Sold 100 units of Product X from Warehouse A
+                      Purchased 100 units of Product X from Warehouse A
                     </p>
                     <p className="text-sm text-gray-500">50 Minutes Ago</p>
                   </div>
@@ -185,7 +185,7 @@ const PurchaseOrder = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900">
-                      Sold 100 units of Product X from Warehouse B
+                      Purchased 100 units of Product X from Warehouse B
                     </p>
                     <p className="text-sm text-gray-500">50 Minutes Ago</p>
                   </div>

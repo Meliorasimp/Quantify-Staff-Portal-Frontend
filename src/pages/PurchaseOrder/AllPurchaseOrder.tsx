@@ -1,15 +1,7 @@
 import Navbar from "../../components/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsPurchaseOrderModalOpen } from "../../store/InteractionSlice";
-import type { RootState } from "../../store";
-import PurchaseOrderModal from "../../components/PurchaseOrderModal";
 import { useNavigate } from "react-router-dom";
 const AllPurchaseOrder = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isPurchaseModalOpen = useSelector(
-    (state: RootState) => state.interaction.isPurchaseOrderModalOpen
-  );
 
   const handleDynamicClick = (id: string) => {
     navigate(`/purchaseorders/${id}`);
@@ -63,10 +55,7 @@ const AllPurchaseOrder = () => {
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <div className="flex w-full justify-between border-b-2 border-gray-200 pb-4 mb-4">
-                <h1
-                  className="uppercase text-gray-700 font-bold tracking-wide"
-                  onClick={() => dispatch(setIsPurchaseOrderModalOpen(true))}
-                >
+                <h1 className="uppercase text-gray-700 font-bold tracking-wide">
                   PO #001
                 </h1>
                 <span className="uppercase text-orange-600 font-semibold bg-orange-50 px-3 py-1 rounded-full text-sm">
@@ -105,11 +94,6 @@ const AllPurchaseOrder = () => {
           </section>
         </div>
       </main>
-      {isPurchaseModalOpen && (
-        <PurchaseOrderModal
-          onClose={() => dispatch(setIsPurchaseOrderModalOpen(false))}
-        />
-      )}
     </div>
   );
 };

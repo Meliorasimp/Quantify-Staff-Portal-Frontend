@@ -1,14 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../../components/Navbar";
-import { setIsSalesOrderModalOpen } from "../../store/InteractionSlice";
-import type { RootState } from "../../store";
-import SalesOrderModal from "../../components/SalesOrderModal";
+import { useNavigate } from "react-router-dom";
 
 const AllSalesOrder = () => {
-  const isSalesOrderModalOpen = useSelector(
-    (state: RootState) => state.interaction.isSalesOrderModalOpen
-  );
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleDynamicClick = (id: string) => {
+    navigate(`/salesorders/${id}`);
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -87,46 +84,8 @@ const AllSalesOrder = () => {
               <div className="mt-6 space-y-3">
                 <button
                   className="w-full flex justify-center items-center py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-xl cursor-pointer hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg"
-                  onClick={() => dispatch(setIsSalesOrderModalOpen(true))}
+                  onClick={() => handleDynamicClick("SO001")}
                 >
-                  View Order Details
-                </button>
-                <button className="w-full flex justify-center items-center py-3 bg-linear-to-r from-green-500 to-green-600 text-white rounded-xl cursor-pointer hover:from-green-600 hover:to-green-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg">
-                  Mark as Delivered
-                </button>
-              </div>
-            </div>
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex w-full justify-between border-b-2 border-gray-200 pb-4 mb-4">
-                <h1 className="uppercase text-gray-700 font-bold tracking-wide">
-                  SO #002
-                </h1>
-                <span className="uppercase text-orange-600 font-semibold bg-orange-50 px-3 py-1 rounded-full text-sm">
-                  Pending
-                </span>
-              </div>
-              <div className="flex flex-col gap-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Client:</span>
-                  <span className="font-semibold text-gray-800">
-                    Example Company Ltd. 1
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Date:</span>
-                  <span className="font-semibold text-gray-800">
-                    October 28, 1999
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Total Amount:</span>
-                  <span className="font-bold text-green-600 text-lg">
-                    $2,500.00
-                  </span>
-                </div>
-              </div>
-              <div className="mt-6">
-                <button className="w-full flex justify-center items-center py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-xl cursor-pointer hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg">
                   View Order Details
                 </button>
               </div>
@@ -134,11 +93,6 @@ const AllSalesOrder = () => {
           </section>
         </div>
       </main>
-      {isSalesOrderModalOpen && (
-        <SalesOrderModal
-          onClose={() => dispatch(setIsSalesOrderModalOpen(false))}
-        />
-      )}
     </div>
   );
 };

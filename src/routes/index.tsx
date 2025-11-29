@@ -14,11 +14,20 @@ const AllSalesOrder = lazy(() => import("../pages/SalesOrder/AllSalesOrder"));
 const AllPurchaseOrders = lazy(
   () => import("../pages/PurchaseOrder/AllPurchaseOrder")
 );
-const Transfers = lazy(() => import("../pages/Transfers"));
-const TransferDetails = lazy(() => import("../pages/TransferDetailsExample"));
+const Transfers = lazy(() => import("../pages/Transfer/Transfers"));
+const TransferDetails = lazy(
+  () => import("../pages/Transfer/TransferDetailsExample")
+);
 const PurchaseOrderDetails = lazy(
   () => import("../pages/PurchaseOrder/PurchaseOrderDetails")
 );
+const SalesOrderDetails = lazy(
+  () => import("../pages/SalesOrder/SalesOrderDetails")
+);
+const Suppliers = lazy(() => import("../pages/Supplier"));
+const Alert = lazy(() => import("../pages/Alert"));
+const Client = lazy(() => import("../pages/Client"));
+const Shipment = lazy(() => import("../pages/Shipment"));
 import { FidgetSpinner } from "react-loader-spinner";
 
 const Router: RouteObject[] = [
@@ -229,6 +238,28 @@ const Router: RouteObject[] = [
     ),
   },
   {
+    path: "/salesorders/:id",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+            <h1 className="text-3xl">Loading...</h1>
+          </div>
+        }
+      >
+        <SalesOrderDetails />
+      </Suspense>
+    ),
+  },
+  {
     path: "/transfers",
     element: (
       <Suspense
@@ -251,7 +282,7 @@ const Router: RouteObject[] = [
     ),
   },
   {
-    path: "/transfersexample",
+    path: "/transfers/:id",
     element: (
       <Suspense
         fallback={
@@ -269,6 +300,90 @@ const Router: RouteObject[] = [
         }
       >
         <TransferDetails />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/alerts",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Alert />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/suppliers",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Suppliers />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/clients",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Client />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/shipments",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Shipment />
       </Suspense>
     ),
   },

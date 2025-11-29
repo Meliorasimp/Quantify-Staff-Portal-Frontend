@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import { useParams } from "react-router-dom";
-const PurchaseOrderDetails = () => {
-  const { id } = useParams();
+const SalesOrderDetails = () => {
+  const { id } = useParams<{ id: string }>();
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -10,16 +10,15 @@ const PurchaseOrderDetails = () => {
           <section className="mb-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-4xl font-extrabold text-green-600">
-                  Purchase Order {id} -{" "}
-                  <span className="font-bold">Pending</span>
+                <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Sales Order {id} - <span className="font-bold">Pending</span>
                 </h1>
               </div>
             </div>
           </section>
           <div className="flex gap-6">
             <div className="flex flex-col gap-y-6 w-1/3">
-              <div className="rounded-2xl shadow-lg border-2 border-green-300 bg-[rgba(200,255,200,0.6)] p-4">
+              <div className="rounded-2xl shadow-lg border-2 border-blue-300 bg-[rgba(200,220,255,0.6)] p-4">
                 <div className="h-full flex flex-col gap-y-2">
                   <div className="flex items-center">
                     <svg
@@ -39,34 +38,36 @@ const PurchaseOrderDetails = () => {
                     <h1 className="text-xl font-bold p-2">Order Header</h1>
                   </div>
                   <div>
-                    <h3 className="font-light">Purchase Order ID/Number</h3>
+                    <h3 className="font-light">Sales Order ID/Number</h3>
                     <p className="font-semibold text-gray-700 text-lg">#{id}</p>
                   </div>
                   <div>
                     <h3 className="font-light">Order Date</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      27/11/2025
+                      30/11/2025
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-light">Supplier/Vendor Name</h3>
+                    <h3 className="font-light">Customer Name</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Reika Kalseki
+                      Acme Corporation
                     </p>
                   </div>
                   <div>
                     <h3 className="font-light">Order Status</h3>
-                    <p className="font-semibold text-green-600 text-lg">Paid</p>
+                    <p className="font-semibold text-blue-600 text-lg">
+                      Processing
+                    </p>
                   </div>
                   <div>
                     <h3 className="font-light">Staff Responsible</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Jane Doe
+                      John Smith
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="rounded-2xl shadow-lg border-2 border-blue-300 bg-[rgba(233,233,255,0.7)] p-4">
+              <div className="rounded-2xl shadow-lg border-2 border-purple-300 bg-[rgba(233,220,255,0.7)] p-4">
                 <div className="h-full flex flex-col gap-y-2">
                   <div className="flex items-center">
                     <svg
@@ -87,33 +88,33 @@ const PurchaseOrderDetails = () => {
                     <h1 className="text-xl font-bold p-2">Logistics</h1>
                   </div>
                   <div>
-                    <h3 className="font-light">Warehouse Destination</h3>
+                    <h3 className="font-light">Delivery Address</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Warehouse Mars
+                      5678 Oak Avenue, Los Angeles, CA 90001
                     </p>
                   </div>
                   <div>
                     <h3 className="font-light">Shipping Method</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Standard Ground
+                      Express Delivery
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-light">Expected Arrival Date</h3>
+                    <h3 className="font-light">Expected Delivery Date</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      27/11/2025
+                      05/12/2025
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-light">Receiving Status</h3>
+                    <h3 className="font-light">Shipping Status</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Still on the way...
+                      Preparing for shipment...
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl shadow-lg border-2 border-green-300 bg-[rgba(200,255,235,0.6)] p-4 w-2/3">
+            <div className="rounded-2xl shadow-lg border-2 border-blue-300 bg-[rgba(200,230,255,0.6)] p-4 w-2/3">
               <div className="flex flex-col h-full gap-y-4">
                 <div className="flex items-center">
                   <svg
@@ -130,128 +131,111 @@ const PurchaseOrderDetails = () => {
                       d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
                     />
                   </svg>
-                  <div className="flex items-center justify-between w-full">
-                    <h1 className="text-xl font-bold p-2">Order List</h1>
-                    <div className="flex items-center gap-x-2 text-green-600 hover:underline cursor-pointer">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="m4.5 12.75 6 6 9-13.5"
-                        />
-                      </svg>
-                      <h1 className="text-green-600">Mark as Delivered</h1>
-                    </div>
-                  </div>
+
+                  <h1 className="text-xl font-bold p-2">Order List</h1>
                 </div>
+
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse">
-                    <thead className="bg-green-100 sticky top-0">
+                    <thead className="bg-blue-100 sticky top-0">
                       <tr>
-                        <th className="border border-green-300 px-4 py-3 text-left font-semibold text-gray-700">
+                        <th className="border border-blue-300 px-4 py-3 text-left font-semibold text-gray-700">
                           Item Name
                         </th>
-                        <th className="border border-green-300 px-4 py-3 text-left font-semibold text-gray-700">
+                        <th className="border border-blue-300 px-4 py-3 text-left font-semibold text-gray-700">
                           SKU
                         </th>
-                        <th className="border border-green-300 px-4 py-3 text-center font-semibold text-gray-700">
+                        <th className="border border-blue-300 px-4 py-3 text-center font-semibold text-gray-700">
                           Quantity
                         </th>
-                        <th className="border border-green-300 px-4 py-3 text-right font-semibold text-gray-700">
+                        <th className="border border-blue-300 px-4 py-3 text-right font-semibold text-gray-700">
                           Unit Price
                         </th>
-                        <th className="border border-green-300 px-4 py-3 text-right font-semibold text-gray-700">
+                        <th className="border border-blue-300 px-4 py-3 text-right font-semibold text-gray-700">
                           Total Price
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Wireless Mouse
+                      <tr className="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                        <td className="border border-blue-200 px-4 py-2">
+                          Gaming Laptop
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          WM-001
+                        <td className="border border-blue-200 px-4 py-2 text-gray-600">
+                          GL-001
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          50
+                        <td className="border border-blue-200 px-4 py-2 text-center">
+                          10
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $25.00
+                        <td className="border border-blue-200 px-4 py-2 text-right">
+                          $1,200.00
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $1,250.00
-                        </td>
-                      </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          USB Cable
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          UC-002
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          100
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $5.00
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $500.00
+                        <td className="border border-blue-200 px-4 py-2 text-right font-semibold">
+                          $12,000.00
                         </td>
                       </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Keyboard
+                      <tr className="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                        <td className="border border-blue-200 px-4 py-2">
+                          Wireless Headset
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          KB-003
+                        <td className="border border-blue-200 px-4 py-2 text-gray-600">
+                          WH-002
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          30
+                        <td className="border border-blue-200 px-4 py-2 text-center">
+                          25
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $45.00
+                        <td className="border border-blue-200 px-4 py-2 text-right">
+                          $80.00
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $1,350.00
+                        <td className="border border-blue-200 px-4 py-2 text-right font-semibold">
+                          $2,000.00
                         </td>
                       </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Monitor Stand
+                      <tr className="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                        <td className="border border-blue-200 px-4 py-2">
+                          Mechanical Keyboard
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          MS-004
+                        <td className="border border-blue-200 px-4 py-2 text-gray-600">
+                          MK-003
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          20
+                        <td className="border border-blue-200 px-4 py-2 text-center">
+                          15
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $35.00
+                        <td className="border border-blue-200 px-4 py-2 text-right">
+                          $120.00
                         </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $700.00
+                        <td className="border border-blue-200 px-4 py-2 text-right font-semibold">
+                          $1,800.00
+                        </td>
+                      </tr>
+                      <tr className="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                        <td className="border border-blue-200 px-4 py-2">
+                          4K Monitor
+                        </td>
+                        <td className="border border-blue-200 px-4 py-2 text-gray-600">
+                          4KM-004
+                        </td>
+                        <td className="border border-blue-200 px-4 py-2 text-center">
+                          8
+                        </td>
+                        <td className="border border-blue-200 px-4 py-2 text-right">
+                          $450.00
+                        </td>
+                        <td className="border border-blue-200 px-4 py-2 text-right font-semibold">
+                          $3,600.00
                         </td>
                       </tr>
                     </tbody>
                     <tfoot>
-                      <tr className="bg-green-200 font-bold">
+                      <tr className="bg-blue-200 font-bold">
                         <td
                           colSpan={4}
-                          className="border border-green-300 px-4 py-3 text-right text-gray-800"
+                          className="border border-blue-300 px-4 py-3 text-right text-gray-800"
                         >
                           Total Amount:
                         </td>
-                        <td className="border border-green-300 px-4 py-3 text-right text-green-700 text-lg">
-                          $3,800.00
+                        <td className="border border-blue-300 px-4 py-3 text-right text-blue-700 text-lg">
+                          $19,400.00
                         </td>
                       </tr>
                     </tfoot>
@@ -266,4 +250,4 @@ const PurchaseOrderDetails = () => {
   );
 };
 
-export default PurchaseOrderDetails;
+export default SalesOrderDetails;

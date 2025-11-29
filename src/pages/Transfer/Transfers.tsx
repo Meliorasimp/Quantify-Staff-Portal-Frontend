@@ -1,8 +1,13 @@
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 import { useState } from "react";
 
 const Transfers = () => {
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const navigate = useNavigate();
+  const handleDynamicClick = (id: string) => {
+    navigate(`/transfers/${id}`);
+  };
 
   // Mock transfer data
   const transfers = [
@@ -125,7 +130,7 @@ const Transfers = () => {
     <div className="flex h-screen overflow-hidden">
       <Navbar />
       <main className="flex-1 overflow-y-auto bg-linear-to-br from-gray-50 via-white to-gray-100">
-        <div className="min-h-full p-8">
+        <div className="min-h-full p-6">
           {/* Header Section */}
           <section className="mb-8">
             <div className="flex items-center justify-between">
@@ -386,7 +391,10 @@ const Transfers = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <button className="flex-1 py-2 bg-linear-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-sm hover:shadow-md">
+                  <button
+                    onClick={() => handleDynamicClick(transfer.id)}
+                    className="flex-1 py-2 bg-linear-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-sm hover:shadow-md"
+                  >
                     View Details
                   </button>
                   {transfer.status !== "completed" && (
