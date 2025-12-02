@@ -260,7 +260,7 @@ const Shipment = () => {
     <div className="flex h-screen overflow-hidden">
       <Navbar />
       <main className="flex-1 overflow-y-auto bg-linear-to-br from-gray-50 via-white to-gray-100">
-        <div className="min-h-full p-8">
+        <div className="min-h-full p-6">
           {/* Header */}
           <section className="mb-8">
             <div className="flex items-center justify-between">

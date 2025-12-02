@@ -13,14 +13,17 @@ import Supplier from "../assets/supplier.png";
 import Client from "../assets/client.png";
 import Shipment from "../assets/shipment.png";
 import Schedule from "../assets/schedule.png";
-import Report from "../assets/report.png";
 import Analytics from "../assets/analytics.png";
 import Users from "../assets/user.png";
 import Settings from "../assets/setting.png";
 import Audit from "../assets/audit.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsNavbarItemClicked } from "../store/InteractionSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+
   const MainSection = [
     {
       name: "Dashboard",
@@ -101,12 +104,6 @@ const Navbar = () => {
       alticon: "Schedules Icon",
     },
     {
-      name: "Reports",
-      icon: Report,
-      link: "/reports",
-      alticon: "Reports Icon",
-    },
-    {
       name: "Analytics",
       icon: Analytics,
       link: "/analytics",
@@ -131,6 +128,8 @@ const Navbar = () => {
       alticon: "Audit Logs Icon",
     },
   ];
+  const location = useLocation();
+
   return (
     <aside className="navbar-bg w-[18vw] h-screen overflow-y-auto shrink-0 shadow-xl border-r border-gray-200/30">
       <nav className="flex flex-col h-full">
@@ -155,40 +154,66 @@ const Navbar = () => {
 
         {/* Navigation Items */}
         <section className="flex flex-col py-3 px-3 space-y-1">
-          {MainSection.map((item, index) => (
-            <Link
-              key={index}
-              className="group flex items-center gap-x-3 px-4 w-full cursor-pointer py-3 rounded-xl hover:bg-linear-to-r hover:from-green-50 hover:to-emerald-50 hover:shadow-md transition-all duration-200 relative overflow-hidden"
-              to={item.link}
-            >
-              <div className="absolute inset-0 bg-linear-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-              <div className="relative z-10 w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 group-hover:bg-white/90 transition-all duration-200 shrink-0">
-                <img
-                  src={item.icon}
-                  alt={item.alticon}
-                  className="w-5 h-5 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-200"
-                />
-              </div>
-              <h1 className="relative z-10 text-base font-medium text-gray-700 group-hover:text-white transition-colors duration-200">
-                {item.name}
-              </h1>
-              <div className="relative z-10 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+          {MainSection.map((item, index) => {
+            const active =
+              location.pathname === item.link ||
+              location.pathname.startsWith(item.link + "/") ||
+              (item.link !== "/" && location.pathname.startsWith(item.link));
+
+            return (
+              <Link
+                key={index}
+                onClick={() => dispatch(setIsNavbarItemClicked(true))}
+                className="group flex items-center gap-x-3 px-4 w-full cursor-pointer py-3 rounded-xl hover:bg-linear-to-r hover:from-blue-50 hover:to-emerald-50 hover:shadow-md transition-all duration-200 relative overflow-hidden"
+                to={item.link}
+              >
+                <div
+                  className={`absolute inset-0 bg-linear-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none${
+                    active ? " opacity-100" : ""
+                  }`}
+                ></div>
+                <div
+                  className={`relative z-10 w-8 h-8 flex items-center justify-center rounded-lg ${
+                    active ? "bg-white" : "bg-gray-100"
+                  } group-hover:bg-white/90 transition-all duration-200 shrink-0`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
+                  <img
+                    src={item.icon}
+                    alt={item.alticon}
+                    className={`w-5 h-5 ${
+                      active ? "opacity-100" : "opacity-70"
+                    } group-hover:opacity-100 group-hover:scale-110 transition-all duration-200`}
                   />
-                </svg>
-              </div>
-            </Link>
-          ))}
+                </div>
+                <h1
+                  className={`relative z-10 text-base font-medium ${
+                    active ? "text-white" : "text-gray-700"
+                  } group-hover:text-white transition-colors duration-200`}
+                >
+                  {item.name}
+                </h1>
+                <div
+                  className={`relative z-10 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
+                    active ? "opacity-100" : ""
+                  }`}
+                >
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </Link>
+            );
+          })}
         </section>
 
         {/* Footer Section */}

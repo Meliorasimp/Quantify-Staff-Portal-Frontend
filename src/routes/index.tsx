@@ -28,6 +28,12 @@ const Suppliers = lazy(() => import("../pages/Supplier"));
 const Alert = lazy(() => import("../pages/Alert"));
 const Client = lazy(() => import("../pages/Client"));
 const Shipment = lazy(() => import("../pages/Shipment"));
+const Schedule = lazy(() => import("../pages/Schedule"));
+const Analytics = lazy(() => import("../pages/Analytics/Analytics"));
+const InboundMetrics = lazy(() => import("../pages/Analytics/InboundMetrics"));
+const OutboundMetrics = lazy(
+  () => import("../pages/Analytics/OutboundMetrics")
+);
 import { FidgetSpinner } from "react-loader-spinner";
 
 const Router: RouteObject[] = [
@@ -384,6 +390,90 @@ const Router: RouteObject[] = [
         }
       >
         <Shipment />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/schedules",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Schedule />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/analytics",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Analytics />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/analytics/inbound-metrics",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <InboundMetrics />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/analytics/outbound-metrics",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <OutboundMetrics />
       </Suspense>
     ),
   },
