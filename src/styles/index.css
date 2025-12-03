@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+.hero-image {
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .navbar-bg {
   background-color: #fafaff;
 }
@@ -20,8 +27,9 @@
 }
 
 @keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);   /* starting position */
+  0%,
+  100% {
+    transform: translateY(0); /* starting position */
   }
   50% {
     transform: translateY(-30px); /* move up */

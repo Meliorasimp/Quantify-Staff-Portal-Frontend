@@ -1,10 +1,18 @@
 import "../styles/index.css";
 import Landingpagenavbar from "../components/Landingpagenavbar";
 import RegisterModal from "../components/RegisterModal";
-import { setIsRegisterModalOpen } from "../store/InteractionSlice";
+import {
+  setIsLoginModalOpen,
+  setIsRegisterModalOpen,
+} from "../store/InteractionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
 import LoginModal from "../components/LoginModal";
+import LandingPageImage from "../assets/landingpageimage.jpg";
+import RealTimeAnalytics from "../assets/real-time-analytics-image.jpg";
+import LightningFast from "../assets/lightningfast.jpg";
+import EnterpriseSecurity from "../assets/enterprise-security.webp";
+import Multilocation from "../assets/multlilocationimage.jpg";
 import { motion } from "framer-motion";
 const Landingpage = () => {
   const dispatch = useDispatch();
@@ -14,89 +22,6 @@ const Landingpage = () => {
   const loginState = useSelector(
     (state: RootState) => state.interaction.isLoginModalOpen
   );
-
-  const textQuantify = [
-    {
-      letters: ["Q", "u", "a", "n", "t", "i", "f", "y"],
-    },
-  ];
-  const textWelcomeTo = [
-    {
-      letters: ["W", "e", "l", "c", "o", "m", "e", " ", "t", "o"],
-    },
-  ];
-
-  const textParagraph = [
-    {
-      letters: [
-        "Y",
-        "o",
-        "u",
-        "r",
-        " ",
-        "o",
-        "n",
-        "e",
-        "-",
-        "s",
-        "t",
-        "o",
-        "p",
-        " ",
-        "s",
-        "o",
-        "l",
-        "u",
-        "t",
-        "i",
-        "o",
-        "n",
-        " ",
-        "f",
-        "o",
-        "r",
-        " ",
-        "E",
-        "n",
-        "t",
-        "e",
-        "r",
-        "p",
-        "r",
-        "i",
-        "s",
-        "e",
-        "-",
-        "G",
-        "r",
-        "a",
-        "d",
-        "e",
-        " ",
-        "i",
-        "n",
-        "v",
-        "e",
-        "n",
-        "t",
-        "o",
-        "r",
-        "y",
-        " ",
-        "m",
-        "a",
-        "n",
-        "a",
-        "g",
-        "e",
-        "m",
-        "e",
-        "n",
-        "t",
-        ".",
-      ],
-    },
-  ];
 
   const handleGetStartedClick = () => {
     dispatch(setIsRegisterModalOpen(true));
@@ -116,179 +41,101 @@ const Landingpage = () => {
         <div className="absolute top-52 right-20 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-700"></div>
         <div className="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
       </div>
-
-      <div className="relative z-50">
-        <Landingpagenavbar />
-      </div>
-      <motion.section className="relative h-[90vh] flex items-center justify-center px-6">
-        <div className="max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8 text-center lg:text-left">
-            {/* Badge */}
-            <motion.div
-              className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-lime-200 shadow-lg"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.2, duration: 0.5 }}
-            >
-              <span className="w-2 h-2 bg-lime-500 rounded-full mr-2 animate-pulse"></span>
-              <span className="text-sm font-medium text-lime-700">
-                Enterprise-Grade Solution
-              </span>
-            </motion.div>
-
-            {/* Main Heading */}
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <motion.span>
-                  {textWelcomeTo[0].letters.map((letter, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: index * 0.04 }}
-                      whileHover={{ scale: 1.2 }}
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
-                </motion.span>
-                <br />
-                <motion.span>
-                  {textQuantify[0].letters.map((letter, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, color: "rgba(0,102,0,0)" }}
-                      animate={{ opacity: 1, color: "rgba(0,202,0,1)" }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
-                </motion.span>
-              </h1>
-
-              <motion.p className="text-xl lg:text-2xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                {textParagraph[0].letters.map((letter, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 + index * 0.03 }}
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </motion.p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <motion.button
-                className="group relative px-8 py-4 bg-linear-to-r from-lime-500 to-lime-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
-                onClick={handleGetStartedClick}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 3.4, duration: 0.5 }}
-              >
-                <span className="relative z-10">Get Started Free</span>
-                <div className="absolute inset-0 bg-linear-to-r from-lime-600 to-lime-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </motion.button>
-
-              <motion.button
-                className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 font-semibold rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 3.4, duration: 0.5 }}
-              >
-                Watch Demo
-              </motion.button>
-            </div>
-
-            {/* Stats */}
-            <div className="flex justify-center lg:justify-start space-x-8 pt-8">
-              <motion.div
-                className="text-center"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
-              >
-                <div className="text-2xl font-bold text-gray-900">500+</div>
-                <div className="text-sm text-gray-600">Companies</div>
-              </motion.div>
-              <motion.div
-                className="text-center"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
-              >
-                <div className="text-2xl font-bold text-gray-900">99.9%</div>
-                <div className="text-sm text-gray-600">Uptime</div>
-              </motion.div>
-              <motion.div
-                className="text-center"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
-              >
-                <div className="text-2xl font-bold text-gray-900">50M+</div>
-                <div className="text-sm text-gray-600">Items Tracked</div>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Right Visual Element */}
-          <div className="relative hidden lg:block">
-            <div className="relative w-full h-96">
-              {/* Main card */}
-              <motion.div
-                className="absolute top-0 right-0 w-80 h-64 bg-white rounded-2xl shadow-2xl p-6 transform rotate-6 hover:rotate-3 transition-transform duration-500"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                </div>
-                <h3 className="font-semibold text-gray-800 mb-3">
-                  Inventory Dashboard
-                </h3>
-                <div className="space-y-2">
-                  <div className="h-2 bg-lime-200 rounded-full w-full"></div>
-                  <div className="h-2 bg-lime-300 rounded-full w-3/4"></div>
-                  <div className="h-2 bg-lime-400 rounded-full w-1/2"></div>
-                </div>
-              </motion.div>
-
-              {/* Secondary card */}
-              <motion.div
-                className="absolute bottom-0 left-0 w-72 h-48 bg-linear-to-br from-lime-50 to-green-50 rounded-2xl shadow-xl p-5 transform -rotate-6 hover:-rotate-3 transition-transform duration-500"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 3.5, duration: 0.5 }}
-              >
-                <h4 className="font-medium text-gray-700 mb-3">
-                  Real-time Analytics
-                </h4>
-                <div className="flex items-end space-x-1 h-16">
-                  <div className="w-4 bg-lime-300 rounded-t h-8"></div>
-                  <div className="w-4 bg-lime-400 rounded-t h-12"></div>
-                  <div className="w-4 bg-lime-500 rounded-t h-16"></div>
-                  <div className="w-4 bg-lime-400 rounded-t h-10"></div>
-                  <div className="w-4 bg-lime-300 rounded-t h-14"></div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+      <div className="bg-cover bg-center relative w-full h-screen">
+        <div
+          className="absolute inset-0 hero-image"
+          style={{ backgroundImage: `url(${LandingPageImage})` }}
+        ></div>
+        <div className="relative z-50">
+          <Landingpagenavbar />
         </div>
-      </motion.section>
+
+        <section className="relative flex items-center justify-center px-6">
+          <div className="w-6/7 mx-auto grid lg:grid-cols-2 gap-12 items-center justify-center min-h-[80vh]">
+            {/* Left Content */}
+            <div className="space-y-8 text-center lg:text-left">
+              {/* Badge */}
+              <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-lime-200 shadow-lg">
+                <span className="w-2 h-2 bg-lime-500 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-sm font-medium text-lime-700">
+                  Enterprise-Grade Solution
+                </span>
+              </div>
+
+              {/* Main Heading */}
+              <div className="space-y-4 flex flex-col h-full">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight">
+                  <span className="block text-lg mb-1 text-white">
+                    Welcome to
+                  </span>
+                  <span className="block bg-linear-to-r from-blue-500 to-blue-500 bg-clip-text text-transparent">
+                    Quantify
+                  </span>
+                  <span className="block mt-3 text-2xl sm:text-3xl font-semibold text-white">
+                    Your Advanced Inventory Management Solution
+                  </span>
+                </h1>
+
+                <p className="mt-3 text-lg lg:text-xl text-white max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                  Streamline stock control, reduce costs, and get real-time
+                  insights across warehouses and channels.
+                </p>
+
+                <div className="flex items-center gap-3 text-sm text-gray-500">
+                  <span className="inline-flex items-center px-3 py-1 bg-white/80 rounded-full border border-gray-200 shadow-sm">
+                    Trusted by{" "}
+                    <strong className="text-gray-800 ml-1">500+</strong>{" "}
+                    companies
+                  </span>
+                  <span className="text-xs text-white">•</span>
+                  <span className="text-sm text-white">99.9% uptime</span>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <button
+                  className="group relative px-8 py-4 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                  onClick={() => dispatch(setIsLoginModalOpen(true))}
+                >
+                  <span className="relative z-10">Get Started Free</span>
+                </button>
+
+                <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 font-semibold rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300">
+                  Watch Demo
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="flex justify-center lg:justify-start space-x-8 pt-8">
+                <div className="text-center text-white">
+                  <div className="text-2xl font-bold ">500+</div>
+                  <div className="text-sm">Companies</div>
+                </div>
+                <div className="text-center text-white">
+                  <div className="text-2xl font-bold">99.9%</div>
+                  <div className="text-sm">Uptime</div>
+                </div>
+                <div className="text-center text-white">
+                  <div className="text-2xl font-bold">50M+</div>
+                  <div className="text-sm">Items Tracked</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
       {/* About Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Why Choose <span className="text-lime-500">Quantify</span>?
             </h2>
@@ -297,170 +144,202 @@ const Landingpage = () => {
               inventory management platform designed for enterprises that demand
               excellence, scalability, and precision.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {/* Feature 1 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  />
-                </svg>
+          {/* Features */}
+          <div className="flex h-[40vh] gap-x-20">
+            <motion.div
+              className="w-1/2  flex flex-col items-start justify-center p-10"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                    color="white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                </div>
+                <h1>Real-Time Analytics</h1>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Real-Time Analytics
-              </h3>
-              <p className="text-gray-600">
+              <p className="mt-5">
                 Get instant insights into your inventory levels, sales trends,
                 and demand forecasting with our advanced analytics dashboard.
+                <br />
+                <br />
+                Our dashboard turns complex data into clear, actionable
+                insights, so you can optimize inventory, boost sales, and plan
+                ahead confidently.
               </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
+            </motion.div>
+            <motion.div
+              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
+              style={{ backgroundImage: `url(${RealTimeAnalytics})` }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            ></motion.div>
+          </div>
+          <div className="flex h-[40vh] mt-20 gap-x-20">
+            <motion.div
+              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
+              style={{ backgroundImage: `url(${EnterpriseSecurity})` }}
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            ></motion.div>
+            <motion.div
+              className="w-1/2 flex flex-col items-start justify-center p-10"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                    color="white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                    />
+                  </svg>
+                </div>
+                <h1>Enterprise Security</h1>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Enterprise Security
-              </h3>
-              <p className="text-gray-600">
-                Bank-grade encryption, role-based access control, and
-                comprehensive audit trails keep your sensitive data protected.
+              <p className="mt-5">
+                Get instant insights into your inventory levels, sales trends,
+                and demand forecasts with our advanced analytics dashboard.
+                Designed for business owners and managers, our dashboard makes
+                it easy to understand complex data at a glance.
+                <br />
+                <br />
+                With intuitive charts, graphs, and visualizations, you can see
+                the story behind your numbers instantly, saving time and
+                improving operational efficiency.
               </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
+            </motion.div>
+          </div>
+          <div className="flex h-[40vh] mt-20 gap-x-20">
+            <motion.div
+              className="w-1/2 flex flex-col items-start justify-center p-10"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                    color="white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
+                    />
+                  </svg>
+                </div>
+                <h1>Lightning Fast</h1>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Lightning Fast
-              </h3>
-              <p className="text-gray-600">
+              <p className="mt-5">
                 Built on modern technology stack for blazing-fast performance,
                 even with millions of inventory items and complex operations.
+                <br />
+                <br />
+                You get a fast, reliable, and future-proof system that keeps up
+                with your business, no matter the scale or complexity.
               </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+            </motion.div>
+            <motion.div
+              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
+              style={{ backgroundImage: `url(${LightningFast})` }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            ></motion.div>
+          </div>
+          <div className="flex h-[40vh] mt-20 gap-x-20">
+            <motion.div
+              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl border border-black"
+              style={{ backgroundImage: `url(${Multilocation})` }}
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            ></motion.div>
+            <motion.div
+              className="w-1/2 flex flex-col items-start justify-center p-10"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                    color="white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
+                    />
+                  </svg>
+                </div>
+                <h1>Multi-Location Support</h1>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Easy Integration
-              </h3>
-              <p className="text-gray-600">
-                Seamlessly connect with your existing ERP, CRM, and accounting
-                systems through our robust API and pre-built connectors.
-              </p>
-            </div>
-
-            {/* Feature 5 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Multi-Location Support
-              </h3>
-              <p className="text-gray-600">
+              <p className="mt-5">
                 Manage inventory across multiple warehouses, stores, and
                 distribution centers with centralized control and local
                 autonomy.
+                <br />
+                <br />
+                You get the best of both worlds—a centralized system that keeps
+                everything connected, and local autonomy that keeps each
+                location agile and efficient.
               </p>
-            </div>
-
-            {/* Feature 6 */}
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-lime-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                24/7 Support
-              </h3>
-              <p className="text-gray-600">
-                Get round-the-clock support from our expert team with dedicated
-                account managers and priority technical assistance.
-              </p>
-            </div>
+            </motion.div>
           </div>
 
           {/* Stats Section */}
-          <div className="bg-white rounded-2xl shadow-xl p-12 mb-16">
+          <div className="bg-white rounded-2xl shadow-xl p-12 mb-16 mt-20">
             <div className="text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 Trusted by Industry Leaders
