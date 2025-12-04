@@ -39,21 +39,9 @@ const InboundMetrics = () => {
             </Link>
             <Link
               className="text-gray-600 hover:bg-gray-300 py-2 px-4 text-center cursor-pointer transition-all duration-200"
-              to="/analytics/order-metrics"
-            >
-              Order Metrics
-            </Link>
-            <Link
-              className="text-gray-600 hover:bg-gray-300 py-2 px-4 text-center cursor-pointer transition-all duration-200"
               to="/analytics/storage-metrics"
             >
               Storage Metrics
-            </Link>
-            <Link
-              className="text-gray-600 hover:bg-gray-300 py-2 px-4 text-center cursor-pointer transition-all duration-200"
-              to="/analytics/supplier-performance"
-            >
-              Supplier/Vendor Performance
             </Link>
             <Link
               className="text-gray-600 hover:bg-gray-300 py-2 px-4 text-center cursor-pointer transition-all duration-200"

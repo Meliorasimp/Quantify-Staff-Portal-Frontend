@@ -34,6 +34,13 @@ const InboundMetrics = lazy(() => import("../pages/Analytics/InboundMetrics"));
 const OutboundMetrics = lazy(
   () => import("../pages/Analytics/OutboundMetrics")
 );
+const StorageMetrics = lazy(() => import("../pages/Analytics/StorageMetrics"));
+const FinancialAnalytics = lazy(
+  () => import("../pages/Analytics/FinancialAnalytics")
+);
+const Users = lazy(() => import("../pages/Users"));
+const Settings = lazy(() => import("../pages/Settings"));
+const AuditLogs = lazy(() => import("../pages/AuditLogs"));
 import { FidgetSpinner } from "react-loader-spinner";
 
 const Router: RouteObject[] = [
@@ -474,6 +481,111 @@ const Router: RouteObject[] = [
         }
       >
         <OutboundMetrics />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/analytics/storage-metrics",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <StorageMetrics />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/analytics/financial-analytics",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <FinancialAnalytics />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/users",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Users />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/settings",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <Settings />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/auditlogs",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <AuditLogs />
       </Suspense>
     ),
   },

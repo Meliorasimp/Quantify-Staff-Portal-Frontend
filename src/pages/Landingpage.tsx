@@ -1,4 +1,5 @@
 import "../styles/index.css";
+import React from "react";
 import Landingpagenavbar from "../components/Landingpagenavbar";
 import RegisterModal from "../components/RegisterModal";
 import {
@@ -13,6 +14,11 @@ import RealTimeAnalytics from "../assets/real-time-analytics-image.jpg";
 import LightningFast from "../assets/lightningfast.jpg";
 import EnterpriseSecurity from "../assets/enterprise-security.webp";
 import Multilocation from "../assets/multlilocationimage.jpg";
+import usecaseimageone from "../assets/usecaseimageone.jpg";
+import usecaseimagetwo from "../assets/usecaseimagetwo.jpg";
+import usecaseimagethree from "../assets/usecaseimagethree.jpg";
+import usecaseimagefour from "../assets/usecaseimagefour.jpg";
+import usecaseimagefive from "../assets/usecaseimagefive.jpg";
 import { motion } from "framer-motion";
 const Landingpage = () => {
   const dispatch = useDispatch();
@@ -25,6 +31,56 @@ const Landingpage = () => {
 
   const handleGetStartedClick = () => {
     dispatch(setIsRegisterModalOpen(true));
+  };
+
+  const useCaseData = [
+    {
+      title: "Real-time Inventory Visibility",
+      description:
+        "Get instant updates on stock levels across all your warehouses and sales channels, ensuring you never run out of popular items or overstock slow-moving products.",
+      image: usecaseimageone,
+    },
+    {
+      title: "Multi-Warehouse Collaboration",
+      description:
+        "Coordinate inventory management across multiple warehouse locations, enabling seamless stock transfers and centralized control.",
+      image: usecaseimagetwo,
+    },
+    {
+      title: "Tracking Inventory Movements",
+      description:
+        "Monitor every inventory movement—from receiving to picking to shipping—so you always know where each item is and its status.",
+      image: usecaseimagethree,
+    },
+    {
+      title: "Demand Forecasting for Warehouse Planning",
+      description:
+        "Leverage historical sales data and trends to predict future demand, helping you optimize stock levels and reduce carrying costs.",
+      image: usecaseimagefour,
+    },
+    {
+      title: "Space Optimization in Warehouses",
+      description:
+        " Assign products to correct storage types and locations within your warehouses to maximize space utilization and improve picking efficiency.",
+      image: usecaseimagefive,
+    },
+  ];
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const postsPerPage = 3;
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = useCaseData.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(useCaseData.length / postsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
@@ -337,7 +393,108 @@ const Landingpage = () => {
               </p>
             </motion.div>
           </div>
-
+          <div className="mt-20 mx-auto relative p-10">
+            {/* Decorative Left Arrow */}
+            <div className="absolute inset-0 flex items-center justify-start w-6 cursor-pointer">
+              <button
+                onClick={handlePrevPage}
+                aria-disabled={currentPage === 1}
+                disabled={currentPage === 1}
+                className="cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                  />
+                </svg>
+              </button>
+            </div>
+            {/* Decorative Right Arrow */}
+            <div className="absolute inset-0 flex items-center justify-end ml-auto w-6 cursor-pointer">
+              <button
+                aria-disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages}
+                onClick={handleNextPage}
+                className="cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </button>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4 text-center">
+              Use Cases
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto text-center">
+              Quantify is designed to meet the diverse needs of various
+              industries. Here are some common use cases:
+            </p>
+            <div className="mt-10 flex gap-x-10 justify-center">
+              {currentPosts.map((useCase, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white w-1/3 h-[17lh] rounded-2xl shadow-xl hover:scale-102 transform transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: "easeOut",
+                    delay: index * 0.2,
+                  }}
+                  viewport={{ once: true }}
+                >
+                  <div className="h-2/3 p-5 rounded-2xl">
+                    <img
+                      src={useCase.image}
+                      alt={useCase.title}
+                      className="rounded-2xl"
+                    />
+                  </div>
+                  <div className="h-1/3 text-center">
+                    <h2 className="font-medium text-xl">{useCase.title}</h2>
+                    <p className="px-5 mt-3 text-gray-600 text-sm">
+                      {useCase.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            <div className="flex justify-center gap-x-4 mt-10">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 rounded ${
+                    currentPage === i + 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
           {/* Stats Section */}
           <div className="bg-white rounded-2xl shadow-xl p-12 mb-16 mt-20">
             <div className="text-center mb-12">

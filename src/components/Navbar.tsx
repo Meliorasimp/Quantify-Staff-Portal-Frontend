@@ -131,9 +131,9 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <aside className="navbar-bg w-[18vw] h-screen overflow-y-auto shrink-0 shadow-xl border-r border-gray-200/30">
+    <aside className="navbar-bg w-[18vw] h-screen shrink-0 shadow-xl border-r border-gray-200/30 flex flex-col">
       <nav className="flex flex-col h-full">
-        {/* Fixed header section */}
+        {/* Fixed header section (stays above the scrollable nav list) */}
         <section className="flex items-center gap-x-3 w-full pt-6 px-6 pb-6 border-b border-gray-200/20 sticky top-0 navbar-bg z-50">
           <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
             <img
@@ -152,89 +152,91 @@ const Navbar = () => {
           </div>
         </section>
 
-        {/* Navigation Items */}
-        <section className="flex flex-col py-3 px-3 space-y-1">
-          {MainSection.map((item, index) => {
-            const active =
-              location.pathname === item.link ||
-              location.pathname.startsWith(item.link + "/") ||
-              (item.link !== "/" && location.pathname.startsWith(item.link));
+        {/* Navigation Items (scrollable area) */}
+        <div className="overflow-y-auto flex-1">
+          <section className="flex flex-col py-3 px-3 space-y-1">
+            {MainSection.map((item, index) => {
+              const active =
+                location.pathname === item.link ||
+                location.pathname.startsWith(item.link + "/") ||
+                (item.link !== "/" && location.pathname.startsWith(item.link));
 
-            return (
-              <Link
-                key={index}
-                onClick={() => dispatch(setIsNavbarItemClicked(true))}
-                className="group flex items-center gap-x-3 px-4 w-full cursor-pointer py-3 rounded-xl hover:bg-linear-to-r hover:from-blue-50 hover:to-emerald-50 hover:shadow-md transition-all duration-200 relative overflow-hidden"
-                to={item.link}
-              >
-                <div
-                  className={`absolute inset-0 bg-linear-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none${
-                    active ? " opacity-100" : ""
-                  }`}
-                ></div>
-                <div
-                  className={`relative z-10 w-8 h-8 flex items-center justify-center rounded-lg ${
-                    active ? "bg-white" : "bg-gray-100"
-                  } group-hover:bg-white/90 transition-all duration-200 shrink-0`}
+              return (
+                <Link
+                  key={index}
+                  onClick={() => dispatch(setIsNavbarItemClicked(true))}
+                  className="group flex items-center gap-x-3 px-4 w-full cursor-pointer py-3 rounded-xl hover:bg-linear-to-r hover:from-blue-50 hover:to-emerald-50 hover:shadow-md transition-all duration-200 relative overflow-hidden"
+                  to={item.link}
                 >
-                  <img
-                    src={item.icon}
-                    alt={item.alticon}
-                    className={`w-5 h-5 ${
-                      active ? "opacity-100" : "opacity-70"
-                    } group-hover:opacity-100 group-hover:scale-110 transition-all duration-200`}
-                  />
-                </div>
-                <h1
-                  className={`relative z-10 text-base font-medium ${
-                    active ? "text-white" : "text-gray-700"
-                  } group-hover:text-white transition-colors duration-200`}
-                >
-                  {item.name}
-                </h1>
-                <div
-                  className={`relative z-10 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
-                    active ? "opacity-100" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-4 h-4 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  <div
+                    className={`absolute inset-0 bg-linear-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none${
+                      active ? " opacity-100" : ""
+                    }`}
+                  ></div>
+                  <div
+                    className={`relative w-8 h-8 flex items-center justify-center rounded-lg ${
+                      active ? "bg-white" : "bg-gray-100"
+                    } group-hover:bg-white/90 transition-all duration-200 shrink-0`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
+                    <img
+                      src={item.icon}
+                      alt={item.alticon}
+                      className={`w-5 h-5 ${
+                        active ? "opacity-100" : "opacity-70"
+                      } group-hover:opacity-100 group-hover:scale-110 transition-all duration-200`}
                     />
-                  </svg>
-                </div>
-              </Link>
-            );
-          })}
-        </section>
+                  </div>
+                  <h1
+                    className={`relative text-base font-medium ${
+                      active ? "text-white" : "text-gray-700"
+                    } group-hover:text-white transition-colors duration-200`}
+                  >
+                    {item.name}
+                  </h1>
+                  <div
+                    className={`relative ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${
+                      active ? "opacity-100" : ""
+                    }`}
+                  >
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </Link>
+              );
+            })}
+          </section>
 
-        {/* Footer Section */}
-        <section className="mt-auto p-4 border-t border-gray-200/20">
-          <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200/50">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
-                A
+          {/* Footer Section */}
+          <section className="mt-auto p-4 border-t border-gray-200/20">
+            <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200/50">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
+                  A
+                </div>
+                <div>
+                  <p className="font-semibold text-sm text-gray-800">
+                    Admin User
+                  </p>
+                  <p className="text-xs text-gray-500">admin@quantify.com</p>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-800">
-                  Admin User
-                </p>
-                <p className="text-xs text-gray-500">admin@quantify.com</p>
-              </div>
+              <button className="w-full py-2 bg-white rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border border-gray-200 shadow-sm">
+                Logout
+              </button>
             </div>
-            <button className="w-full py-2 bg-white rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border border-gray-200 shadow-sm">
-              Logout
-            </button>
-          </div>
-        </section>
+          </section>
+        </div>
       </nav>
     </aside>
   );
