@@ -15,4 +15,7 @@ export interface InteractionType {
   isPurchaseOrderModalOpen: boolean;
   isSalesOrderModalOpen: boolean;
   isNavbarItemClicked: boolean;
+  isViewerRolePermissionClicked?: boolean;
+  isStaffRolePermissionClicked?: boolean;
+  isAdminRolePermissionClicked?: boolean;
 }

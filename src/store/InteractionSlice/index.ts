@@ -18,6 +18,9 @@ const initialInteractionState: InteractionType = {
   isPurchaseOrderModalOpen: false,
   isSalesOrderModalOpen: false,
   isNavbarItemClicked: false,
+  isViewerRolePermissionClicked: false,
+  isStaffRolePermissionClicked: false,
+  isAdminRolePermissionClicked: false,
 };
 
 const interactionSlice = createSlice({
@@ -80,6 +83,15 @@ const interactionSlice = createSlice({
     setIsNavbarItemClicked(state, action) {
       state.isNavbarItemClicked = action.payload;
     },
+    setIsViewerRolePermissionClicked(state, action) {
+      state.isViewerRolePermissionClicked = action.payload;
+    },
+    setIsStaffRolePermissionClicked(state, action) {
+      state.isStaffRolePermissionClicked = action.payload;
+    },
+    setIsAdminRolePermissionClicked(state, action) {
+      state.isAdminRolePermissionClicked = action.payload;
+    },
   },
 });
 
@@ -102,5 +114,8 @@ export const {
   setIsPurchaseOrderModalOpen,
   setIsSalesOrderModalOpen,
   setIsNavbarItemClicked,
+  setIsViewerRolePermissionClicked,
+  setIsStaffRolePermissionClicked,
+  setIsAdminRolePermissionClicked,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;

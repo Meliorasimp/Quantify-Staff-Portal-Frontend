@@ -4,7 +4,7 @@ const AuditLogs = () => {
     <div className="flex h-screen overflow-hidden">
       <Navbar />
       <main className="flex-1 overflow-y-auto">
-        <div className="min-h-full p-8">
+        <div className="min-h-full p-6">
           <div className="mb-8">
             <div className="flex items-center justify-between">
               <div>

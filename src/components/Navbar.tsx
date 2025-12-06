@@ -20,6 +20,7 @@ import Audit from "../assets/audit.png";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIsNavbarItemClicked } from "../store/InteractionSlice";
+import gehlee from "../assets/gh7.jpg";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -222,12 +223,13 @@ const Navbar = () => {
             <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200/50">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
-                  A
+                  <img
+                    src={gehlee}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm text-gray-800">
-                    Admin User
-                  </p>
                   <p className="text-xs text-gray-500">admin@quantify.com</p>
                 </div>
               </div>
