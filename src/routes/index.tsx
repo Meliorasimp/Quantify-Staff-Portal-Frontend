@@ -40,10 +40,11 @@ const FinancialAnalytics = lazy(
 );
 const Users = lazy(() => import("../pages/Users"));
 const Settings = lazy(() => import("../pages/Settings/Settings"));
-const InventorySettings = lazy(
-  () => import("../pages/Settings/InventorySettings")
-);
 const UserSettings = lazy(() => import("../pages/Settings/UserSettings"));
+const NotificationSettings = lazy(
+  () => import("../pages/Settings/NotificationSettings")
+);
+const UISettings = lazy(() => import("../pages/Settings/UISettings"));
 const AuditLogs = lazy(() => import("../pages/AuditLogs"));
 import { FidgetSpinner } from "react-loader-spinner";
 
@@ -594,7 +595,7 @@ const Router: RouteObject[] = [
     ),
   },
   {
-    path: "/settings/inventory",
+    path: "/settings/notifications",
     element: (
       <Suspense
         fallback={
@@ -610,7 +611,28 @@ const Router: RouteObject[] = [
           </div>
         }
       >
-        <InventorySettings />
+        <NotificationSettings />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/settings/ui-configuration",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <UISettings />
       </Suspense>
     ),
   },

@@ -48,14 +48,11 @@ const UserSettings = () => {
                 <Link
                   className="flex items-center py-3 px-4 text-gray-700 bg-blue-50 border-l-4 border-blue-600 font-medium"
                   to="/settings/users"
+                  onClick={() =>
+                    dispatch(setIsViewerRolePermissionClicked(true))
+                  }
                 >
                   <span>Users Permissions</span>
-                </Link>
-                <Link
-                  className="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-l-4 border-transparent hover:border-blue-600"
-                  to="/settings/inventory"
-                >
-                  <span className="font-medium">Inventory</span>
                 </Link>
                 <Link
                   className="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-l-4 border-transparent hover:border-blue-600"

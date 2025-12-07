@@ -1,6 +1,9 @@
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsViewerRolePermissionClicked } from "../../store/InteractionSlice";
 const Settings = () => {
+  const dispatch = useDispatch();
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       <Navbar />
@@ -32,14 +35,11 @@ const Settings = () => {
                 <Link
                   className="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-l-4 border-transparent hover:border-blue-600"
                   to="/settings/users"
+                  onClick={() =>
+                    dispatch(setIsViewerRolePermissionClicked(true))
+                  }
                 >
                   <span className="font-medium">Users Permissions</span>
-                </Link>
-                <Link
-                  className="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-l-4 border-transparent hover:border-blue-600"
-                  to="/settings/inventory"
-                >
-                  <span className="font-medium">Inventory</span>
                 </Link>
                 <Link
                   className="flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 border-l-4 border-transparent hover:border-blue-600"
