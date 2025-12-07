@@ -40,6 +40,9 @@ const FinancialAnalytics = lazy(
 );
 const Users = lazy(() => import("../pages/Users"));
 const Settings = lazy(() => import("../pages/Settings/Settings"));
+const InventorySettings = lazy(
+  () => import("../pages/Settings/InventorySettings")
+);
 const UserSettings = lazy(() => import("../pages/Settings/UserSettings"));
 const AuditLogs = lazy(() => import("../pages/AuditLogs"));
 import { FidgetSpinner } from "react-loader-spinner";
@@ -587,6 +590,27 @@ const Router: RouteObject[] = [
         }
       >
         <UserSettings />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/settings/inventory",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <InventorySettings />
       </Suspense>
     ),
   },
