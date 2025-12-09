@@ -20,17 +20,19 @@ const Warehouses = () => {
     (state: RootState) => state.interaction
   );
 
-  const warehouseName = useSelector(
-    (state: RootState) => state.individualWarehouse.warehouseName
+  const warehouseId = useSelector(
+    (state: RootState) => state.individualWarehouse.warehouseId
   );
+  console.log("Selected Warehouse ID:", warehouseId);
 
-  const { data: oneWarehouseData } = useQuery<OneWarehouseResponseType>(
-    getWarehouse,
-    {
-      variables: { warehouseName: warehouseName },
-      skip: !warehouseName,
-    }
-  );
+  const {
+    data: oneWarehouseData,
+    loading: oneWarehouseLoading,
+    error: oneWarehouseError,
+  } = useQuery<OneWarehouseResponseType>(getWarehouse, {
+    variables: { id: warehouseId },
+    skip: !warehouseId,
+  });
 
   const { data: warehouseQueryData } =
     useQuery<WarehouseNameType>(getAllWarehouse);
@@ -78,13 +80,15 @@ const Warehouses = () => {
                 <div className="relative">
                   <select
                     className="appearance-none bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-transparent transition-all duration-200"
-                    onChange={(e) => dispatch(setWareHouse(e.target.value))}
+                    onChange={(e) =>
+                      dispatch(setWareHouse(Number(e.target.value)))
+                    }
                   >
                     <option value="" className="text-gray-400">
                       🏢 Select Warehouse
                     </option>
                     {warehouseQueryData?.allWarehouses.map((w, index) => (
-                      <option key={index} value={w.warehouseName}>
+                      <option key={index} value={w.id}>
                         {w.warehouseName}
                       </option>
                     ))}
@@ -150,44 +154,54 @@ const Warehouses = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-lime-200">
+            <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-600 mb-2">
                     Total Products
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">1,247</p>
-                  <div className="flex items-center text-sm text-green-600">
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 10l7-7m0 0l7 7m-7-7v18"
-                      />
-                    </svg>
-                    <span>+12% from last week</span>
-                  </div>
-                </div>
-                <div className="w-14 h-14 bg-linear-to-br from-lime-100 to-lime-200 rounded-xl flex items-center justify-center group-hover:from-lime-200 group-hover:to-lime-300 transition-all duration-300">
-                  <svg
-                    className="w-7 h-7 text-lime-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="m7.875 14.25 1.214 1.942a2.25 2.25 0 0 0 1.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 0 1 1.872 1.002l.164.246a2.25 2.25 0 0 0 1.872 1.002h2.092a2.25 2.25 0 0 0 1.872-1.002l.164-.246A2.25 2.25 0 0 1 16.954 9h4.636M2.41 9a2.25 2.25 0 0 0-.16.832V12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 0 1 .382-.632l3.285-3.832a2.25 2.25 0 0 1 1.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0 0 21.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 0 0 2.25 2.25Z"
-                    />
-                  </svg>
+                  {!warehouseId ? (
+                    <div className="text-sm text-gray-400 italic py-2">
+                      Select a warehouse to view details
+                    </div>
+                  ) : oneWarehouseLoading ? (
+                    <div className="flex items-center space-x-2 py-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      <span className="text-sm text-gray-500">Loading...</span>
+                    </div>
+                  ) : oneWarehouseError ? (
+                    <div className="text-sm text-red-500 py-2">
+                      Error loading data
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <p className="text-3xl font-bold text-gray-900">
+                          {oneWarehouseData?.warehouse.totalProducts ?? 0}
+                        </p>
+                        <span className="text-sm text-green-500 font-normal pt-2">
+                          +1 Product this month
+                        </span>
+                      </div>
+                      <div className="w-14 h-14 bg-linear-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                          color="green"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -196,28 +210,48 @@ const Warehouses = () => {
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-600 mb-2">
-                    Active Warehouses
+                    Active Sectors
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">8</p>
-                  <div className="flex items-center text-sm text-blue-600">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                    <span>All systems operational</span>
-                  </div>
-                </div>
-                <div className="w-14 h-14 bg-linear-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
-                  <svg
-                    className="w-7 h-7 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    />
-                  </svg>
+                  {!warehouseId ? (
+                    <div className="text-sm text-gray-400 italic py-2">
+                      Select a warehouse to view details
+                    </div>
+                  ) : oneWarehouseLoading ? (
+                    <div className="flex items-center space-x-2 py-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      <span className="text-sm text-gray-500">Loading...</span>
+                    </div>
+                  ) : oneWarehouseError ? (
+                    <div className="text-sm text-red-500 py-2">
+                      Error loading data
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <p className="text-3xl font-bold text-gray-900">
+                          {oneWarehouseData?.warehouse.availableSectors ?? 0}
+                        </p>
+                        <span className="text-sm text-blue-500 font-normal pt-2">
+                          All Systems Operational
+                        </span>
+                      </div>
+                      <div className="w-14 h-14 bg-linear-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
+                        <svg
+                          className="w-7 h-7 text-blue-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -228,28 +262,47 @@ const Warehouses = () => {
                   <p className="text-sm font-medium text-gray-600 mb-2">
                     Capacity Utilization
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">82%</p>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-linear-to-r from-orange-400 to-orange-500 h-2 rounded-full"
-                      style={{ width: "82%" }}
-                    ></div>
-                  </div>
-                </div>
-                <div className="w-14 h-14 bg-linear-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center group-hover:from-orange-200 group-hover:to-orange-300 transition-all duration-300">
-                  <svg
-                    className="w-7 h-7 text-orange-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
+                  {!warehouseId ? (
+                    <div className="text-sm text-gray-400 italic py-2">
+                      Select a warehouse to view details
+                    </div>
+                  ) : oneWarehouseLoading ? (
+                    <div className="flex items-center space-x-2 py-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      <span className="text-sm text-gray-500">Loading...</span>
+                    </div>
+                  ) : oneWarehouseError ? (
+                    <div className="text-sm text-red-500 py-2">
+                      Error loading data
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <p className="text-3xl font-bold text-gray-900">
+                          {oneWarehouseData?.warehouse.capacityUtilization ?? 0}
+                          %
+                        </p>
+                        <span className="text-sm text-blue-500 font-normal pt-2">
+                          All Systems Operational
+                        </span>
+                      </div>
+                      <div className="w-14 h-14 bg-linear-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-all duration-300">
+                        <svg
+                          className="w-7 h-7 text-blue-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -260,7 +313,7 @@ const Warehouses = () => {
                   <p className="text-sm font-medium text-gray-600 mb-2">
                     Active Staff
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">156</p>
+                  <p className="text-3xl font-bold text-gray-900 mb-1">0</p>
                   <div className="flex items-center text-sm text-purple-600">
                     <svg
                       className="w-4 h-4 mr-1"
@@ -275,7 +328,7 @@ const Warehouses = () => {
                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
                       />
                     </svg>
-                    <span>24 on shift now</span>
+                    <span>0</span>
                   </div>
                 </div>
                 <div className="w-14 h-14 bg-linear-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-purple-300 transition-all duration-300">
@@ -543,11 +596,11 @@ const Warehouses = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">
-                        {oneWarehouseData?.warehouse?.[0]?.warehouseName ||
+                        {oneWarehouseData?.warehouse?.warehouseName ||
                           "Main Warehouse"}
                       </h3>
                       <p className="text-sm text-gray-600">
-                        {oneWarehouseData?.warehouse?.[0]?.warehouseCode || ""}
+                        {oneWarehouseData?.warehouse?.warehouseCode || ""}
                       </p>
                     </div>
                   </div>
@@ -557,25 +610,25 @@ const Warehouses = () => {
                       <div>
                         <p className="text-sm text-gray-600">Location</p>
                         <p className="font-medium text-gray-900">
-                          {oneWarehouseData?.warehouse?.[0]?.address || ""}
+                          {oneWarehouseData?.warehouse?.address || ""}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Manager</p>
                         <p className="font-medium text-gray-900">
-                          {oneWarehouseData?.warehouse?.[0]?.manager || ""}
+                          {oneWarehouseData?.warehouse?.manager || ""}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Region</p>
                         <p className="font-medium text-gray-900">
-                          {oneWarehouseData?.warehouse?.[0]?.region || ""}
+                          {oneWarehouseData?.warehouse?.region || ""}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Status</p>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          {oneWarehouseData?.warehouse?.[0]?.status || ""}
+                          {oneWarehouseData?.warehouse?.status || ""}
                         </span>
                       </div>
                     </div>

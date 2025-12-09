@@ -6,7 +6,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialWarehouseInputState: WarehouseInputTypes[] = [];
 const initialIndividualWarehouseState: IndividualWarehouseType = {
-  warehouseName: "",
+  warehouseId: 0,
 };
 
 const warehouseSlice = createSlice({
@@ -43,8 +43,8 @@ const individualWarehouseSlice = createSlice({
   name: "individualWarehouse",
   initialState: initialIndividualWarehouseState,
   reducers: {
-    setWareHouse: (state, action: PayloadAction<string>) => {
-      state.warehouseName = action.payload;
+    setWareHouse: (state, action: PayloadAction<number>) => {
+      state.warehouseId = action.payload;
     },
   },
 });

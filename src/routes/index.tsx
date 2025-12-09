@@ -24,7 +24,7 @@ const PurchaseOrderDetails = lazy(
 const SalesOrderDetails = lazy(
   () => import("../pages/SalesOrder/SalesOrderDetails")
 );
-const Suppliers = lazy(() => import("../pages/Supplier"));
+const Suppliers = lazy(() => import("../pages/Suppliers/Supplier"));
 const Alert = lazy(() => import("../pages/Alert"));
 const Client = lazy(() => import("../pages/Client"));
 const Shipment = lazy(() => import("../pages/Shipment"));
@@ -46,6 +46,10 @@ const NotificationSettings = lazy(
 );
 const UISettings = lazy(() => import("../pages/Settings/UISettings"));
 const AuditLogs = lazy(() => import("../pages/AuditLogs"));
+const CreateOrder = lazy(() => import("../pages/Suppliers/CreateOrder"));
+const CreateOrderById = lazy(
+  () => import("../pages/Suppliers/CreateOrderById")
+);
 import { FidgetSpinner } from "react-loader-spinner";
 
 const Router: RouteObject[] = [
@@ -360,6 +364,48 @@ const Router: RouteObject[] = [
         }
       >
         <Suppliers />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/suppliers/create-order",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <CreateOrder />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/suppliers/create/:id",
+    element: (
+      <Suspense
+        fallback={
+          <div className="inset-0 absolute flex flex-col items-center justify-center w-full h-screen bg-white gap-4">
+            <FidgetSpinner
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        }
+      >
+        <CreateOrderById />
       </Suspense>
     ),
   },

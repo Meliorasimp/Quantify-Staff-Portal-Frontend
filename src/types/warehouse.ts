@@ -19,7 +19,7 @@ export interface WarehouseNameType {
 }
 
 export interface IndividualWarehouseType {
-  warehouseName: string;
+  warehouseId: number;
 }
 
 export interface OneWarehouseResponseType {
@@ -31,5 +31,8 @@ export interface OneWarehouseResponseType {
     manager: string;
     region: string;
     status: string;
-  }[];
+    totalProducts?: number;
+    availableSectors?: number;
+    capacityUtilization?: number;
+  };
 }

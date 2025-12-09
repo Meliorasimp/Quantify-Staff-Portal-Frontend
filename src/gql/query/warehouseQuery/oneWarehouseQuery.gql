@@ -1,11 +1,14 @@
-query getWarehouse($warehouseName: String!) {
-  warehouse(warehouseName: $warehouseName) {
-    id
+query getWarehouse($id: Int!) {
+  warehouse(id: $id) {
+    warehouseId
     warehouseName
     warehouseCode
     address
     manager
     region
     status
+    totalProducts
+    availableSectors
+    capacityUtilization
   }
 }
