@@ -1,7 +1,7 @@
 import type { Product } from "../../types/supplier";
 const SupplierProduct = ({ products }: { products: Product[] }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-2/3 ml-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-2/3 ml-6 h-3/4 overflow-y-auto">
       <div className="mb-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <svg
