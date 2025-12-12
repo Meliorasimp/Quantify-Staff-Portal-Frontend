@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { PurchaseOrderTypes } from "../../types/PurchaseOrder";
+import type { PurchaseOrderTypes } from "../../types/purchaseorder";
 
 const initialPurchaseOrderState: PurchaseOrderTypes[] = [];
 
