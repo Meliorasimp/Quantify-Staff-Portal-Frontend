@@ -1,5 +1,13 @@
+import type { RootState } from "../../store";
+import { addItemsToCart } from "../../store/PurchaseOrderSlice";
 import type { Product } from "../../types/supplier";
+import { useDispatch, useSelector } from "react-redux";
 const SupplierProduct = ({ products }: { products: Product[] }) => {
+  const dispatch = useDispatch();
+  const purchaseOrders = useSelector(
+    (state: RootState) => state.purchaseOrders
+  );
+  const purchaseOrderId = purchaseOrders[purchaseOrders.length - 1]?.id;
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-2/3 ml-6 h-3/4 overflow-y-auto">
       <div className="mb-6">
@@ -74,7 +82,23 @@ const SupplierProduct = ({ products }: { products: Product[] }) => {
                       </p>
                     </div>
                     {p.inStock ? (
-                      <button className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium flex items-center space-x-1">
+                      <button
+                        className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium flex items-center space-x-1"
+                        onClick={() =>
+                          dispatch(
+                            addItemsToCart({
+                              id: purchaseOrderId,
+                              item: {
+                                productId: p.id,
+                                productName: p.name,
+                                productImage: p.image,
+                                quantity: 1,
+                                price: p.price,
+                              },
+                            })
+                          )
+                        }
+                      >
                         <svg
                           className="w-4 h-4"
                           fill="none"

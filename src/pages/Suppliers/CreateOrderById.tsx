@@ -1,18 +1,47 @@
 import Navbar from "../../components/Navbar";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import SupplierProduct from "../../components/SupplierProducts/SupplierProduct";
+import { useDispatch, useSelector } from "react-redux";
 import type { Product } from "../../types/supplier";
 import { Link } from "react-router-dom";
+import {
+  addPurchaseOrder,
+  setDeliveryWarehouse,
+  setExpectedDeliveryDate,
+  setPurchaseNotes,
+  removeItemFromCart,
+} from "../../store/PurchaseOrderSlice";
+import type { RootState } from "../../store";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CreateOrderById = () => {
   const { id } = useParams();
-  console.log("Supplier ID:", id);
-
-  // Order information state
-  const [warehouse, setWarehouse] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [notes, setNotes] = useState("");
+  const dispatch = useDispatch();
+  const purchaseOrders = useSelector(
+    (state: RootState) => state.purchaseOrders
+  );
+  console.log("Purchase Orders in CreateOrderById:", purchaseOrders);
+  const subtotal =
+    purchaseOrders
+      .find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )
+      ?.items.reduce((total, item) => total + item.price * item.quantity, 0) ||
+    0;
+  const tax = subtotal * 0.1;
+  const total = subtotal + tax;
+  const totalItems =
+    purchaseOrders
+      .find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )
+      ?.items.reduce((count, item) => count + item.quantity, 0) || 0;
+  const purchaseOrderId = purchaseOrders[purchaseOrders.length - 1]?.id;
+  const totalUnits =
+    purchaseOrders.find((order) => order.id === purchaseOrderId)?.items
+      .length || 0;
+  const orderCreatedRef = useRef(false);
 
   const TechSupplyCoProducts: Product[] = [
     {
@@ -110,9 +139,28 @@ const CreateOrderById = () => {
       inStock: true,
     },
   ];
+
+  useEffect(() => {
+    if (id && !orderCreatedRef.current) {
+      dispatch(
+        addPurchaseOrder({
+          supplierId: id,
+          deliveryWarehouse: "",
+          orderDate: new Date().toISOString().split("T")[0],
+          expectedDeliveryDate: "",
+          totalAmount: 0,
+          items: [],
+          notes: "",
+        })
+      );
+      orderCreatedRef.current = true;
+    }
+  }, [dispatch, id]);
+
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50 relative">
       <Navbar />
+
       <main className="flex-1 overflow-y-auto">
         <div className="min-h-full">
           <div className="bg-white border-b border-gray-200 mb-6">
@@ -220,9 +268,16 @@ const CreateOrderById = () => {
                       Delivery Warehouse <span className="text-red-500">*</span>
                     </label>
                     <select
-                      value={warehouse}
-                      onChange={(e) => setWarehouse(e.target.value)}
+                      required
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      onChange={(e) =>
+                        dispatch(
+                          setDeliveryWarehouse({
+                            id: purchaseOrderId,
+                            deliveryWarehouse: e.target.value,
+                          })
+                        )
+                      }
                     >
                       <option value="">Select warehouse</option>
                       <option value="Main Warehouse">Main Warehouse</option>
@@ -249,10 +304,16 @@ const CreateOrderById = () => {
                     </label>
                     <input
                       type="date"
-                      value={deliveryDate}
-                      onChange={(e) => setDeliveryDate(e.target.value)}
                       min={new Date().toISOString().split("T")[0]}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      onChange={(e) =>
+                        dispatch(
+                          setExpectedDeliveryDate({
+                            id: purchaseOrderId,
+                            expectedDeliveryDate: e.target.value,
+                          })
+                        )
+                      }
                     />
                   </div>
                   {/* Order Notes */}
@@ -261,11 +322,17 @@ const CreateOrderById = () => {
                       Order Notes
                     </label>
                     <textarea
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
                       rows={3}
                       placeholder="Add special instructions..."
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm"
+                      onChange={(e) =>
+                        dispatch(
+                          setPurchaseNotes({
+                            id: purchaseOrderId,
+                            notes: e.target.value,
+                          })
+                        )
+                      }
                     />
                   </div>
                 </div>
@@ -294,51 +361,114 @@ const CreateOrderById = () => {
                   </span>
                 </h2>
                 <div className="max-h-64 overflow-y-auto space-y-3 mb-4">
-                  <div className="text-center py-8 text-gray-400">
-                    <svg
-                      className="w-12 h-12 mx-auto mb-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                      />
-                    </svg>
-                    <p className="text-sm">Your cart is empty</p>
-                  </div>
+                  <AnimatePresence mode="popLayout">
+                    {purchaseOrders.map(
+                      (order) =>
+                        order.id === purchaseOrderId &&
+                        order.items.map((item) => (
+                          <motion.div
+                            key={item.productId}
+                            initial={{ opacity: 0, y: 1, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{
+                              opacity: 0,
+                              y: 5,
+                              transition: { duration: 0.3, ease: "easeInOut" },
+                            }}
+                            transition={{ duration: 0.2 }}
+                            layout
+                            className="flex items-center justify-between border border-gray-200 rounded-lg p-3"
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl">
+                                {item.productImage}
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-medium text-gray-900">
+                                  {item.productName}
+                                </h4>
+                                <p className="text-xs text-gray-500">
+                                  SKU: {item.productId}
+                                </p>
+                                <p className="text-xs text-gray-600">
+                                  Qty: {item.quantity}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex flex-col items-end space-y-2">
+                              <span className="text-sm font-semibold text-gray-900">
+                                ${(item.price * item.quantity).toFixed(2)}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  dispatch(
+                                    removeItemFromCart({
+                                      id: purchaseOrderId,
+                                      productId: item.productId,
+                                    })
+                                  )
+                                }
+                                className="group flex items-center space-x-1 text-xs py-1.5 px-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200 border border-red-200 hover:border-red-300"
+                              >
+                                <svg
+                                  className="w-3 h-3 group-hover:scale-110 transition-transform"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                                <span className="font-medium">Remove</span>
+                              </button>
+                            </div>
+                          </motion.div>
+                        ))
+                    )}
+                  </AnimatePresence>
                 </div>
                 <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Subtotal</span>
-                    <span className="font-medium text-gray-900">$0.00</span>
+                    <span className="font-medium text-gray-900">
+                      &#8369;{subtotal}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Tax (10%)</span>
-                    <span className="font-medium text-gray-900">$0.00</span>
+                    <span className="font-medium text-gray-900">
+                      &#8369;{tax.toFixed(2)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Shipping</span>
-                    <span className="font-medium text-gray-900">$0.00</span>
+                    <span className="font-medium text-blue-600">FREE!</span>
                   </div>
                 </div>
                 <div className="flex justify-between mb-6">
                   <span className="text-lg font-semibold text-gray-900">
                     Total
                   </span>
-                  <span className="text-lg font-bold text-blue-600">$0.00</span>
+                  <span className="text-lg font-bold text-blue-600">
+                    &#8369;{total.toFixed(2)}
+                  </span>
                 </div>
                 <div className="space-y-3 mb-6 text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Total Items</span>
-                    <span className="font-medium text-gray-900">0</span>
+                    <span className="font-medium text-gray-900">
+                      {totalItems}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Total Units</span>
-                    <span className="font-medium text-gray-900">0</span>
+                    <span className="font-medium text-gray-900">
+                      {totalUnits}
+                    </span>
                   </div>
                 </div>
                 <button className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium shadow-sm disabled:bg-gray-300 disabled:cursor-not-allowed">

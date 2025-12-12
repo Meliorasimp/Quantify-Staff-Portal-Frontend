@@ -46,7 +46,7 @@ const NotificationSettings = lazy(
 );
 const UISettings = lazy(() => import("../pages/Settings/UISettings"));
 const AuditLogs = lazy(() => import("../pages/AuditLogs"));
-const CreateOrder = lazy(() => import("../pages/Suppliers/CreateOrder"));
+const CreateOrder = lazy(() => import("../pages/Suppliers/CreateOrderById"));
 const CreateOrderById = lazy(
   () => import("../pages/Suppliers/CreateOrderById")
 );
