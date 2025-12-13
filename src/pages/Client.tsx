@@ -1,10 +1,17 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import { setIsSalesOrderModalOpen } from "../store/InteractionSlice";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../store";
+import SalesOrderModal from "../components/SalesOrderModal";
 
 const Client = () => {
+  const isSalesOrderModalOpen = useSelector(
+    (state: RootState) => state.interaction.isSalesOrderModalOpen
+  );
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
-
   // Mock clients data
   const clients = [
     {
@@ -636,8 +643,11 @@ const Client = () => {
                     <button className="flex-1 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold text-sm">
                       View Details
                     </button>
-                    <button className="flex-1 py-2 border-2 border-blue-300 text-blue-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all font-semibold text-sm">
-                      Create Order
+                    <button
+                      className="flex-1 py-2 border-2 border-blue-300 text-blue-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all font-semibold text-sm"
+                      onClick={() => dispatch(setIsSalesOrderModalOpen(true))}
+                    >
+                      Create Sales Order
                     </button>
                     <button className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all">
                       <svg
@@ -661,6 +671,11 @@ const Client = () => {
           </div>
         </div>
       </main>
+      {isSalesOrderModalOpen && (
+        <SalesOrderModal
+          onClose={() => dispatch(setIsSalesOrderModalOpen(false))}
+        />
+      )}
     </div>
   );
 };

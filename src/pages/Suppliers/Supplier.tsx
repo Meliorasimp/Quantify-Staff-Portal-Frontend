@@ -492,7 +492,10 @@ const Supplier = () => {
 
                   {/* Actions */}
                   <div className="flex gap-3">
-                    <button className="flex-1 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors font-semibold text-sm">
+                    <button
+                      className="flex-1 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors font-semibold text-sm"
+                      title="This button is For Redirecting to the Suppliers Website, if they have one"
+                    >
                       View Details
                     </button>
                     <Link
@@ -501,7 +504,10 @@ const Supplier = () => {
                     >
                       Create Order
                     </Link>
-                    <button className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all">
+                    <button
+                      className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all"
+                      title="Dummy button for more options like Message, Edit, Delete, etc."
+                    >
                       <svg
                         className="w-5 h-5"
                         fill="none"

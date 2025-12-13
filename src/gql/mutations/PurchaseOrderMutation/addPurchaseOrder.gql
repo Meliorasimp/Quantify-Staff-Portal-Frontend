@@ -1,0 +1,28 @@
+mutation AddPurchaseOrder(
+  $id: Int!
+  $deliveryWarehouse: String!
+  $expectedDeliveryDate: String!
+  $items: [PurchaseOrderItemInput!]!
+  $notes: String
+  $orderDate: String!
+  $supplierID: Int!
+  $totalAmount: Float!
+) {
+  addPurchaseOrder(
+    id: $id
+    deliveryWarehouse: $deliveryWarehouse
+    expectedDeliveryDate: $expectedDeliveryDate
+    items: $items
+    notes: $notes
+    orderDate: $orderDate
+    supplierID: $supplierID
+    totalAmount: $totalAmount
+  ) {
+    id
+    orderNumber
+    supplierId
+    deliveryWarehouse
+    orderDate
+    expectedDeliveryDate
+  }
+}

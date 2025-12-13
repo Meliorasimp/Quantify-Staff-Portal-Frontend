@@ -13,6 +13,8 @@ import {
   removeItemFromCart,
 } from "../../store/PurchaseOrderSlice";
 import type { RootState } from "../../store";
+import { useMutation } from "@apollo/client/react";
+import AddPurchaseOrder from "../../gql/mutations/PurchaseOrderMutation/addPurchaseOrder.gql";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CreateOrderById = () => {
@@ -21,7 +23,30 @@ const CreateOrderById = () => {
   const purchaseOrders = useSelector(
     (state: RootState) => state.purchaseOrders
   );
-  console.log("Purchase Orders in CreateOrderById:", purchaseOrders);
+  const deliveryWarehouse = useSelector(
+    (state: RootState) =>
+      state.purchaseOrders.find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )?.deliveryWarehouse
+  );
+  const expectedDeliveryDate = useSelector(
+    (state: RootState) =>
+      state.purchaseOrders.find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )?.expectedDeliveryDate
+  );
+  const items = useSelector(
+    (state: RootState) =>
+      state.purchaseOrders.find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )?.items
+  );
+  const notes = useSelector(
+    (state: RootState) =>
+      state.purchaseOrders.find(
+        (order) => order.id === purchaseOrders[purchaseOrders.length - 1]?.id
+      )?.notes
+  );
   const subtotal =
     purchaseOrders
       .find(
@@ -43,6 +68,49 @@ const CreateOrderById = () => {
       .length || 0;
   const orderCreatedRef = useRef(false);
 
+  const [addPurchaseOrderMutation] = useMutation(AddPurchaseOrder);
+
+  const handleCreatePurchaseOrder = async () => {
+    console.log("Creating purchase order with data:", {
+      id: purchaseOrderId,
+      deliveryWarehouse: deliveryWarehouse,
+      expectedDeliveryDate: expectedDeliveryDate,
+      items: items,
+      notes: notes,
+      orderDate: new Date().toISOString().split("T")[0],
+      supplierID: id!,
+      totalAmount: total,
+    });
+    try {
+      // Map items to only include fields that backend expects
+      const mappedItems =
+        items?.map((item) => ({
+          id:
+            typeof item.productId === "string"
+              ? parseInt(item.productId)
+              : item.productId,
+          productName: item.productName,
+          price: item.price,
+          quantity: item.quantity,
+        })) || [];
+
+      await addPurchaseOrderMutation({
+        variables: {
+          id: parseInt(purchaseOrderId!),
+          deliveryWarehouse: deliveryWarehouse,
+          expectedDeliveryDate: expectedDeliveryDate,
+          items: mappedItems,
+          notes: notes,
+          orderDate: new Date().toISOString().split("T")[0],
+          supplierID: parseInt(id!),
+          totalAmount: total,
+        },
+      });
+    } catch (error) {
+      console.error("Error creating purchase order:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
+    }
+  };
   const TechSupplyCoProducts: Product[] = [
     {
       id: "1",
@@ -471,7 +539,10 @@ const CreateOrderById = () => {
                     </span>
                   </div>
                 </div>
-                <button className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium shadow-sm disabled:bg-gray-300 disabled:cursor-not-allowed">
+                <button
+                  className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium shadow-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onClick={() => handleCreatePurchaseOrder()}
+                >
                   Confirm & Create Order
                 </button>
               </div>
