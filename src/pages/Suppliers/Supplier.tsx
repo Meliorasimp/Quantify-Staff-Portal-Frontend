@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSupplierName } from "../../store/InteractionSlice";
 
 const Supplier = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+  const dispatch = useDispatch();
 
   // Mock suppliers data
   const suppliers = [
@@ -501,6 +504,7 @@ const Supplier = () => {
                     <Link
                       className="flex-1 text-center py-2 border-2 border-purple-300 text-purple-700 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-all font-semibold text-sm"
                       to={`/suppliers/create/${supplier.id}`}
+                      onClick={() => dispatch(setSupplierName(supplier.name))}
                     >
                       Create Order
                     </Link>

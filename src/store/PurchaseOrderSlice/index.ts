@@ -105,6 +105,9 @@ const PurchaseOrderSlice = createSlice({
         0
       );
     },
+    clearOrder: () => {
+      return initialPurchaseOrderState;
+    },
   },
 });
 
@@ -115,5 +118,6 @@ export const {
   setExpectedDeliveryDate,
   setPurchaseNotes,
   removeItemFromCart,
+  clearOrder,
 } = PurchaseOrderSlice.actions;
 export const purchaseOrderReducer = PurchaseOrderSlice.reducer;

@@ -1,5 +1,6 @@
 mutation AddPurchaseOrder(
   $id: Int!
+  $supplierName: String!
   $deliveryWarehouse: String!
   $expectedDeliveryDate: String!
   $items: [PurchaseOrderItemInput!]!
@@ -10,6 +11,7 @@ mutation AddPurchaseOrder(
 ) {
   addPurchaseOrder(
     id: $id
+    supplierName: $supplierName
     deliveryWarehouse: $deliveryWarehouse
     expectedDeliveryDate: $expectedDeliveryDate
     items: $items

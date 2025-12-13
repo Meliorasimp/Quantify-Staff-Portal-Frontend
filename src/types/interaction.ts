@@ -18,4 +18,5 @@ export interface InteractionType {
   isViewerRolePermissionClicked?: boolean;
   isStaffRolePermissionClicked?: boolean;
   isAdminRolePermissionClicked?: boolean;
+  supplierName?: string;
 }

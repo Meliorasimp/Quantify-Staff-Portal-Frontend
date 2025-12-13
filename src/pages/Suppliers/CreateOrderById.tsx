@@ -11,15 +11,20 @@ import {
   setExpectedDeliveryDate,
   setPurchaseNotes,
   removeItemFromCart,
+  clearOrder,
 } from "../../store/PurchaseOrderSlice";
 import type { RootState } from "../../store";
 import { useMutation } from "@apollo/client/react";
 import AddPurchaseOrder from "../../gql/mutations/PurchaseOrderMutation/addPurchaseOrder.gql";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 const CreateOrderById = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const supplierName = useSelector(
+    (state: RootState) => state.interaction.supplierName
+  );
   const purchaseOrders = useSelector(
     (state: RootState) => state.purchaseOrders
   );
@@ -63,6 +68,7 @@ const CreateOrderById = () => {
       )
       ?.items.reduce((count, item) => count + item.quantity, 0) || 0;
   const purchaseOrderId = purchaseOrders[purchaseOrders.length - 1]?.id;
+  console.log("Current Purchase Order ID:", purchaseOrderId);
   const totalUnits =
     purchaseOrders.find((order) => order.id === purchaseOrderId)?.items
       .length || 0;
@@ -94,9 +100,10 @@ const CreateOrderById = () => {
           quantity: item.quantity,
         })) || [];
 
-      await addPurchaseOrderMutation({
+      const response = await addPurchaseOrderMutation({
         variables: {
           id: parseInt(purchaseOrderId!),
+          supplierName: supplierName!,
           deliveryWarehouse: deliveryWarehouse,
           expectedDeliveryDate: expectedDeliveryDate,
           items: mappedItems,
@@ -106,6 +113,10 @@ const CreateOrderById = () => {
           totalAmount: total,
         },
       });
+      if (response && response.data) {
+        dispatch(clearOrder());
+      }
+      toast.success("Purchase order created successfully!");
     } catch (error) {
       console.error("Error creating purchase order:", error);
       console.error("Error details:", JSON.stringify(error, null, 2));
@@ -223,7 +234,7 @@ const CreateOrderById = () => {
       );
       orderCreatedRef.current = true;
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, supplierName]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50 relative">
