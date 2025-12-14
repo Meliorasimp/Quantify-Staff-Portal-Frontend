@@ -17,15 +17,12 @@ const PurchaseOrderDetails = () => {
   const actualId = purchaseId || (id ? parseInt(id, 10) : undefined);
   console.log("Actual ID being used:", actualId);
 
-  const {
-    data: purchaseOrderDetailsData,
-    loading,
-    error,
-  } = useQuery<PurchaseOrderByIdResponseType>(FetchPurchaseOrderById, {
-    variables: { id: actualId },
-    fetchPolicy: "network-only",
-    skip: !actualId, // Skip query if no ID is available
-  });
+  const { data: purchaseOrderDetailsData, loading } =
+    useQuery<PurchaseOrderByIdResponseType>(FetchPurchaseOrderById, {
+      variables: { id: actualId },
+      fetchPolicy: "network-only",
+      skip: !actualId, // Skip query if no ID is available
+    });
   if (loading) {
     return (
       <div className="flex h-screen overflow-hidden">

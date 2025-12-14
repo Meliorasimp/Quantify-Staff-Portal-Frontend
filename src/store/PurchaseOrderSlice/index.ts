@@ -13,10 +13,11 @@ const PurchaseOrderSlice = createSlice({
         state.push(action.payload);
       },
       prepare: (purchaseOrder: Omit<PurchaseOrderTypes, "id">) => {
-        const id = crypto.randomUUID();
+        // Generate purchase order number based on timestamp + random
+        const id = Date.now() + Math.floor(Math.random() * 100);
         return {
           payload: {
-            id,
+            id: id.toString(),
             ...purchaseOrder,
             totalAmount: 0,
             items: [],
