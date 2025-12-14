@@ -13,8 +13,8 @@ const PurchaseOrderSlice = createSlice({
         state.push(action.payload);
       },
       prepare: (purchaseOrder: Omit<PurchaseOrderTypes, "id">) => {
-        // Generate purchase order number based on timestamp + random
-        const id = Date.now() + Math.floor(Math.random() * 100);
+        // Generate purchase order number (1000-999999 range)
+        const id = Math.floor(1000 + Math.random() * 999000);
         return {
           payload: {
             id: id.toString(),
