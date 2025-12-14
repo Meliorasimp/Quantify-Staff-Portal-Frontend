@@ -1,0 +1,17 @@
+query FetchPurchaseOrderById($id: Int!) {
+  purchaseOrderById(id: $id) {
+    id
+    orderDate
+    supplierName
+    staffResponsible
+    deliveryWarehouse
+    expectedDeliveryDate
+    status
+    items {
+      id
+      productName
+      price
+      quantity
+    }
+  }
+}

@@ -1,12 +1,25 @@
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import FetchAllPurchaseOrder from "../../gql/query/purchaseOrderQuery/allPurchaseOrderQuery.gql";
+import type { AllPurchaseOrderResponseType } from "../../types/purchaseorder";
+import { setPurchaseId } from "../../store/InteractionSlice";
+import { useQuery } from "@apollo/client/react";
+import { useDispatch } from "react-redux";
 const AllPurchaseOrder = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleDynamicClick = (id: string) => {
     navigate(`/purchaseorders/${id}`);
   };
 
+  //Fetch All Purchase Orders
+  const { data: purchaseOrderData } = useQuery<AllPurchaseOrderResponseType>(
+    FetchAllPurchaseOrder,
+    {
+      fetchPolicy: "network-only", // Always fetch from network, bypass cache
+    }
+  );
+  console.log("All Purchase Orders Data:", purchaseOrderData);
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -53,44 +66,56 @@ const AllPurchaseOrder = () => {
             </div>
           </section>
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex w-full justify-between border-b-2 border-gray-200 pb-4 mb-4">
-                <h1 className="uppercase text-gray-700 font-bold tracking-wide">
-                  PO #001
-                </h1>
-                <span className="uppercase text-orange-600 font-semibold bg-orange-50 px-3 py-1 rounded-full text-sm">
-                  Pending
-                </span>
-              </div>
-              <div className="flex flex-col gap-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Client:</span>
-                  <span className="font-semibold text-gray-800">
-                    Example Company Ltd. 1
+            {purchaseOrderData?.allPurchaseOrder?.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex w-full justify-between border-b-2 border-gray-200 pb-4 mb-4">
+                  <h1 className="uppercase text-gray-700 font-bold tracking-wide">
+                    PO: #{order.purchaseOrderNumber}
+                  </h1>
+                  <span className="uppercase text-orange-600 font-semibold bg-orange-50 px-3 py-1 rounded-full text-sm">
+                    {order.status}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Date Issued:</span>
-                  <span className="font-semibold text-gray-800">
-                    October 28, 1999
-                  </span>
+                <div className="flex flex-col gap-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Client:</span>
+                    <span className="font-semibold text-gray-800">
+                      {order.supplierName}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Date Issued:</span>
+                    <span className="font-semibold text-gray-800">
+                      {new Date(order.orderDate).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Total Amount:</span>
+                    <span className="font-bold text-green-600 text-lg">
+                      ${order.totalAmount.toFixed(2)}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Total Amount:</span>
-                  <span className="font-bold text-green-600 text-lg">
-                    $2,500.00
-                  </span>
+                <div className="mt-6">
+                  <button
+                    className="w-full flex justify-center items-center py-3 bg-linear-to-r from-green-500 to-green-600 text-white rounded-xl cursor-pointer hover:from-green-600 hover:to-green-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg"
+                    onClick={() => {
+                      handleDynamicClick(order.purchaseOrderNumber as string);
+                      dispatch(setPurchaseId(order.id));
+                    }}
+                  >
+                    View Order Details
+                  </button>
                 </div>
               </div>
-              <div className="mt-6">
-                <button
-                  className="w-full flex justify-center items-center py-3 bg-linear-to-r from-green-500 to-green-600 text-white rounded-xl cursor-pointer hover:from-green-600 hover:to-green-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg"
-                  onClick={() => handleDynamicClick("PO001")}
-                >
-                  View Order Details
-                </button>
-              </div>
-            </div>
+            ))}
           </section>
         </div>
       </main>

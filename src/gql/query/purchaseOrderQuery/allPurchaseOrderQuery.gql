@@ -1,0 +1,10 @@
+query AllPurchaseOrders {
+  allPurchaseOrder {
+    id
+    purchaseOrderNumber
+    supplierName
+    orderDate
+    totalAmount
+    status
+  }
+}

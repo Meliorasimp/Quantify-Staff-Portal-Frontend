@@ -22,6 +22,7 @@ const initialInteractionState: InteractionType = {
   isStaffRolePermissionClicked: false,
   isAdminRolePermissionClicked: false,
   supplierName: undefined,
+  purchaseOrderId: undefined,
 };
 
 const interactionSlice = createSlice({
@@ -96,6 +97,9 @@ const interactionSlice = createSlice({
     setSupplierName(state, action) {
       state.supplierName = action.payload;
     },
+    setPurchaseId(state, action) {
+      state.purchaseOrderId = action.payload;
+    },
   },
 });
 
@@ -122,5 +126,6 @@ export const {
   setIsStaffRolePermissionClicked,
   setIsAdminRolePermissionClicked,
   setSupplierName,
+  setPurchaseId,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;

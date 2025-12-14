@@ -12,15 +12,13 @@ const PurchaseOrder = () => {
           <section className="mb-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="">
-                  <h1 className="text-3xl font-bold bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                    Purchase Orders
-                  </h1>
-                  <p className="text-gray-600 mt-2">
-                    Track and manage purchase orders across your suppliers and
-                    vendors
-                  </p>
+                <h1 className="text-3xl font-bold bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  Purchase Orders
                 </h1>
+                <p className="text-gray-600 mt-2">
+                  Track and manage purchase orders across your suppliers and
+                  vendors
+                </p>
               </div>
               <div>
                 <Link

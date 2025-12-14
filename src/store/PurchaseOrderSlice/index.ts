@@ -105,8 +105,15 @@ const PurchaseOrderSlice = createSlice({
         0
       );
     },
-    clearOrder: () => {
-      return initialPurchaseOrderState;
+    clearOrder: (state, action: PayloadAction<string>) => {
+      const order = state.find((order) => order.id === action.payload);
+      if (order) {
+        order.items = [];
+        order.totalAmount = 0;
+        order.notes = "";
+        order.deliveryWarehouse = "";
+        order.expectedDeliveryDate = "";
+      }
     },
   },
 });

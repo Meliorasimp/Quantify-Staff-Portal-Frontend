@@ -1,7 +1,48 @@
+import { useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
 import { useParams } from "react-router-dom";
+import type { RootState } from "../../store";
+import FetchPurchaseOrderById from "../../gql/query/purchaseOrderQuery/purchaseOrderById.gql";
+import type { PurchaseOrderByIdResponseType } from "../../types/purchaseorder";
+import { useQuery } from "@apollo/client/react";
 const PurchaseOrderDetails = () => {
   const { id } = useParams();
+  console.log("Purchase Order ID from URL:", id);
+  const purchaseId = useSelector(
+    (state: RootState) => state.interaction.purchaseOrderId
+  );
+  console.log("Purchase Order ID from Redux:", purchaseId);
+
+  // Use URL param if Redux state is not set, and convert to integer
+  const actualId = purchaseId || (id ? parseInt(id, 10) : undefined);
+  console.log("Actual ID being used:", actualId);
+
+  const {
+    data: purchaseOrderDetailsData,
+    loading,
+    error,
+  } = useQuery<PurchaseOrderByIdResponseType>(FetchPurchaseOrderById, {
+    variables: { id: actualId },
+    fetchPolicy: "network-only",
+    skip: !actualId, // Skip query if no ID is available
+  });
+  if (loading) {
+    return (
+      <div className="flex h-screen overflow-hidden">
+        <Navbar />
+        <main className="flex-1 overflow-y-auto bg-linear-to-br from-gray-50 via-white to-gray-100">
+          <div className="min-h-full p-8">
+            <div className="text-center py-8">
+              <p className="text-lg text-gray-600">
+                Loading purchase order details...
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -12,7 +53,10 @@ const PurchaseOrderDetails = () => {
               <div>
                 <h1 className="text-4xl font-extrabold text-green-600">
                   Purchase Order {id} -{" "}
-                  <span className="font-bold">Pending</span>
+                  <span className="font-bold">
+                    {purchaseOrderDetailsData?.purchaseOrderById.status ||
+                      "Status"}
+                  </span>
                 </h1>
               </div>
             </div>
@@ -45,13 +89,15 @@ const PurchaseOrderDetails = () => {
                   <div>
                     <h3 className="font-light">Order Date</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      27/11/2025
+                      {purchaseOrderDetailsData?.purchaseOrderById.orderDate ||
+                        "01/11/2025"}
                     </p>
                   </div>
                   <div>
                     <h3 className="font-light">Supplier/Vendor Name</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Reika Kalseki
+                      {purchaseOrderDetailsData?.purchaseOrderById
+                        .supplierName || "Unknown Supplier"}
                     </p>
                   </div>
                   <div>
@@ -61,7 +107,8 @@ const PurchaseOrderDetails = () => {
                   <div>
                     <h3 className="font-light">Staff Responsible</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Jane Doe
+                      {purchaseOrderDetailsData?.purchaseOrderById
+                        .staffResponsible || "John Doe"}
                     </p>
                   </div>
                 </div>
@@ -89,7 +136,8 @@ const PurchaseOrderDetails = () => {
                   <div>
                     <h3 className="font-light">Warehouse Destination</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Warehouse Mars
+                      {purchaseOrderDetailsData?.purchaseOrderById
+                        .deliveryWarehouse || "Main Warehouse"}
                     </p>
                   </div>
                   <div>
@@ -101,13 +149,15 @@ const PurchaseOrderDetails = () => {
                   <div>
                     <h3 className="font-light">Expected Arrival Date</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      27/11/2025
+                      {purchaseOrderDetailsData?.purchaseOrderById
+                        .expectedDeliveryDate || "01/25/2025"}
                     </p>
                   </div>
                   <div>
                     <h3 className="font-light">Receiving Status</h3>
                     <p className="font-semibold text-gray-700 text-lg">
-                      Still on the way...
+                      {purchaseOrderDetailsData?.purchaseOrderById.status ||
+                        "Pending"}
                     </p>
                   </div>
                 </div>
@@ -173,76 +223,52 @@ const PurchaseOrderDetails = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Wireless Mouse
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          WM-001
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          50
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $25.00
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $1,250.00
-                        </td>
-                      </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          USB Cable
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          UC-002
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          100
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $5.00
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $500.00
-                        </td>
-                      </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Keyboard
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          KB-003
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          30
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $45.00
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $1,350.00
-                        </td>
-                      </tr>
-                      <tr className="even:bg-green-50 hover:bg-green-100 transition-colors">
-                        <td className="border border-green-200 px-4 py-2">
-                          Monitor Stand
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-gray-600">
-                          MS-004
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-center">
-                          20
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right">
-                          $35.00
-                        </td>
-                        <td className="border border-green-200 px-4 py-2 text-right font-semibold">
-                          $700.00
-                        </td>
-                      </tr>
+                      {purchaseOrderDetailsData?.purchaseOrderById.items.map(
+                        (item) => (
+                          <tr
+                            key={item.id}
+                            className="even:bg-green-50 hover:bg-green-100 transition-colors"
+                          >
+                            <td className="border border-green-200 px-4 py-2">
+                              <p>{item.productName}</p>
+                            </td>
+                            <td className="border border-green-200 px-4 py-2 text-gray-600">
+                              <p>SKU-{item.id}</p>
+                            </td>
+                            <td className="border border-green-200 px-4 py-2 text-right">
+                              <p>{item.quantity}</p>
+                            </td>
+                            <td className="border border-green-200 px-4 py-2 text-right">
+                              <p>&#8369;{item.price}</p>
+                            </td>
+                            <td className="border border-green-200 px-4 py-2 text-right">
+                              <p>
+                                &#8369;{(item.quantity * item.price).toFixed(2)}
+                              </p>
+                            </td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                     <tfoot>
+                      <tr className="bg-green-50">
+                        <td
+                          colSpan={4}
+                          className="border border-green-300 px-4 py-3 text-right text-gray-700"
+                        >
+                          Tax (10%):
+                        </td>
+                        <td className="border border-green-300 px-4 py-3 text-right text-gray-700">
+                          &#8369;{" "}
+                          {(
+                            (purchaseOrderDetailsData?.purchaseOrderById.items.reduce(
+                              (total, item) =>
+                                total + item.quantity * item.price,
+                              0
+                            ) || 0) * 0.1
+                          ).toFixed(2)}
+                        </td>
+                      </tr>
                       <tr className="bg-green-200 font-bold">
                         <td
                           colSpan={4}
@@ -251,7 +277,14 @@ const PurchaseOrderDetails = () => {
                           Total Amount:
                         </td>
                         <td className="border border-green-300 px-4 py-3 text-right text-green-700 text-lg">
-                          $3,800.00
+                          &#8369;{" "}
+                          {(
+                            (purchaseOrderDetailsData?.purchaseOrderById.items.reduce(
+                              (total, item) =>
+                                total + item.quantity * item.price,
+                              0
+                            ) || 0) * 1.1
+                          ).toFixed(2)}
                         </td>
                       </tr>
                     </tfoot>

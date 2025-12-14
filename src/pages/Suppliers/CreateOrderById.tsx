@@ -114,7 +114,7 @@ const CreateOrderById = () => {
         },
       });
       if (response && response.data) {
-        dispatch(clearOrder());
+        dispatch(clearOrder(purchaseOrderId!));
       }
       toast.success("Purchase order created successfully!");
     } catch (error) {
