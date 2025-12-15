@@ -13,12 +13,11 @@ const AllPurchaseOrder = () => {
   };
 
   //Fetch All Purchase Orders
-  const { data: purchaseOrderData } = useQuery<AllPurchaseOrderResponseType>(
-    FetchAllPurchaseOrder,
-    {
+  const { data: purchaseOrderData, loading: purchaseOrderLoading } =
+    useQuery<AllPurchaseOrderResponseType>(FetchAllPurchaseOrder, {
       fetchPolicy: "network-only", // Always fetch from network, bypass cache
-    }
-  );
+    });
+
   console.log("All Purchase Orders Data:", purchaseOrderData);
   return (
     <div className="flex h-screen overflow-hidden">
@@ -65,8 +64,13 @@ const AllPurchaseOrder = () => {
               </div>
             </div>
           </section>
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {purchaseOrderData?.allPurchaseOrder?.map((order) => (
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+            {purchaseOrderLoading && (
+              <div className="text-center text-3xl mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500">
+                Loading purchase orders...
+              </div>
+            )}
+            {purchaseOrderData?.allPendingPurchaseOrders?.map((order) => (
               <div
                 key={order.id}
                 className="bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -75,7 +79,13 @@ const AllPurchaseOrder = () => {
                   <h1 className="uppercase text-gray-700 font-bold tracking-wide">
                     PO: #{order.purchaseOrderNumber}
                   </h1>
-                  <span className="uppercase text-orange-600 font-semibold bg-orange-50 px-3 py-1 rounded-full text-sm">
+                  <span
+                    className={`uppercase ${
+                      order.status === "Pending"
+                        ? "text-orange-600 font-semibold bg-orange-50"
+                        : "text-green-600 font-semibold bg-green-50"
+                    } px-3 py-1 rounded-full text-sm`}
+                  >
                     {order.status}
                   </span>
                 </div>
@@ -89,11 +99,7 @@ const AllPurchaseOrder = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Date Issued:</span>
                     <span className="font-semibold text-gray-800">
-                      {new Date(order.orderDate).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {order.orderDate}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">

@@ -1,0 +1,9 @@
+query AllDeliveredOrders {
+  allDeliveredPurchasedOrders {
+    id
+    purchaseOrderNumber
+    orderDate
+    supplierName
+    staffResponsible
+  }
+}
