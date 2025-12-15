@@ -1,21 +1,30 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../../components/Navbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { RootState } from "../../store";
 import FetchPurchaseOrderById from "../../gql/query/purchaseOrderQuery/purchaseOrderById.gql";
 import type { PurchaseOrderByIdResponseType } from "../../types/purchaseorder";
-import { useQuery } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
+import { setIsMarkAsDeliveredPopupOpen } from "../../store/InteractionSlice";
+import ChangeOrderStatus from "../../gql/mutations/PurchaseOrderMutation/changeOrderStatus.gql";
+import FetchAllPurchaseOrder from "../../gql/query/purchaseOrderQuery/allPurchaseOrderQuery.gql";
+import { lazy, Suspense } from "react";
+import { toast } from "sonner";
+const MarkAsDeliveredPopup = lazy(
+  () => import("../../popup/MarkAsDeliveredConfirmation")
+);
 const PurchaseOrderDetails = () => {
   const { id } = useParams();
-  console.log("Purchase Order ID from URL:", id);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const purchaseId = useSelector(
     (state: RootState) => state.interaction.purchaseOrderId
   );
-  console.log("Purchase Order ID from Redux:", purchaseId);
 
-  // Use URL param if Redux state is not set, and convert to integer
+  const isMarkAsDeliveredPopupOpen = useSelector(
+    (state: RootState) => state.interaction.isMarkAsDeliveredPopupOpen
+  );
   const actualId = purchaseId || (id ? parseInt(id, 10) : undefined);
-  console.log("Actual ID being used:", actualId);
 
   const { data: purchaseOrderDetailsData, loading } =
     useQuery<PurchaseOrderByIdResponseType>(FetchPurchaseOrderById, {
@@ -23,13 +32,36 @@ const PurchaseOrderDetails = () => {
       fetchPolicy: "network-only",
       skip: !actualId, // Skip query if no ID is available
     });
+
+  const [ChangePOStatus, { loading: changeStatusLoading }] = useMutation(
+    ChangeOrderStatus,
+    {
+      refetchQueries: [FetchAllPurchaseOrder],
+    }
+  );
+  console.log("Loading status:", changeStatusLoading);
+  const HandleChangeStatus = async (id: number) => {
+    try {
+      const response = await ChangePOStatus({
+        variables: {
+          id,
+        },
+      });
+      if (response && response.data) {
+        toast.success("Purchase order marked as delivered.");
+        navigate("/purchaseorders/all");
+      }
+    } catch (e) {
+      console.error("Error changing order status:", e);
+    }
+  };
   if (loading) {
     return (
       <div className="flex h-screen overflow-hidden">
         <Navbar />
         <main className="flex-1 overflow-y-auto bg-linear-to-br from-gray-50 via-white to-gray-100">
           <div className="min-h-full p-8">
-            <div className="text-center py-8">
+            <div className="text-center flex justify-between items-center py-8">
               <p className="text-lg text-gray-600">
                 Loading purchase order details...
               </p>
@@ -50,7 +82,14 @@ const PurchaseOrderDetails = () => {
               <div>
                 <h1 className="text-4xl font-extrabold text-green-600">
                   Purchase Order {id} -{" "}
-                  <span className="font-bold">
+                  <span
+                    className={`font-bold ${
+                      purchaseOrderDetailsData?.purchaseOrderById.status ===
+                      "Pending"
+                        ? "text-yellow-500"
+                        : "text-green-500"
+                    }`}
+                  >
                     {purchaseOrderDetailsData?.purchaseOrderById.status ||
                       "Status"}
                   </span>
@@ -152,7 +191,14 @@ const PurchaseOrderDetails = () => {
                   </div>
                   <div>
                     <h3 className="font-light">Receiving Status</h3>
-                    <p className="font-semibold text-gray-700 text-lg">
+                    <p
+                      className={`font-bold ${
+                        purchaseOrderDetailsData?.purchaseOrderById.status ===
+                        "Pending"
+                          ? "text-yellow-500"
+                          : "text-green-500"
+                      }`}
+                    >
                       {purchaseOrderDetailsData?.purchaseOrderById.status ||
                         "Pending"}
                     </p>
@@ -179,23 +225,49 @@ const PurchaseOrderDetails = () => {
                   </svg>
                   <div className="flex items-center justify-between w-full">
                     <h1 className="text-xl font-bold p-2">Order List</h1>
-                    <div className="flex items-center gap-x-2 text-green-600 hover:underline cursor-pointer">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        className="size-6"
+                    {purchaseOrderDetailsData?.purchaseOrderById.status ===
+                    "Pending" ? (
+                      <div
+                        className="flex items-center gap-x-2 text-green-600 hover:underline cursor-pointer"
+                        onClick={() =>
+                          dispatch(setIsMarkAsDeliveredPopupOpen(true))
+                        }
                       >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="m4.5 12.75 6 6 9-13.5"
-                        />
-                      </svg>
-                      <h1 className="text-green-600">Mark as Delivered</h1>
-                    </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25"
+                          />
+                        </svg>
+                        <h1 className="text-green-600">Mark as Delivered</h1>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-x-2 text-green-600">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m4.5 12.75 6 6 9-13.5"
+                          />
+                        </svg>
+                        <h1 className="text-green-600">Delivered</h1>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="overflow-x-auto">
@@ -292,6 +364,19 @@ const PurchaseOrderDetails = () => {
           </div>
         </div>
       </main>
+      {isMarkAsDeliveredPopupOpen && (
+        <Suspense
+          fallback={<div className="absolute inset-0 z-10">Loading...</div>}
+        >
+          <MarkAsDeliveredPopup
+            onClose={() => {
+              dispatch(setIsMarkAsDeliveredPopupOpen(false));
+            }}
+            onConfirm={() => HandleChangeStatus(Number(actualId!))}
+            onLoading={changeStatusLoading}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

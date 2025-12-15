@@ -1,5 +1,5 @@
 query AllPurchaseOrders {
-  allPurchaseOrder {
+  allPendingPurchaseOrders {
     id
     purchaseOrderNumber
     supplierName

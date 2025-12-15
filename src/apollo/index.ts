@@ -30,7 +30,34 @@ const httpLink = new HttpLink({
 
 const client = new ApolloClient({
   link: from([authLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          allPurchaseOrder: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+          inventoryItems: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+          allStorageLocations: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+          warehouses: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
 });
 
 export default client;

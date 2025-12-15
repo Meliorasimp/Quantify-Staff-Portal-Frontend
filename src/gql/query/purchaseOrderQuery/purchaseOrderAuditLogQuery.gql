@@ -1,0 +1,9 @@
+query FetchPurchaseOrderAuditLogs {
+  purchaseOrderAuditLogs {
+    id
+    action
+    totalUnits
+    supplierName
+    timestamp
+  }
+}

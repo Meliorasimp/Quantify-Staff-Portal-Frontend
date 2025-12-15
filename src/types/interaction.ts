@@ -20,4 +20,5 @@ export interface InteractionType {
   isAdminRolePermissionClicked?: boolean;
   supplierName?: string;
   purchaseOrderId?: string;
+  isMarkAsDeliveredPopupOpen: boolean;
 }

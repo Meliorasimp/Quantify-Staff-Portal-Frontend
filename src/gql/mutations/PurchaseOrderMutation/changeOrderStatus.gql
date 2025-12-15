@@ -1,0 +1,6 @@
+mutation ChangeOrderStatus($id: Int!) {
+  changeStatusOfPurchaseOrder(id: $id) {
+    id
+    status
+  }
+}

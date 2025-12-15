@@ -1,8 +1,37 @@
 import Navbar from "../../components/Navbar";
 import Line from "../../components/Chart/LineChart";
 import { Link } from "react-router-dom";
-
+import FetchDeliveredOrders from "../../gql/query/purchaseOrderQuery/allDeliveredOrderQuery.gql";
+import FetchAuditLogs from "../../gql/query/purchaseOrderQuery/purchaseOrderAuditLogQuery.gql";
+import type {
+  AllDeliveredPurchasedOrdersResponseType,
+  PurchaseOrderAuditLogResponseType,
+} from "../../types/purchaseorder";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client/react";
+import { FormatDate } from "../../Utils";
+import { setPurchaseId } from "../../store/InteractionSlice";
+import { TimeAgo } from "../../Utils";
 const PurchaseOrder = () => {
+  //Fetch All Delivered Purchase Orders
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { data: deliveredOrderData } =
+    useQuery<AllDeliveredPurchasedOrdersResponseType>(FetchDeliveredOrders, {
+      fetchPolicy: "network-only",
+    });
+  const { data: auditLogData } = useQuery<PurchaseOrderAuditLogResponseType>(
+    FetchAuditLogs,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
+  console.log("Purchase Order Audit Logs Data:", auditLogData);
+  const handleDynamicClick = (id: string) => {
+    navigate(`/purchaseorders/${id}`);
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -139,56 +168,37 @@ const PurchaseOrder = () => {
                   Recent Purchase Orders
                 </h2>
               </div>
-              <div className="px-6 flex flex-col gap-y-2">
-                <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-green-400 p-2 rounded-2xl text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Purchased 100 units of Product X from Warehouse A
-                    </p>
-                    <p className="text-sm text-gray-500">50 Minutes Ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-green-400 p-2 rounded-2xl text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Purchased 100 units of Product X from Warehouse B
-                    </p>
-                    <p className="text-sm text-gray-500">50 Minutes Ago</p>
+              {auditLogData?.purchaseOrderAuditLogs.map((log) => (
+                <div className="px-6 flex flex-col gap-y-2" key={log.id}>
+                  <div className="flex items-center gap-x-4 mb-4">
+                    <div className="bg-green-400 p-2 rounded-2xl text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="size-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {log.action === "Create" ? "Purchased" : log.action}{" "}
+                        {log.totalUnits} units from {log.supplierName}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {TimeAgo(log.timestamp)}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </section>
           <section className="mt-4">
@@ -217,13 +227,6 @@ const PurchaseOrder = () => {
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <select className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40">
-                    <option value="">Type</option>
-                    <option value="electronics">Inbound</option>
-                    <option value="furniture">Outbound</option>
-                    <option value="clothing">Transfer</option>
-                  </select>
-
                   <select className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40">
                     <option value="">All Warehouses</option>
                     <option value="pluto">Pluto Warehouse</option>
@@ -257,103 +260,49 @@ const PurchaseOrder = () => {
                           <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
                             Order Date
                           </th>
-                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
-                            Order Status
-                          </th>
                           <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
                             Supplier
                           </th>
                           <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
                             Staff Member
                           </th>
+                          <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            PO-00123
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            January 15, 2024
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Received
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Alpha Supplies Co.
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Jane Doe
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            PO-00123
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            January 15, 2024
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Received
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Alpha Supplies Co.
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Jane Doe
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            PO-00123
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            January 15, 2024
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Received
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Alpha Supplies Co.
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Jane Doe
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            PO-00123
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            January 15, 2024
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Received
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Alpha Supplies Co.
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Jane Doe
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            PO-00123
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            January 15, 2024
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Received
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Alpha Supplies Co.
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            Jane Doe
-                          </td>
-                        </tr>
+                        {deliveredOrderData?.allDeliveredPurchasedOrders.map(
+                          (order) => (
+                            <tr key={order.id}>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                PO-{order.purchaseOrderNumber}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {FormatDate(order.orderDate)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {order.supplierName}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {order.staffResponsible}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <button
+                                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all duration-200 cursor-pointer"
+                                  onClick={() => {
+                                    handleDynamicClick(
+                                      order.purchaseOrderNumber.toString()
+                                    );
+                                    dispatch(setPurchaseId(order.id));
+                                  }}
+                                >
+                                  View Details
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>

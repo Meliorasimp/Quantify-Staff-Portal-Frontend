@@ -25,7 +25,7 @@ interface AllPurchaseOrders {
 }
 
 export interface AllPurchaseOrderResponseType {
-  allPurchaseOrder: AllPurchaseOrders[];
+  allPendingPurchaseOrders: AllPurchaseOrders[];
 }
 
 export interface PurchaseOrderByIdResponseType {
@@ -44,4 +44,28 @@ export interface PurchaseOrderByIdResponseType {
       price: number;
     }>;
   };
+}
+
+interface AllDeliveredPurchasedOrders {
+  id: number;
+  purchaseOrderNumber: number;
+  orderDate: string;
+  supplierName: string;
+  staffResponsible: string;
+}
+
+export interface AllDeliveredPurchasedOrdersResponseType {
+  allDeliveredPurchasedOrders: AllDeliveredPurchasedOrders[];
+}
+
+interface PurchaseOrderAuditLog {
+  id: number | string;
+  action: string;
+  totalUnits: number;
+  supplierName: string;
+  timestamp: string;
+}
+
+export interface PurchaseOrderAuditLogResponseType {
+  purchaseOrderAuditLogs: PurchaseOrderAuditLog[];
 }

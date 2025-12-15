@@ -23,6 +23,7 @@ const initialInteractionState: InteractionType = {
   isAdminRolePermissionClicked: false,
   supplierName: undefined,
   purchaseOrderId: undefined,
+  isMarkAsDeliveredPopupOpen: false,
 };
 
 const interactionSlice = createSlice({
@@ -100,6 +101,9 @@ const interactionSlice = createSlice({
     setPurchaseId(state, action) {
       state.purchaseOrderId = action.payload;
     },
+    setIsMarkAsDeliveredPopupOpen(state, action) {
+      state.isMarkAsDeliveredPopupOpen = action.payload;
+    },
   },
 });
 
@@ -127,5 +131,6 @@ export const {
   setIsAdminRolePermissionClicked,
   setSupplierName,
   setPurchaseId,
+  setIsMarkAsDeliveredPopupOpen,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;
