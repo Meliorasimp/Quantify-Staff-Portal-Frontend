@@ -35,22 +35,22 @@ const client = new ApolloClient({
       Query: {
         fields: {
           allPurchaseOrder: {
-            merge(existing, incoming) {
+            merge(_existing, incoming) {
               return incoming;
             },
           },
           inventoryItems: {
-            merge(existing, incoming) {
+            merge(_existing, incoming) {
               return incoming;
             },
           },
           allStorageLocations: {
-            merge(existing, incoming) {
+            merge(_existing, incoming) {
               return incoming;
             },
           },
           warehouses: {
-            merge(existing, incoming) {
+            merge(_existing, incoming) {
               return incoming;
             },
           },
