@@ -38,15 +38,12 @@ import UpdateInventory from "../components/UpdateInventory";
 
 const Inventory = () => {
   const dispatch = useDispatch();
-  const apiUrl = import.meta.env.VITE_API_URL;
-  console.log("API URL:", apiUrl);
 
   const exportInventory = async () => {
     try {
       const response = await fetch("https://localhost:7009/api/export", {
         method: "GET",
       });
-
       if (!response.ok) throw new Error("Failed to fetch");
 
       const blob = await response.blob();
@@ -210,24 +207,31 @@ const Inventory = () => {
   //Method to Update Inventory Item
   const handleUpdateInventoryItem = async () => {
     try {
-      console.log("Updating inventory with:", {
+      // Only include fields that have values
+      const variables: any = {
         id: updateId,
-        itemSKU: itemSKU,
-        category: category,
-        productName: productName,
-        quantityInStock: quantityInStock,
-        reorderLevel: reorderLevel,
-      });
+      };
+
+      if (itemSKU) variables.itemSKU = itemSKU;
+      if (category) variables.category = category;
+      if (productName) variables.productName = productName;
+      if (
+        quantityInStock !== undefined &&
+        quantityInStock !== null &&
+        quantityInStock !== 0
+      )
+        variables.quantityInStock = quantityInStock;
+      if (
+        reorderLevel !== undefined &&
+        reorderLevel !== null &&
+        reorderLevel !== 0
+      )
+        variables.reorderLevel = reorderLevel;
+
+      console.log("Updating inventory with:", variables);
 
       await updateInventoryMutation({
-        variables: {
-          id: updateId,
-          itemSKU: itemSKU,
-          category: category,
-          productName: productName,
-          quantityInStock: quantityInStock,
-          reorderLevel: reorderLevel,
-        },
+        variables,
       });
 
       console.log("Update successful!");

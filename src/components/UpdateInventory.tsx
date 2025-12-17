@@ -72,9 +72,12 @@ const UpdateInventory = ({ onCancel, onConfirm }: UpdateInventoryPopup) => {
                 type="number"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 placeholder="0"
-                onChange={(e) =>
-                  dispatch(setQuantityInStock(Number(e.target.value)))
-                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  dispatch(
+                    setQuantityInStock(value ? Number(value) : undefined)
+                  );
+                }}
               />
             </div>
             <div className="w-1/2">
@@ -85,9 +88,10 @@ const UpdateInventory = ({ onCancel, onConfirm }: UpdateInventoryPopup) => {
                 type="number"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 placeholder="0"
-                onChange={(e) =>
-                  dispatch(setReorderLevel(Number(e.target.value)))
-                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  dispatch(setReorderLevel(value ? Number(value) : undefined));
+                }}
               />
             </div>
           </div>

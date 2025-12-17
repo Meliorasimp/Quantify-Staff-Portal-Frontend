@@ -1,0 +1,14 @@
+query FetchAllAuditLogs {
+  allAuditLogs {
+    id
+    action
+    tableName
+    recordId
+    oldValue
+    newValue
+    deletedValue
+    userId
+    userName
+    timestamp
+  }
+}

@@ -1,91 +1,18 @@
 import Navbar from "../components/Navbar";
 import { useState } from "react";
+import FetchAllAuditLogs from "../gql/query/auditLogQuery/allAuditLogQuery.gql";
+import { useQuery } from "@apollo/client/react";
+import type { AuditLogResponseType } from "../types/auditlog";
 
 const AuditLogs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAction, setSelectedAction] = useState("all");
   const [selectedDateRange, setSelectedDateRange] = useState("7days");
 
+  const { data: auditLogData } =
+    useQuery<AuditLogResponseType>(FetchAllAuditLogs);
+  console.log("Audit Log Data:", auditLogData);
   // Sample audit log data
-  const auditLogs = [
-    {
-      id: 1,
-      timestamp: "2025-12-08 14:32:15",
-      user: "John Doe",
-      action: "CREATE",
-      resource: "Inventory",
-      details: "Added new item: Widget A (SKU: WDG-001)",
-      ipAddress: "192.168.1.100",
-      status: "success",
-    },
-    {
-      id: 2,
-      timestamp: "2025-12-08 14:28:42",
-      user: "Jane Smith",
-      action: "UPDATE",
-      resource: "Warehouse",
-      details: "Updated warehouse location: Main Warehouse",
-      ipAddress: "192.168.1.105",
-      status: "success",
-    },
-    {
-      id: 3,
-      timestamp: "2025-12-08 14:15:23",
-      user: "Mike Johnson",
-      action: "DELETE",
-      resource: "User",
-      details: "Removed user access: user@example.com",
-      ipAddress: "192.168.1.110",
-      status: "success",
-    },
-    {
-      id: 4,
-      timestamp: "2025-12-08 13:45:10",
-      user: "Sarah Wilson",
-      action: "LOGIN",
-      resource: "Authentication",
-      details: "User logged in successfully",
-      ipAddress: "192.168.1.115",
-      status: "success",
-    },
-    {
-      id: 5,
-      timestamp: "2025-12-08 13:30:05",
-      user: "Tom Brown",
-      action: "UPDATE",
-      resource: "Inventory",
-      details: "Stock quantity updated for SKU: WDG-002",
-      ipAddress: "192.168.1.120",
-      status: "success",
-    },
-    {
-      id: 6,
-      timestamp: "2025-12-08 12:15:30",
-      user: "Anonymous",
-      action: "LOGIN",
-      resource: "Authentication",
-      details: "Failed login attempt",
-      ipAddress: "192.168.1.200",
-      status: "failed",
-    },
-  ];
-
-  const getActionBadge = (action: string) => {
-    const badges = {
-      CREATE: "bg-green-100 text-green-700",
-      UPDATE: "bg-blue-100 text-blue-700",
-      DELETE: "bg-red-100 text-red-700",
-      LOGIN: "bg-purple-100 text-purple-700",
-      LOGOUT: "bg-gray-100 text-gray-700",
-    };
-    return badges[action as keyof typeof badges] || "bg-gray-100 text-gray-700";
-  };
-
-  const getStatusBadge = (status: string) => {
-    return status === "success"
-      ? "bg-green-50 text-green-700 border border-green-200"
-      : "bg-red-50 text-red-700 border border-red-200";
-  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
@@ -204,7 +131,7 @@ const AuditLogs = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider max-w-10">
                         Timestamp
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -219,60 +146,52 @@ const AuditLogs = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Details
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        IP Address
-                      </th>
+
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {auditLogs.map((log) => (
+                    {auditLogData?.allAuditLogs?.map((log) => (
                       <tr
                         key={log.id}
                         className="hover:bg-gray-50 transition-colors duration-150"
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {log.timestamp}
+                          {new Date(log.timestamp).toLocaleString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
                               <span className="text-blue-700 font-medium text-sm">
-                                {log.user.charAt(0)}
+                                {log.userName.charAt(0).toUpperCase()}
                               </span>
                             </div>
                             <span className="ml-3 text-sm font-medium text-gray-900">
-                              {log.user}
+                              {log.userName}
                             </span>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getActionBadge(
-                              log.action
-                            )}`}
-                          >
+                          <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
                             {log.action}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {log.resource}
+                          {log.tableName}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
-                          {log.details}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
-                          {log.ipAddress}
+                        <td className="px-6 py-4 text-sm text-gray-600 max-w-md">
+                          {log.tableName === "PurchaseOrders" &&
+                            log.action === "Create" &&
+                            `Created Purchase Order ID: ${log.recordId}`}
+                          {log.action === "Create" &&
+                            log.tableName !== "PurchaseOrders" &&
+                            `Created record ID: `}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadge(
-                              log.status
-                            )}`}
-                          >
-                            {log.status}
+                          <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                            success
                           </span>
                         </td>
                       </tr>

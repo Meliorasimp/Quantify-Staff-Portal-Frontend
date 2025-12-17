@@ -309,32 +309,30 @@ const StockMovement = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-32">
                           Item SKU
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-40">
                           Product Name
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-32">
                           Quantity
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-32">
-                          Before After
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-32">
+                          Type
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-48">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-48">
                           Warehouse Location
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-40">
                           User
                         </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider min-w-40">
+                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-40">
                           Timestamp
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="text-center">
-                      Data Here should be coming from the other pages
-                    </tbody>
+                    <tbody className="text-center"></tbody>
                   </table>
                 </div>
               </div>

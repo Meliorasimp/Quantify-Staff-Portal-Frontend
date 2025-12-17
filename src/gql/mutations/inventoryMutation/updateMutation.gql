@@ -1,10 +1,10 @@
 mutation UpdateInventory(
   $id: Int!
-  $itemSKU: String!
-  $category: String!
-  $productName: String!
-  $quantityInStock: Int!
-  $reorderLevel: Int!
+  $itemSKU: String
+  $category: String
+  $productName: String
+  $quantityInStock: Int
+  $reorderLevel: Int
 ) {
   updateInventory(
     inventoryId: $id
