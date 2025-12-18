@@ -34,5 +34,6 @@ export interface OneWarehouseResponseType {
     totalProducts?: number;
     availableSectors?: number;
     capacityUtilization?: number;
+    contactEmail?: string;
   };
 }

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { type RootState } from "../store";
 import { addNewRow, removeRow, updateRow } from "../store/WarehouseSlice";
 import AddWarehouse from "../gql/mutations/warehouseMutation/warehouseMutation.gql";
+import GetAllWarehouse from "../gql/query/warehouseQuery/warehouseQuery.gql";
 import { useMutation } from "@apollo/client/react";
 import type React from "react";
 
@@ -21,28 +22,23 @@ const AddWarehouseModal = () => {
     region: item.region,
     status: item.status,
   }));
-  const [addWarehouse] = useMutation(AddWarehouse);
+  const [addWarehouse] = useMutation(AddWarehouse, {
+    refetchQueries: [{ query: GetAllWarehouse }],
+  });
   const handleClose = () => {
     dispatch(setIsWarehouseModalOpen(false));
   };
   const handleWarehouseSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Debug: Check if we have a token
-    const token = localStorage.getItem("token");
-    console.log("DEBUG: Token exists:", !!token);
-    console.log(
-      "DEBUG: Token preview:",
-      token ? token.substring(0, 20) + "..." : "null"
-    );
-
     try {
       const response = await addWarehouse({
         variables: {
           input: warehouseData,
         },
       });
-      console.log("Warehouse added successfully:", response);
+      if (response && response.data) {
+        dispatch(setIsWarehouseModalOpen(false));
+      }
     } catch (err: unknown) {
       console.error("Error adding warehouse:", err);
     }

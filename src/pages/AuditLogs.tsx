@@ -144,10 +144,6 @@ const AuditLogs = () => {
                         Resource
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Details
-                      </th>
-
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
                     </tr>
@@ -180,14 +176,6 @@ const AuditLogs = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {log.tableName}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-600 max-w-md">
-                          {log.tableName === "PurchaseOrders" &&
-                            log.action === "Create" &&
-                            `Created Purchase Order ID: ${log.recordId}`}
-                          {log.action === "Create" &&
-                            log.tableName !== "PurchaseOrders" &&
-                            `Created record ID: `}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">

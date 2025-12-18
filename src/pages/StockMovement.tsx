@@ -1,6 +1,18 @@
 import Navbar from "../components/Navbar";
 import Bar from "../components/Chart/BarChart";
+import FetchAllStockMovements from "../gql/query/stockMovementQuery/stockMovementQuery.gql";
+import { useQuery } from "@apollo/client/react";
+import type { StockMovementResponseType } from "../types/stockMovement";
 const StockMovement = () => {
+  const { data: stockMovementData } = useQuery<StockMovementResponseType>(
+    FetchAllStockMovements
+  );
+
+  const recentStocksDisplayData = stockMovementData?.getAllStockMovements.slice(
+    0,
+    5
+  );
+  console.log(stockMovementData);
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -21,6 +33,18 @@ const StockMovement = () => {
                 </h1>
               </div>
             </div>
+          </div>
+          <div className="mb-3 text-gray-700 flex items-center">
+            <h1 className="text-sm">Statistics Display:</h1>
+            <select
+              name="statisticsDisplay"
+              id="statisticsDisplay"
+              className="ml-4 p-1 border border-gray-300 rounded text-sm"
+            >
+              <option value="inbound">All Time</option>
+              <option value="outbound">This Month</option>
+              <option value="transfers">This Week</option>
+            </select>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-linear-to-br from-white to-green-50 rounded-2xl shadow-sm border border-green-200/50 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -130,7 +154,76 @@ const StockMovement = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 p-6 mb-6">
+
+          {/* Table or content for stock movements can go here */}
+          <section className="flex gap-x-4">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 w-2/3">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Stock Movement Analytics
+                </h3>
+                <div className="flex items-center space-x-2">
+                  <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500">
+                    <option>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Last 90 days</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Placeholder for chart */}
+              <div className="w-full h-[250px] md:h-[400px] p-4">
+                <div className="flex items-center justify-center w-full h-full">
+                  <Bar />
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden w-1/3 ">
+              <div className="px-6 py-4">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Recent Stocks
+                </h2>
+              </div>
+              <div className="px-6 flex flex-col gap-y-2">
+                {recentStocksDisplayData?.map((stocks) => (
+                  <div key={stocks.id}>
+                    {stocks.type === "Inbound" && (
+                      <div className="flex items-center gap-x-4 mb-4">
+                        <div className="bg-green-400 p-2 rounded-2xl text-white">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="size-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+                            />
+                          </svg>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-sm font-medium text-gray-900">
+                            Added {stocks.quantity} {stocks.productName} to
+                            Warehouse {stocks.warehouseName}
+                          </p>
+                          <div className="flex gap-x-2 text-gray-500 items-center">
+                            <p className="text-sm">2 hours ago</p>
+                            <p className="text-gray-400">&bull;</p>
+                            <p className="text-sm">{stocks.user}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 p-6 mb-6 mt-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0 lg:space-x-6">
               <div className="relative flex-1 max-w-md">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -189,111 +282,6 @@ const StockMovement = () => {
               </div>
             </div>
           </div>
-          {/* Table or content for stock movements can go here */}
-          <section className="flex gap-x-4">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 w-2/3">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Stock Movement Analytics
-                </h3>
-                <div className="flex items-center space-x-2">
-                  <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500">
-                    <option>Last 7 days</option>
-                    <option>Last 30 days</option>
-                    <option>Last 90 days</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Placeholder for chart */}
-              <div className="w-full h-[250px] md:h-[400px] p-4">
-                <div className="flex items-center justify-center w-full h-full">
-                  <Bar />
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden w-1/3 ">
-              <div className="px-6 py-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Recent Stocks
-                </h2>
-              </div>
-              <div className="px-6 flex flex-col gap-y-2">
-                <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-green-400 p-2 rounded-2xl text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-sm font-medium text-gray-900">
-                      Added Product X to Warehouse A
-                    </p>
-                    <p className="text-sm text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-red-400 p-2 rounded-2xl text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Removed Product Y from Warehouse B
-                    </p>
-                    <p className="text-sm text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-x-4 mb-4">
-                  <div className="bg-blue-400 p-2 rounded-2xl text-white">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Transfered Product Z from Warehouse B to Warehouse C
-                    </p>
-                    <p className="text-sm text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
           <section className="bg-white rounded-2xl shadow-sm border border-gray-200/50 overflow-hidden mt-4">
             <div className="px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">
@@ -332,7 +320,38 @@ const StockMovement = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="text-center"></tbody>
+                    <tbody className="text-center">
+                      {stockMovementData?.getAllStockMovements.map(
+                        (movement) => (
+                          <tr
+                            key={movement.id}
+                            className="border-b border-gray-200 hover:bg-gray-50"
+                          >
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {movement.itemSku}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {movement.productName}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              {movement.quantity}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {movement.type}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {movement.warehouseName}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {movement.user}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
+                              {new Date(movement.timestamp).toLocaleString()}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
                   </table>
                 </div>
               </div>

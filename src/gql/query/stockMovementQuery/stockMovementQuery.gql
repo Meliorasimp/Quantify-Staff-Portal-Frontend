@@ -1,0 +1,12 @@
+query FetchAllStockMovements {
+  getAllStockMovements {
+    id
+    itemSku
+    productName
+    quantity
+    type
+    warehouseName
+    user
+    timestamp
+  }
+}

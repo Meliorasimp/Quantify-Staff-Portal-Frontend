@@ -50,3 +50,13 @@ export const TimeAgo = (dateString: string) => {
   const days = Math.floor(hours / 24);
   return `${days} days ago`;
 };
+
+export const Paginate = <T>(
+  items: T[],
+  currentPage: number,
+  itemsPerPage: number
+): T[] => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return items.slice(startIndex, endIndex);
+};

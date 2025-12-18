@@ -23,7 +23,6 @@ const Warehouses = () => {
   const warehouseId = useSelector(
     (state: RootState) => state.individualWarehouse.warehouseId
   );
-  console.log("Selected Warehouse ID:", warehouseId);
 
   const {
     data: oneWarehouseData,
@@ -53,22 +52,6 @@ const Warehouses = () => {
                   Monitor and manage all your warehouse locations with real-time
                   insights.
                 </p>
-              </div>
-              <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>Last updated: 2 minutes ago</span>
               </div>
             </div>
           </div>
@@ -109,9 +92,14 @@ const Warehouses = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2 bg-gray-50 rounded-xl px-4 py-3">
+              </div>
+              <div className="flex gap-x-4">
+                <button
+                  className="bg-linear-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+                  onClick={() => dispatch(setIsWarehouseModalOpen(true))}
+                >
                   <svg
-                    className="w-5 h-5 text-gray-400"
+                    className="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -120,40 +108,34 @@ const Warehouses = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  <input
-                    type="text"
-                    placeholder="Search warehouses..."
-                    className="bg-transparent border-none outline-none text-gray-700 placeholder-gray-400"
-                  />
-                </div>
+                  <span>Add New Warehouse</span>
+                </button>
+                <button className="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                    />
+                  </svg>
+                  <span>Update Warehouse</span>
+                </button>
               </div>
-              <button
-                className="bg-linear-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                onClick={() => dispatch(setIsWarehouseModalOpen(true))}
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-                <span>Add New Warehouse</span>
-              </button>
             </div>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -311,254 +293,41 @@ const Warehouses = () => {
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-600 mb-2">
-                    Active Staff
+                    Total Warehouses
                   </p>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">0</p>
-                  <div className="flex items-center text-sm text-purple-600">
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                      />
-                    </svg>
-                    <span>0</span>
+                  <div className="w-full flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <p className="text-3xl font-bold text-gray-900">
+                        {warehouseQueryData?.allWarehouses?.length ?? 0}
+                      </p>
+                      <span className="text-sm text-purple-500 font-normal pt-2">
+                        Active Locations
+                      </span>
+                    </div>
+                    <div className="w-14 h-14 bg-linear-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-purple-300 transition-all duration-300">
+                      <svg
+                        className="w-7 h-7 text-purple-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-                <div className="w-14 h-14 bg-linear-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-purple-300 transition-all duration-300">
-                  <svg
-                    className="w-7 h-7 text-purple-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Stock Movement Summary Card */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-indigo-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Recent Stock Movements
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Latest inventory transactions across all warehouses
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-500">Updated 5 min ago</span>
-                <button className="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
-                  View All →
-                </button>
-              </div>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Product
-                    </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Type
-                    </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Quantity
-                    </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Warehouse
-                    </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Date
-                    </th>
-                    <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-3 px-4">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  <tr className="hover:bg-gray-50 transition-colors duration-200">
-                    <td className="py-4 px-4">
-                      <div className="flex items-center">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            Gaming Laptop Pro
-                          </p>
-                          <p className="text-xs text-gray-500">SKU: LAP-001</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        <svg
-                          className="w-3 h-3 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
-                        Stock In
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm font-medium text-gray-900">
-                        +25
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-700">
-                        Manila Central
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-500">2 hours ago</span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Completed
-                      </span>
-                    </td>
-                  </tr>
-
-                  <tr className="hover:bg-gray-50 transition-colors duration-200">
-                    <td className="py-4 px-4">
-                      <div className="flex items-center">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            Wireless Mouse
-                          </p>
-                          <p className="text-xs text-gray-500">SKU: MSE-042</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                        <svg
-                          className="w-3 h-3 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M20 12H4"
-                          />
-                        </svg>
-                        Stock Out
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm font-medium text-gray-900">
-                        -150
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-700">
-                        Cebu Distribution
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-500">4 hours ago</span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Completed
-                      </span>
-                    </td>
-                  </tr>
-
-                  <tr className="hover:bg-gray-50 transition-colors duration-200">
-                    <td className="py-4 px-4">
-                      <div className="flex items-center">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            Office Chair Deluxe
-                          </p>
-                          <p className="text-xs text-gray-500">SKU: CHR-089</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        <svg
-                          className="w-3 h-3 mr-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                          />
-                        </svg>
-                        Transfer
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm font-medium text-gray-900">
-                        10
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-700">
-                        Manila → Davao
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-sm text-gray-500">6 hours ago</span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        In Transit
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
 
@@ -636,196 +405,118 @@ const Warehouses = () => {
                 </div>
               </div>
 
-              {/* Inventory Summary */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Inventory Summary
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+              {/* Storage Locations & Contact */}
+              {warehouseId && oneWarehouseData && (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Contact Information
+                  </h3>
+                  <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg
-                          className="w-4 h-4 text-blue-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                          />
-                        </svg>
-                      </div>
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
                       <div>
-                        <p className="text-sm text-gray-600">Total Items</p>
-                        <p className="font-semibold text-gray-900">2,847</p>
+                        <p className="text-sm text-gray-600">Phone</p>
+                        <p className="text-sm font-medium text-gray-900">N/A</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-600">Value</p>
-                      <p className="font-semibold text-gray-900">₱12.5M</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-xl border border-yellow-200">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
-                        <svg
-                          className="w-4 h-4 text-yellow-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
-                          />
-                        </svg>
-                      </div>
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
                       <div>
-                        <p className="text-sm text-gray-600">Low Stock Items</p>
-                        <p className="font-semibold text-gray-900">23</p>
+                        <p className="text-sm text-gray-600">Email</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {oneWarehouseData?.warehouse?.contactEmail || "N/A"}
+                        </p>
                       </div>
                     </div>
-                    <button className="text-yellow-600 text-sm font-medium hover:text-yellow-700">
-                      View Details →
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-red-50 rounded-xl border border-red-200">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-                        <svg
-                          className="w-4 h-4 text-red-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Out of Stock</p>
-                        <p className="font-semibold text-gray-900">7</p>
-                      </div>
-                    </div>
-                    <button className="text-red-600 text-sm font-medium hover:text-red-700">
-                      View Details →
-                    </button>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
-            {/* Right Column - Analytics & Activity */}
+            {/* Right Column - All Warehouses List */}
             <div className="xl:col-span-2 space-y-6">
-              {/* Stock Movement Chart */}
-
-              {/* Recent Activity */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 ">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Recent Activity
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 text-green-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        New stock received
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        500 units of Product ABC added to inventory
-                      </p>
-                    </div>
-                    <div className="text-sm text-gray-500">2 hours ago</div>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        Scheduled maintenance
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Warehouse equipment maintenance completed
-                      </p>
-                    </div>
-                    <div className="text-sm text-gray-500">5 hours ago</div>
-                  </div>
-
-                  <div className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
-                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 text-orange-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        Low stock alert
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Product XYZ is running low (15 units remaining)
-                      </p>
-                    </div>
-                    <div className="text-sm text-gray-500">1 day ago</div>
-                  </div>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    All Warehouses
+                  </h3>
+                  <span className="text-sm text-gray-500">
+                    {warehouseQueryData?.allWarehouses?.length || 0} total
+                  </span>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <button className="w-full text-center text-sm text-lime-600 hover:text-lime-700 font-medium">
-                    View all activity →
-                  </button>
-                </div>
+                {!warehouseQueryData?.allWarehouses?.length ? (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-500">No warehouses found</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {warehouseQueryData.allWarehouses.map((warehouse) => (
+                      <div
+                        key={warehouse.id}
+                        onClick={() => dispatch(setWareHouse(warehouse.id))}
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
+                          warehouseId === warehouse.id
+                            ? "border-lime-500 bg-lime-50"
+                            : "border-gray-200 hover:border-lime-300 hover:bg-gray-50"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-gray-900 mb-1">
+                              {warehouse.warehouseName}
+                            </h4>
+                            <p className="text-xs text-gray-500 mb-2">
+                              Code: {warehouse.warehouseCode}
+                            </p>
+                            <div className="flex items-center space-x-2 text-xs text-gray-600">
+                              <svg
+                                className="w-3 h-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Active
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
