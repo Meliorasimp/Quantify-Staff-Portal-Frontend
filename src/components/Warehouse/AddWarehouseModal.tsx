@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { setIsWarehouseModalOpen } from "../store/InteractionSlice";
+import { setIsWarehouseModalOpen } from "../../store/InteractionSlice";
 import { useSelector } from "react-redux";
-import { type RootState } from "../store";
-import { addNewRow, removeRow, updateRow } from "../store/WarehouseSlice";
-import AddWarehouse from "../gql/mutations/warehouseMutation/warehouseMutation.gql";
-import GetAllWarehouse from "../gql/query/warehouseQuery/warehouseQuery.gql";
+import { type RootState } from "../../store";
+import { addNewRow, removeRow, updateRow } from "../../store/WarehouseSlice";
+import AddWarehouse from "../../gql/mutations/warehouseMutation/warehouseMutation.gql";
+import GetAllWarehouse from "../../gql/query/warehouseQuery/warehouseQuery.gql";
 import { useMutation } from "@apollo/client/react";
 import type React from "react";
 

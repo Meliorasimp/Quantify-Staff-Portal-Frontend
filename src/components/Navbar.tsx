@@ -135,7 +135,7 @@ const Navbar = () => {
     <aside className="navbar-bg w-[18vw] h-screen shrink-0 shadow-xl border-r border-gray-200/30 flex flex-col">
       <nav className="flex flex-col h-full">
         {/* Fixed header section (stays above the scrollable nav list) */}
-        <section className="flex items-center gap-x-3 w-full pt-6 px-6 pb-6 border-b border-gray-200/20 sticky top-0 navbar-bg z-50">
+        <section className="flex items-center gap-x-3 w-full pt-6 px-6 pb-6 border-b border-gray-200/20 sticky top-0 navbar-bg z-10">
           <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
             <img
               src={atom}

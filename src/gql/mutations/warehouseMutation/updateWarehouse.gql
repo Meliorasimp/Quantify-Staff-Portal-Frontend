@@ -1,0 +1,30 @@
+mutation UpdateWarehouse(
+  $id: Int!
+  $warehouseName: String
+  $warehouseCode: String
+  $location: String
+  $manager: String
+  $contactEmail: String
+  $region: String
+  $status: String
+) {
+  updateWarehouse(
+    id: $id
+    warehouseName: $warehouseName
+    warehouseCode: $warehouseCode
+    location: $location
+    manager: $manager
+    contactEmail: $contactEmail
+    region: $region
+    status: $status
+  ) {
+    warehouseId
+    warehouseName
+    warehouseCode
+    address
+    manager
+    contactEmail
+    region
+    status
+  }
+}

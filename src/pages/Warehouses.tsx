@@ -1,10 +1,19 @@
 import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsWarehouseModalOpen } from "../store/InteractionSlice";
+import {
+  setIsWarehouseModalOpen,
+  setIsUpdateWarehouseModalOpen,
+  setIsDeleteWarehouseModalOpen,
+} from "../store/InteractionSlice";
 import type { RootState } from "../store";
 import { lazy, Suspense } from "react";
-import { useQuery } from "@apollo/client/react";
-const Warehouse = lazy(() => import("../components/AddWarehouseModal"));
+import { useQuery, useMutation } from "@apollo/client/react";
+const AddWarehouse = lazy(
+  () => import("../components/Warehouse/AddWarehouseModal")
+);
+const UpdateWarehouse = lazy(
+  () => import("../components/Warehouse/UpdateWarehouseModal")
+);
 import {
   type WarehouseNameType,
   type OneWarehouseResponseType,
@@ -12,18 +21,23 @@ import {
 import getAllWarehouse from "../gql/query/warehouseQuery/warehouseQuery.gql";
 import getWarehouse from "../gql/query/warehouseQuery/oneWarehouseQuery.gql";
 import { setWareHouse } from "../store/WarehouseSlice";
+import DeleteWarehouseConfirmation from "../popup/DeleteWarehouseConfirmation";
+import DeleteWarehouse from "../gql/mutations/warehouseMutation/deleteWarehouse.gql";
 
 const Warehouses = () => {
   const dispatch = useDispatch();
 
-  const { isWarehouseModalOpen } = useSelector(
-    (state: RootState) => state.interaction
-  );
+  const {
+    isWarehouseModalOpen,
+    isUpdateWarehouseModalOpen,
+    isDeleteWarehouseModalOpen,
+  } = useSelector((state: RootState) => state.interaction);
 
   const warehouseId = useSelector(
     (state: RootState) => state.individualWarehouse.warehouseId
   );
 
+  // Fetch selected warehouse details
   const {
     data: oneWarehouseData,
     loading: oneWarehouseLoading,
@@ -33,8 +47,32 @@ const Warehouses = () => {
     skip: !warehouseId,
   });
 
+  // Fetch all warehouses for the dropdown
   const { data: warehouseQueryData } =
     useQuery<WarehouseNameType>(getAllWarehouse);
+
+  const warehouseName = oneWarehouseData?.warehouse.warehouseName;
+
+  const [deleteWarehouseMutation] = useMutation(DeleteWarehouse, {
+    refetchQueries: [
+      {
+        query: getWarehouse,
+      },
+      {
+        query: getAllWarehouse,
+      },
+    ],
+  });
+
+  const handleDeleteWarehouse = async (id: number) => {
+    try {
+      await deleteWarehouseMutation({
+        variables: { id: id },
+      });
+    } catch (e) {
+      console.error("Error deleting warehouse:", e);
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-linear-to-br from-gray-50 to-gray-100">
@@ -113,7 +151,10 @@ const Warehouses = () => {
                   </svg>
                   <span>Add New Warehouse</span>
                 </button>
-                <button className="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+                <button
+                  className="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+                  onClick={() => dispatch(setIsUpdateWarehouseModalOpen(true))}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -129,6 +170,26 @@ const Warehouses = () => {
                     />
                   </svg>
                   <span>Update Warehouse</span>
+                </button>
+                <button
+                  className="bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-medium flex items-center space-x-2 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+                  onClick={() => dispatch(setIsDeleteWarehouseModalOpen(true))}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                    />
+                  </svg>
+                  <span>Delete Warehouse</span>
                 </button>
               </div>
             </div>
@@ -533,7 +594,34 @@ const Warehouses = () => {
             </div>
           }
         >
-          <Warehouse />
+          <AddWarehouse />
+        </Suspense>
+      )}
+      {isUpdateWarehouseModalOpen && (
+        <Suspense
+          fallback={
+            <div className="inset-0 absolute z-10 bg-black/20 flex items-center justify-center">
+              <div className="bg-white rounded-lg p-4 shadow-lg">
+                Loading...
+              </div>
+            </div>
+          }
+        >
+          <UpdateWarehouse
+            onClose={() => dispatch(setIsUpdateWarehouseModalOpen(false))}
+            id={warehouseId}
+          />
+        </Suspense>
+      )}
+      {isDeleteWarehouseModalOpen && (
+        <Suspense>
+          <DeleteWarehouseConfirmation
+            onClose={() => dispatch(setIsDeleteWarehouseModalOpen(false))}
+            onConfirm={() => {
+              handleDeleteWarehouse(warehouseId!);
+            }}
+            warehouseName={warehouseName || ""}
+          />
         </Suspense>
       )}
     </div>

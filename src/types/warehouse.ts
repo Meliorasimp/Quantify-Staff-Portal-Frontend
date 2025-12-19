@@ -37,3 +37,13 @@ export interface OneWarehouseResponseType {
     contactEmail?: string;
   };
 }
+
+export interface UpdateWarehouseType {
+  warehouseName: string;
+  warehouseCode: string;
+  address: string;
+  manager: string;
+  contactEmail: string;
+  region: string;
+  status: string;
+}

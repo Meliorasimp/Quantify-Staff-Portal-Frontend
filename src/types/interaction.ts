@@ -21,4 +21,8 @@ export interface InteractionType {
   supplierName?: string;
   purchaseOrderId?: string;
   isMarkAsDeliveredPopupOpen: boolean;
+  isUpdateWarehouseModalOpen: boolean;
+  isDeleteWarehouseModalOpen: boolean;
+  deleteWarehouseId?: number;
+  deleteWarehouseName?: string;
 }

@@ -24,6 +24,10 @@ const initialInteractionState: InteractionType = {
   supplierName: undefined,
   purchaseOrderId: undefined,
   isMarkAsDeliveredPopupOpen: false,
+  isUpdateWarehouseModalOpen: false,
+  isDeleteWarehouseModalOpen: false,
+  deleteWarehouseId: undefined,
+  deleteWarehouseName: undefined,
 };
 
 const interactionSlice = createSlice({
@@ -104,6 +108,18 @@ const interactionSlice = createSlice({
     setIsMarkAsDeliveredPopupOpen(state, action) {
       state.isMarkAsDeliveredPopupOpen = action.payload;
     },
+    setIsUpdateWarehouseModalOpen(state, action) {
+      state.isUpdateWarehouseModalOpen = action.payload;
+    },
+    setIsDeleteWarehouseModalOpen(state, action) {
+      state.isDeleteWarehouseModalOpen = action.payload;
+    },
+    setDeleteWarehouseId(state, action) {
+      state.deleteWarehouseId = action.payload;
+    },
+    setDeleteWarehouseName(state, action) {
+      state.deleteWarehouseName = action.payload;
+    },
   },
 });
 
@@ -132,5 +148,9 @@ export const {
   setSupplierName,
   setPurchaseId,
   setIsMarkAsDeliveredPopupOpen,
+  setIsUpdateWarehouseModalOpen,
+  setIsDeleteWarehouseModalOpen,
+  setDeleteWarehouseId,
+  setDeleteWarehouseName,
 } = interactionSlice.actions;
 export const interactionReducer = interactionSlice.reducer;
