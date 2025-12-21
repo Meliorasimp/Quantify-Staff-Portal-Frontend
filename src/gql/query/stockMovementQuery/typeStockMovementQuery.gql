@@ -1,5 +1,5 @@
-query FetchAllStockMovements {
-  getAllStockMovements {
+query SearchStockMovementByType($type: String) {
+  searchStockMovementByType(type: $type) {
     id
     itemSku
     productName

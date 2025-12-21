@@ -1,5 +1,4 @@
 import "../styles/index.css";
-import React from "react";
 import Landingpagenavbar from "../components/Landingpagenavbar";
 import RegisterModal from "../components/RegisterModal";
 import {
@@ -65,23 +64,6 @@ const Landingpage = () => {
       image: usecaseimagefive,
     },
   ];
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const postsPerPage = 3;
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = useCaseData.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(useCaseData.length / postsPerPage);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   return (
     <div
@@ -181,9 +163,398 @@ const Landingpage = () => {
           </div>
         </section>
       </div>
-      {/* About Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Why Choose Us Section */}
+      <section className="py-24 bg-linear-to-br from-gray-50 via-white to-lime-50 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-lime-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <motion.div
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-lime-100 rounded-full mb-6">
+              <span className="text-sm font-semibold text-lime-700 uppercase tracking-wide">
+                Why Choose Us
+              </span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+              Built for{" "}
+              <span className="bg-linear-to-r from-lime-500 to-emerald-600 bg-clip-text text-transparent">
+                Modern Businesses
+              </span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Transform your inventory management with cutting-edge features
+              designed for enterprises that demand excellence, scalability, and
+              precision.
+            </p>
+          </motion.div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            {/* Feature 1 - Real-Time Analytics */}
+            <motion.div
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700"
+                  style={{ backgroundImage: `url(${RealTimeAnalytics})` }}
+                ></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6">
+                  <div className="bg-blue-600 p-3 rounded-2xl shadow-xl">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-8 h-8 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                  Real-Time Analytics
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Get instant insights into your inventory levels, sales trends,
+                  and demand forecasting with our advanced analytics dashboard.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  Our dashboard turns complex data into clear, actionable
+                  insights, so you can optimize inventory, boost sales, and plan
+                  ahead confidently.
+                </p>
+                <div className="mt-6 flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform">
+                  Learn more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Feature 2 - Enterprise Security */}
+            <motion.div
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700"
+                  style={{ backgroundImage: `url(${EnterpriseSecurity})` }}
+                ></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6">
+                  <div className="bg-purple-600 p-3 rounded-2xl shadow-xl">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-8 h-8 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
+                  Enterprise Security
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Bank-grade encryption and multi-layer security protocols
+                  protect your sensitive inventory and business data 24/7.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  With role-based access controls, audit trails, and compliance
+                  certifications, your data stays secure and your business stays
+                  protected.
+                </p>
+                <div className="mt-6 flex items-center text-purple-600 font-semibold group-hover:translate-x-2 transition-transform">
+                  Learn more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Feature 3 - Lightning Fast */}
+            <motion.div
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700"
+                  style={{ backgroundImage: `url(${LightningFast})` }}
+                ></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6">
+                  <div className="bg-amber-600 p-3 rounded-2xl shadow-xl">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-8 h-8 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-amber-600 transition-colors">
+                  Lightning Fast Performance
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Built on modern technology stack for blazing-fast performance,
+                  even with millions of inventory items and complex operations.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  You get a fast, reliable, and future-proof system that keeps
+                  up with your business, no matter the scale or complexity.
+                </p>
+                <div className="mt-6 flex items-center text-amber-600 font-semibold group-hover:translate-x-2 transition-transform">
+                  Learn more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Feature 4 - Multi-Location Support */}
+            <motion.div
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700"
+                  style={{ backgroundImage: `url(${Multilocation})` }}
+                ></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6">
+                  <div className="bg-emerald-600 p-3 rounded-2xl shadow-xl">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-8 h-8 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                  Multi-Location Support
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Manage inventory across multiple warehouses, stores, and
+                  distribution centers with centralized control and local
+                  autonomy.
+                </p>
+                <p className="text-gray-600 leading-relaxed">
+                  You get the best of both worlds—a centralized system that
+                  keeps everything connected, and local autonomy that keeps each
+                  location agile and efficient.
+                </p>
+                <div className="mt-6 flex items-center text-emerald-600 font-semibold group-hover:translate-x-2 transition-transform">
+                  Learn more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Additional Benefits Cards */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-linear-to-br from-blue-50 to-blue-100 p-8 rounded-2xl border border-blue-200 hover:shadow-xl transition-shadow">
+              <div className="bg-blue-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">
+                Instant Setup
+              </h4>
+              <p className="text-gray-700">
+                Get started in minutes with our intuitive onboarding process and
+                pre-configured templates.
+              </p>
+            </div>
+
+            <div className="bg-linear-to-br from-purple-50 to-purple-100 p-8 rounded-2xl border border-purple-200 hover:shadow-xl transition-shadow">
+              <div className="bg-purple-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">
+                24/7 Support
+              </h4>
+              <p className="text-gray-700">
+                Our dedicated support team is always available to help you
+                succeed and solve any challenges.
+              </p>
+            </div>
+
+            <div className="bg-linear-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl border border-emerald-200 hover:shadow-xl transition-shadow">
+              <div className="bg-emerald-600 w-14 h-14 rounded-xl flex items-center justify-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">
+                99.9% Uptime
+              </h4>
+              <p className="text-gray-700">
+                Rely on our robust infrastructure with guaranteed uptime and
+                automatic backups for peace of mind.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-lime-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <motion.div
             className="text-center mb-16"
@@ -192,311 +563,94 @@ const Landingpage = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Choose <span className="text-lime-500">Quantify</span>?
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full mb-6">
+              <span className="text-sm font-semibold text-blue-700 uppercase tracking-wide">
+                Real-World Applications
+              </span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+              Powerful{" "}
+              <span className="bg-linear-to-r from-blue-500 to-lime-600 bg-clip-text text-transparent">
+                Use Cases
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Transform your business operations with our comprehensive
-              inventory management platform designed for enterprises that demand
-              excellence, scalability, and precision.
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Discover how Quantify empowers businesses across industries to
+              optimize their inventory management and drive growth.
             </p>
           </motion.div>
 
-          {/* Features */}
-          <div className="flex h-[40vh] gap-x-20">
-            <motion.div
-              className="w-1/2  flex flex-col items-start justify-center p-10"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                    color="white"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </div>
-                <h1>Real-Time Analytics</h1>
-              </div>
-              <p className="mt-5">
-                Get instant insights into your inventory levels, sales trends,
-                and demand forecasting with our advanced analytics dashboard.
-                <br />
-                <br />
-                Our dashboard turns complex data into clear, actionable
-                insights, so you can optimize inventory, boost sales, and plan
-                ahead confidently.
-              </p>
-            </motion.div>
-            <motion.div
-              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
-              style={{ backgroundImage: `url(${RealTimeAnalytics})` }}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            ></motion.div>
-          </div>
-          <div className="flex h-[40vh] mt-20 gap-x-20">
-            <motion.div
-              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
-              style={{ backgroundImage: `url(${EnterpriseSecurity})` }}
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            ></motion.div>
-            <motion.div
-              className="w-1/2 flex flex-col items-start justify-center p-10"
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                    color="white"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-                    />
-                  </svg>
-                </div>
-                <h1>Enterprise Security</h1>
-              </div>
-              <p className="mt-5">
-                Get instant insights into your inventory levels, sales trends,
-                and demand forecasts with our advanced analytics dashboard.
-                Designed for business owners and managers, our dashboard makes
-                it easy to understand complex data at a glance.
-                <br />
-                <br />
-                With intuitive charts, graphs, and visualizations, you can see
-                the story behind your numbers instantly, saving time and
-                improving operational efficiency.
-              </p>
-            </motion.div>
-          </div>
-          <div className="flex h-[40vh] mt-20 gap-x-20">
-            <motion.div
-              className="w-1/2 flex flex-col items-start justify-center p-10"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                    color="white"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
-                    />
-                  </svg>
-                </div>
-                <h1>Lightning Fast</h1>
-              </div>
-              <p className="mt-5">
-                Built on modern technology stack for blazing-fast performance,
-                even with millions of inventory items and complex operations.
-                <br />
-                <br />
-                You get a fast, reliable, and future-proof system that keeps up
-                with your business, no matter the scale or complexity.
-              </p>
-            </motion.div>
-            <motion.div
-              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl"
-              style={{ backgroundImage: `url(${LightningFast})` }}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            ></motion.div>
-          </div>
-          <div className="flex h-[40vh] mt-20 gap-x-20">
-            <motion.div
-              className="w-1/2 bg-blue-300 bg-cover rounded-2xl shadow-2xl border border-black"
-              style={{ backgroundImage: `url(${Multilocation})` }}
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            ></motion.div>
-            <motion.div
-              className="w-1/2 flex flex-col items-start justify-center p-10"
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="text-black text-3xl font-medium flex items-center gap-x-5">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                    color="white"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
-                    />
-                  </svg>
-                </div>
-                <h1>Multi-Location Support</h1>
-              </div>
-              <p className="mt-5">
-                Manage inventory across multiple warehouses, stores, and
-                distribution centers with centralized control and local
-                autonomy.
-                <br />
-                <br />
-                You get the best of both worlds—a centralized system that keeps
-                everything connected, and local autonomy that keeps each
-                location agile and efficient.
-              </p>
-            </motion.div>
-          </div>
-          <div className="mt-20 mx-auto relative p-10">
-            {/* Decorative Left Arrow */}
-            <div className="absolute inset-0 flex items-center justify-start w-6 cursor-pointer">
-              <button
-                onClick={handlePrevPage}
-                aria-disabled={currentPage === 1}
-                disabled={currentPage === 1}
-                className="cursor-pointer"
+          {/* Use Cases Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {useCaseData.map((useCase, index) => (
+              <motion.div
+                key={index}
+                className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                  delay: index * 0.1,
+                }}
+                viewport={{ once: true }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  className="size-4"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                {/* Image Container */}
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={useCase.image}
+                    alt={useCase.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   />
-                </svg>
-              </button>
-            </div>
-            {/* Decorative Right Arrow */}
-            <div className="absolute inset-0 flex items-center justify-end ml-auto w-6 cursor-pointer">
-              <button
-                aria-disabled={currentPage === totalPages}
-                disabled={currentPage === totalPages}
-                onClick={handleNextPage}
-                className="cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  className="size-4"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                  />
-                </svg>
-              </button>
-            </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4 text-center">
-              Use Cases
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto text-center">
-              Quantify is designed to meet the diverse needs of various
-              industries. Here are some common use cases:
-            </p>
-            <div className="mt-10 flex gap-x-10 justify-center">
-              {currentPosts.map((useCase, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-white w-1/3 h-[17lh] rounded-2xl shadow-xl hover:scale-102 transform transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    ease: "easeOut",
-                    delay: index * 0.2,
-                  }}
-                  viewport={{ once: true }}
-                >
-                  <div className="h-2/3 p-5 rounded-2xl">
-                    <img
-                      src={useCase.image}
-                      alt={useCase.title}
-                      className="rounded-2xl"
-                    />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
+
+                  {/* Number Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="bg-white/90 backdrop-blur-sm w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-blue-600 font-bold text-lg">
+                        {index + 1}
+                      </span>
+                    </div>
                   </div>
-                  <div className="h-1/3 text-center">
-                    <h2 className="font-medium text-xl">{useCase.title}</h2>
-                    <p className="px-5 mt-3 text-gray-600 text-sm">
-                      {useCase.description}
-                    </p>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    {useCase.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed text-sm">
+                    {useCase.description}
+                  </p>
+
+                  {/* Icon */}
+                  <div className="mt-6 flex items-center text-blue-600 font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                    <span>Explore feature</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 ml-2"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   </div>
-                </motion.div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-x-4 mt-10">
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentPage(i + 1)}
-                  className={`px-3 py-1 rounded ${
-                    currentPage === i + 1
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Stats Section */}
-          <div className="bg-white rounded-2xl shadow-xl p-12 mb-16 mt-20">
+          <div className="bg-white rounded-2xl shadow-xl p-12 mb-16">
             <div className="text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 Trusted by Industry Leaders

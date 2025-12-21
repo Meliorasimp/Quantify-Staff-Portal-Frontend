@@ -88,7 +88,6 @@ const StorageLocations = () => {
         skip: !debouncedCategoryTerm,
       }
     );
-
   // Fetch storage locations data
   const { data: storageLocationData, loading: storageLocationLoading } =
     useQuery<StorageLocationQueryResponse>(AllStorageLocation, {
@@ -365,6 +364,7 @@ const StorageLocations = () => {
                 </div>
                 <select
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+                  value={categorySearchData}
                   onChange={(e) => dispatch(setWarehouseName(e.target.value))}
                 >
                   <option value="">All Warehouses</option>
@@ -432,23 +432,23 @@ const StorageLocations = () => {
                         let dataToRender: StorageLocationResponseType[] =
                           storageLocationData?.allStorageLocations || [];
 
-                        // Prioritize search term results (even if empty)
+                        // Warehouse filter takes priority
                         if (
-                          debouncedSearchTerm &&
-                          storageLocationSearchData?.storageLocationSearch
-                        ) {
-                          dataToRender =
-                            storageLocationSearchData.storageLocationSearch;
-                        }
-                        // Then warehouse filter (even if empty)
-                        else if (
                           debouncedCategoryTerm &&
                           warehouseSearchData?.storageLocationWarehouse
                         ) {
                           dataToRender =
                             warehouseSearchData.storageLocationWarehouse;
                         }
-                        // Then sort order (even if empty)
+                        // Then search term results
+                        else if (
+                          debouncedSearchTerm &&
+                          storageLocationSearchData?.storageLocationSearch
+                        ) {
+                          dataToRender =
+                            storageLocationSearchData.storageLocationSearch;
+                        }
+                        // Then sort order
                         else if (
                           sortData &&
                           storageLocationOrderByData?.storageLocationByOrder

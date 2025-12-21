@@ -12,6 +12,7 @@ import { individualWarehouseReducer } from "./WarehouseSlice";
 import { locationStorageSearchReducer } from "./locationStorageSlice";
 import { purchaseOrderReducer } from "./PurchaseOrderSlice";
 import { updateWarehouseReducer } from "./WarehouseSlice";
+import { searchStockMovementReducer } from "./stockMovementSlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     updateInventory: UpdateInventoryReducer,
     purchaseOrders: purchaseOrderReducer,
     updateWarehouse: updateWarehouseReducer,
+    searchStockMovement: searchStockMovementReducer,
   },
 });
 

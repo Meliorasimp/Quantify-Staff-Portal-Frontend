@@ -1,18 +1,79 @@
 import Navbar from "../components/Navbar";
 import Bar from "../components/Chart/BarChart";
 import FetchAllStockMovements from "../gql/query/stockMovementQuery/stockMovementQuery.gql";
+import FetchSearchResult from "../gql/query/stockMovementQuery/searchStockMovementQuery.gql";
+import FetchTypeInputResult from "../gql/query/stockMovementQuery/typeStockMovementQuery.gql";
 import { useQuery } from "@apollo/client/react";
 import type { StockMovementResponseType } from "../types/stockMovement";
+import {
+  setSearchInput,
+  setWarehouseName,
+  setType,
+} from "../store/stockMovementSlice";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../store";
+import useDebounce from "../hooks/useDebounce";
 const StockMovement = () => {
+  const dispatch = useDispatch();
+  const searchInputValue = useSelector(
+    (state: RootState) => state.searchStockMovement.searchInput
+  );
+  const debouncedSearchInputValue = useDebounce(searchInputValue, 500);
+  const warehouseNameSearchValue = useSelector(
+    (state: RootState) => state.searchStockMovement.warehouseName
+  );
+  const debouncedWarehouseNameSearchValue = useDebounce(
+    warehouseNameSearchValue,
+    500
+  );
+  const warehouseTypeSearchValue = useSelector(
+    (state: RootState) => state.searchStockMovement.type
+  );
+  const debouncedWarehouseTypeSearchValue = useDebounce(
+    warehouseTypeSearchValue,
+    500
+  );
+
+  //Fetch all Stock Movements Data from the backend
   const { data: stockMovementData } = useQuery<StockMovementResponseType>(
     FetchAllStockMovements
+  );
+
+  //Fetch search Input Result from the Backend
+  const { data: searchInputResultData } = useQuery<StockMovementResponseType>(
+    FetchSearchResult,
+    {
+      variables: { searchInput: debouncedSearchInputValue },
+      skip: !debouncedSearchInputValue,
+    }
+  );
+  console.log("Search Input Result Data:", searchInputResultData);
+
+  //Fetch Search Result by Type from the Backend
+  const { data: typeInputResultData } = useQuery<StockMovementResponseType>(
+    FetchTypeInputResult,
+    {
+      variables: { type: debouncedWarehouseTypeSearchValue },
+      skip: !debouncedWarehouseTypeSearchValue,
+    }
+  );
+  console.log("Type Input Result Data:", typeInputResultData);
+
+  //Fetch Search Result by Warehouse Name from the Backend
+  const { data: warehouseNameInputResultData } =
+    useQuery<StockMovementResponseType>(FetchTypeInputResult, {
+      variables: { type: debouncedWarehouseNameSearchValue },
+      skip: !debouncedWarehouseNameSearchValue,
+    });
+  console.log(
+    "Warehouse Name Input Result Data:",
+    warehouseNameInputResultData
   );
 
   const recentStocksDisplayData = stockMovementData?.getAllStockMovements.slice(
     0,
     5
   );
-  console.log(stockMovementData);
   return (
     <div className="flex h-screen overflow-hidden">
       <Navbar />
@@ -245,40 +306,33 @@ const StockMovement = () => {
                   type="text"
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                   placeholder="Search stock Movements..."
+                  value={searchInputValue}
+                  onChange={(e) => dispatch(setSearchInput(e.target.value))}
                 />
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <select className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40">
+                <select
+                  className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40"
+                  value={warehouseTypeSearchValue}
+                  onChange={(e) => dispatch(setType(e.target.value))}
+                >
                   <option value="">Type</option>
-                  <option value="electronics">Inbound</option>
-                  <option value="furniture">Outbound</option>
-                  <option value="clothing">Transfer</option>
+                  <option value="inbound">Inbound</option>
+                  <option value="outbound">Outbound</option>
+                  <option value="transfer">Transfer</option>
                 </select>
 
-                <select className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40">
+                <select
+                  className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700 min-w-40"
+                  value={warehouseNameSearchValue}
+                  onChange={(e) => dispatch(setWarehouseName(e.target.value))}
+                >
                   <option value="">All Warehouses</option>
                   <option value="pluto">Pluto Warehouse</option>
                   <option value="mars">Mars Warehouse</option>
                   <option value="earth">Earth Warehouse</option>
                   <option value="venus">Venus Warehouse</option>
                 </select>
-
-                <button className="flex items-center px-4 py-3 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-200 transition-all duration-200 shadow-md hover:shadow-lg">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Add Item
-                </button>
               </div>
             </div>
           </div>
@@ -313,16 +367,31 @@ const StockMovement = () => {
                           Warehouse Location
                         </th>
                         <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-40">
-                          User
-                        </th>
-                        <th className="px-6 py-4 text-left text-xs text-black font-medium uppercase tracking-wider max-w-40">
                           Timestamp
                         </th>
                       </tr>
                     </thead>
                     <tbody className="text-center">
-                      {stockMovementData?.getAllStockMovements.map(
-                        (movement) => (
+                      {(() => {
+                        let dataToDisplay =
+                          stockMovementData?.getAllStockMovements || [];
+                        if (
+                          searchInputResultData?.searchStockMovementBySearchInput
+                        ) {
+                          dataToDisplay =
+                            searchInputResultData.searchStockMovementBySearchInput;
+                        } else if (
+                          typeInputResultData?.searchStockMovementByType
+                        ) {
+                          dataToDisplay =
+                            typeInputResultData.searchStockMovementByType;
+                        } else if (
+                          warehouseNameInputResultData?.searchStockMovementByType
+                        ) {
+                          dataToDisplay =
+                            warehouseNameInputResultData.searchStockMovementByType;
+                        }
+                        return dataToDisplay.map((movement) => (
                           <tr
                             key={movement.id}
                             className="border-b border-gray-200 hover:bg-gray-50"
@@ -333,7 +402,7 @@ const StockMovement = () => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
                               {movement.productName}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
                               {movement.quantity}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
@@ -343,14 +412,11 @@ const StockMovement = () => {
                               {movement.warehouseName}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
-                              {movement.user}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left">
                               {new Date(movement.timestamp).toLocaleString()}
                             </td>
                           </tr>
-                        )
-                      )}
+                        ));
+                      })()}
                     </tbody>
                   </table>
                 </div>

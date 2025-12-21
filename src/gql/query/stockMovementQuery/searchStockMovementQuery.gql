@@ -1,0 +1,11 @@
+query SearchStockMovements($searchInput: String) {
+  searchStockMovementBySearchInput(searchInput: $searchInput) {
+    id
+    itemSku
+    productName
+    quantity
+    type
+    warehouseName
+    timestamp
+  }
+}

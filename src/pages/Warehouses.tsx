@@ -23,6 +23,7 @@ import getWarehouse from "../gql/query/warehouseQuery/oneWarehouseQuery.gql";
 import { setWareHouse } from "../store/WarehouseSlice";
 import DeleteWarehouseConfirmation from "../popup/DeleteWarehouseConfirmation";
 import DeleteWarehouse from "../gql/mutations/warehouseMutation/deleteWarehouse.gql";
+import { toast } from "sonner";
 
 const Warehouses = () => {
   const dispatch = useDispatch();
@@ -56,9 +57,6 @@ const Warehouses = () => {
   const [deleteWarehouseMutation] = useMutation(DeleteWarehouse, {
     refetchQueries: [
       {
-        query: getWarehouse,
-      },
-      {
         query: getAllWarehouse,
       },
     ],
@@ -66,11 +64,16 @@ const Warehouses = () => {
 
   const handleDeleteWarehouse = async (id: number) => {
     try {
-      await deleteWarehouseMutation({
+      const response = await deleteWarehouseMutation({
         variables: { id: id },
       });
+      if (response && response.data) {
+        dispatch(setIsDeleteWarehouseModalOpen(false));
+        toast.success("Warehouse deleted successfully");
+      }
     } catch (e) {
       console.error("Error deleting warehouse:", e);
+      toast.error("Failed to delete warehouse");
     }
   };
 

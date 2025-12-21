@@ -10,5 +10,13 @@ interface AllStockMovements {
 }
 
 export interface StockMovementResponseType {
-  getAllStockMovements: AllStockMovements[];
+  getAllStockMovements?: AllStockMovements[];
+  searchStockMovementBySearchInput?: AllStockMovements[];
+  searchStockMovementByType?: AllStockMovements[];
+}
+
+export interface SearchStockMovementType {
+  searchInput?: string;
+  type?: string;
+  warehouseName?: string;
 }

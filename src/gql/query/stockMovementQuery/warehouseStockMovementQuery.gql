@@ -1,0 +1,11 @@
+query SearchStockMovementByWarehouse($warehouseName: String) {
+  SearchStockMovementByWarehouseName(warehouseName: $warehouseName) {
+    id
+    itemSku
+    productName
+    quantity
+    type
+    warehouseName
+    timestamp
+  }
+}
